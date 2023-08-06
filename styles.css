@@ -1,0 +1,168 @@
+/* Define variáveis CSS para cores e tamanhos de fonte */
+:root {
+    --primary-color: #ff5e00;  /* Cor primária para textos e links */
+    --secondary-color: #ccc;  /* Cor secundária para fundos e destaque */
+    --highlight-color: #fff;  /* Cor para destaques e texto do link hover */
+    --font-size-large: 20px;  /* Tamanho da fonte para títulos */
+    --font-size-normal: 16px;  /* Tamanho da fonte para textos padrão */
+  }
+  
+  /* Estilos aplicados ao corpo da página inteira */
+  body {
+    font-family: sans-serif;  /* Tipo de fonte usada na página */
+    margin: 0;  /* Remove as margens padrão */
+    padding: 0;  /* Remove o padding padrão */
+    background-color: var(--secondary-color);  /* Define a cor de fundo da página */
+  }
+  
+  /* Estilos para o cabeçalho da página */
+  header {
+    background-color: var(--highlight-color);  /* Define a cor de fundo do cabeçalho */
+    padding: 10px;  /* Adiciona espaçamento interno ao cabeçalho */
+    border-bottom: 1px solid var(--secondary-color);  /* Adiciona uma borda na parte inferior do cabeçalho */
+    transition: all 0.5s;  /* Adiciona uma transição suave para todas as propriedades durante 0.5s */
+  }
+  
+  /* Estilos para a barra de navegação */
+  nav {
+    float: none;  /* Faz com que a barra de navegação flutue à esquerda */
+    margin-right: 10px;  /* Adiciona uma margem à direita da barra de navegação */
+  }
+  
+  /* Estilos para os links da barra de navegação */
+  nav a {
+    display: inline-block;  /* Faz com que os links se comportem como blocos */
+    padding: 5px 10px;  /* Adiciona espaçamento interno aos links */
+    margin-right: 10px;
+    text-decoration: none;  /* Remove a decoração dos links */
+    color: var(--primary-color);  /* Define a cor dos links */
+  }
+  
+  /* Estilos para os links da barra de navegação ao passar o mouse */
+  nav a:hover {
+    background-color: var(--secondary-color);  /* Define a cor de fundo quando o mouse está sobre o link */
+    color: var(--highlight-color);  /* Define a cor do link quando o mouse está sobre ele */
+  }
+  
+  /* Estilos para a área principal da página */
+  main {
+    margin-top: 10px;  /* Adiciona uma margem no topo do elemento principal */
+  }
+  
+  /* Estilos para as seções dentro do elemento principal */
+  section {
+    padding: 10px;  /* Adiciona espaçamento interno às seções */
+  }
+  
+  /* Estilos para os títulos */
+  h1 {
+    font-size: var(--font-size-large);  /* Define o tamanho da fonte dos títulos */
+    font-weight: bold;  /* Define a espessura da fonte dos títulos */
+  }
+  
+  /* Estilos para os parágrafos */
+  p {
+    font-size: var(--font-size-normal);  /* Define o tamanho da fonte dos parágrafos */
+  }
+  
+  /* Estilos para as listas */
+  ul {
+    list-style-type: none;  /* Remove o estilo de lista padrão */
+    margin: 0;  /* Remove a margem padrão */
+    padding: 0;  /* Remove o padding padrão */
+  }
+  
+  /* Estilos para os itens da lista */
+  li {
+    margin-bottom: 10px;  /* Adiciona uma margem na parte inferior de cada item da lista */
+  }
+  
+  /* Estilos para os links em geral */
+  a {
+    text-decoration: none;  /* Remove a decoração dos links */
+    color: var(--primary-color);  /* Define a cor dos links */
+    transition: all 0.3s ease-in-out;  /* Adiciona uma transição suave para todas as propriedades durante 0.3s */
+  }
+  
+  /* Estilos para os links ao passar o mouse */
+  a:hover {
+    text-decoration: underline;  /* Adiciona um sublinhado ao link quando o mouse está sobre ele */
+    color: var(--secondary-color);  /* Define a cor do link quando o mouse está sobre ele */
+  }
+  
+  /* Estilos para o rodapé da página */
+  footer {
+    background-color: var(--highlight-color);  /* Define a cor de fundo do rodapé */
+    padding: 10px;  /* Adiciona espaçamento interno ao rodapé */
+    border-top: 1px solid var(--secondary-color);  /* Adiciona uma borda na parte superior do rodapé */
+  }
+  
+  /* ================================================================= PROJECTS =================================================================
+
+  /* Demais estilos... */
+
+/* Configura a exibição dos projetos em uma grade */
+.project-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  /* Configura o estilo dos cartões dos projetos */
+  .project-card {
+    flex: 1 0 200px; /* Flex grow, flex shrink, flex basis */
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .project-card img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .project-card h3 {
+    margin: 20px 0;
+  }
+  
+  .project-card p {
+    margin-bottom: 20px;
+  }
+  
+  .project-card a {
+    color: #000;
+    text-decoration: none;
+  }
+  
+
+/* ================================================================= CV =================================================================
+
+/* Demais estilos... */
+
+.cv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .cv-content {
+    max-width: 800px;
+    text-align: center;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .cv-content h3 {
+    margin: 20px 0;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .cv-content p {
+    margin-bottom: 20px;
+    font-size: 16px;
+  }
+  
