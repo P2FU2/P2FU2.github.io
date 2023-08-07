@@ -118,13 +118,24 @@ img[src="/images/me.jpeg"] {
   
   /* Estilos para os títulos */
   h1 {
-    font-size: var(--font-size-large);  /* Define o tamanho da fonte dos títulos */
-    font-weight: bold;  /* Define a espessura da fonte dos títulos */
-  }
+    font-size: 2em; /* faça o título se destacar */
+    text-align: center; /* centralize o título */
+    color: #333; /* uma cor de texto escura */
+    margin-bottom: 20px; /* adicione algum espaço abaixo do título */
+}
+
   
   /* Estilos para os parágrafos */
   p {
-    font-size: var(--font-size-normal);  /* Define o tamanho da fonte dos parágrafos */
+    font-size: 1em; /* um tamanho de fonte confortável para o corpo do texto */
+    line-height: 1.6; /* espaçamento de linha para melhor legibilidade */
+    color: #333; /* uma cor de texto escura */
+    max-width: 800px; /* largura máxima para o texto */
+    margin: 0 auto; /* centraliza o texto na tela */
+    text-align: justify; /* alinha o texto à esquerda e à direita, criando uma margem uniforme */
+    padding: 8px;
+    
+
   }
   
   /* Estilos para as listas */
