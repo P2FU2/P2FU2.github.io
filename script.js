@@ -34,3 +34,5 @@ function navigateProjects(direction) {
   
   document.querySelector('#toggleCVButton').addEventListener('click', toggleCV);
   
+
+  

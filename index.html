@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  
+
   <!-- SEO meta tags -->
   <meta name="description" content="Portfólio do desenvolvedor web Pedro Neves">
   <meta name="keywords" content="Desenvolvedor Web, Portfólio, Pedro Neves">
@@ -13,6 +13,8 @@
   <title>My Portfolio</title>
   <link rel="stylesheet" href="styles.css">
 </head>
+
+
 <body>
   <!-- Cabeçalho com a navegação do site -->
   <header>
@@ -23,9 +25,38 @@
     </nav>
   </header>
   <main>
-    <!-- Seção da Home com uma breve descrição sobre você -->
+
+    <!-- Seção da Home para alterar a imagem -->
     <section class="home" id="home">
-      <img src="images/me.jpg" alt="My photo">
+      <img src="/images/me.jpeg" alt="My photo">
+    </section>
+
+    <div class="button-container">
+      <button id="toggleShape">Image Shape?</button>
+    </div>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+          const image = document.querySelector('img[src="/images/me.jpeg"]');
+          const toggleShapeButton = document.getElementById('toggleShape');
+          let isCircle = false; 
+  
+          toggleShapeButton.addEventListener('click', function() {
+            if (isCircle) {
+                image.classList.remove('img-circle');
+                image.classList.add('img-square');
+            } else {
+                image.classList.add('img-circle');
+                image.classList.remove('img-square');
+            }
+            isCircle = !isCircle;
+        });
+      });
+  </script>
+  
+
+<!-- Seção da Home com uma breve descrição sobre você -->
+
       <h1>My name is Pedro Neves</h1>
       <p>I am a web developer with 5 years of experience. I am passionate about building beautiful and user-friendly websites.</p>
       <p>In my spare time, I enjoy playing tennis, hiking, and spending time with my family.</p>
@@ -46,12 +77,12 @@
   </main>
   <!-- Rodapé com direitos autorais e links para as redes sociais -->
   <footer>
-    <p>Copyright &copy; Pedro Q Neves 2023</p>
     <ul>
       <li><a href="#">Facebook</a></li>
       <li><a href="#">LinkedIn</a></li>
       <li><a href="#">Twitter</a></li>
     </ul>
+    <p>Copyright &copy; Pedro Q Neves 2023</p>
   </footer>
 </body>
 </html>
