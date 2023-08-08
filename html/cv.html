@@ -4,21 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-  <!-- SEO meta tags -->
   <meta name="description" content="Portfólio do desenvolvedor web Pedro Neves">
   <meta name="keywords" content="Desenvolvedor Web, Portfólio, Pedro Neves">
-  <!-- Fim das SEO meta tags -->
-
   <title>My Portfolio</title>
   <link rel="stylesheet" href="../css/cv.css">
   <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-
 
 <body>
-  <!-- Cabeçalho com a navegação do site -->
   <header>
     <nav>
       <a href="/index.html">Home</a>
@@ -27,17 +21,19 @@
       <a href="analysis.html">Analysis</a>
     </nav>
   </header>
-  <main>
-
-    <div class="iframe-container">
-      <iframe src="/Profile.pdf"></iframe>
-  </div>
   
-
+  <main>
+    <div id="magazine">
+        <!-- As páginas do seu PDF serão inseridas aqui, geralmente na forma de imagens -->
+        <div class="page"><img src="../images/Profile (2)-1.png" alt="Página 1"></div>
+        <div class="page"><img src="../images/Profile (2)-2.png" alt="Página 2"></div>
+        <div class="page"><img src="../images/Profile (2)-3.png" alt="Página 3"></div>
+        <!-- Continue para todas as páginas do PDF -->
+    </div>
   </main>
-      <!-- Banner preto -->
-      <div class="black-banner"></div>
-  <!-- Rodapé com direitos autorais e links para as redes sociais -->
+
+  <div class="black-banner"></div>
+  
   <footer>
     <ul class="social-links">
         <li><a href="https://github.com/P2FU2"><i class="fab fa-github"></i> GitHub</a></li>
@@ -45,9 +41,11 @@
         <li><a href="mailto:pedromilani14@egmail.com"><i class="fas fa-envelope"></i> Email</a></li>
         <li><a href="https://twitter.com/qpedroneves"><i class="fab fa-twitter"></i> Twitter</a></li>
     </ul>
-    <p class="copyrights">Copyright &copy;  2023</p>
-</footer>
-<!--teste-->
+    <p class="copyrights">Copyright &copy; 2023</p>
+  </footer>
 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="../js/script.js"></script>
+  
 </body>
 </html>
