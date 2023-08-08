@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- SEO meta tags -->
+    <meta name="description" content="Portfólio do desenvolvedor web Pedro Neves">
+    <meta name="keywords" content="Desenvolvedor Web, Portfólio, Pedro Neves">
+
+    <title>My Portfolio</title>
+
+    <!-- Arquivos CSS -->
+    <link rel="stylesheet"  href="../css/index.css">
+    <link rel="stylesheet"  href="../css/styles.css">
+    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+    <!-- Estilos Inline (Considerar movê-los para um arquivo CSS externo) -->
+    <style>
+        img {
+            border-radius: 8%;
+        }
+    </style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      const image = document.querySelector('img[src="../images/me.jpeg"]');
+      const toggleShapeButton = document.getElementById('toggleShape');
+      
+      const shapes = ['img-circle', 'img-square', 'img-flag', 'img-triangle'];
+      let currentShapeIndex = 0;
+
+      toggleShapeButton.addEventListener('click', function() {
+          // Remover todas as formas
+          for (const shape of shapes) {
+              image.classList.remove(shape);
+          }
+
+          // Ir para a próxima forma
+          currentShapeIndex = (currentShapeIndex + 1) % shapes.length;
+          
+          // Adicionar a nova forma
+          image.classList.add(shapes[currentShapeIndex]);
+      });
+  });
+</script>
+
+</head>
+
+<body>
+    <!-- Cabeçalho com a navegação do site -->
+    <header>
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="projects.html">Projects</a>
+          <a href="cv.html">CV</a>
+          <a href="Analysis.html">Analysis</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Seção da Home para alterar a imagem -->
+        <section class="home" id="home">
+            <img src="../images/me.jpeg" alt="My photo">
+        </section>
+
+        <div class="button-container">
+            <button id="toggleShape">Cick here?</button>
+        </div>
+  
+        <h1>Hello, I'm Pedro Q. Neves.</h1>
+      
+        <p>  I've always been driven by two passions: technology and economics. It was with great enthusiasm that I found a way to unite these two forces into one purpose. </p>
+  
+          <p>Just six months ago, I decided to embark on a new journey. As the saying goes, "every great journey starts with a small step", and here I am, taking my first yet firm and decisive steps.</p>
+          
+          <p>I like to tinker with programming languages such as Python and JavaScript, but that's not all. What truly motivates me is applying these skills to create economic analyses with statistics and simulation systems. I genuinely believe that it's when these two areas - technology and economics - meet that we can make amazing things happen.</p>
+  
+          <p>I am not just a programmer or economist. I am a bridge between these two worlds. What you'll find here on this site are not just projects and ideas, but also my vision and my efforts to create a future where economics and technology can work together for the benefit of all.</p>
+  
+          <p>This isn't about me, it's about us. I'm inviting you to join me on this journey. To learn, to grow, to explore the unlimited possibilities that arise when we bring together technology and economics.</p>
+  
+          <p>Thank you for being here. I'm looking forward to seeing what we can achieve together.</p>
+
+        <!-- Imagem da assinatura -->
+        <div class="signature">
+            <img src="../images/ass.png" alt="Assinatura de Pedro Q Neves">
+        </div>
+    </main>
+
+    <!-- Banner preto -->
+    <div class="black-banner"></div>
+
+    <!-- Rodapé com direitos autorais e links para as redes sociais -->
+    <footer>
+      <ul class="social-links">
+          <li><a href="https://github.com/P2FU2"><i class="fab fa-github"></i> GitHub</a></li>
+          <li><a href="https://www.linkedin.com/in/pedroqneves/"><i class="fab fa-linkedin-in"></i> LinkedIn</a></li>
+          <li><a href="mailto:pedromilani14@egmail.com"><i class="fas fa-envelope"></i> Email</a></li>
+          <li><a href="https://twitter.com/qpedroneves"><i class="fab fa-twitter"></i> Twitter</a></li>
+      </ul>
+      <p class="copyrights">Copyright &copy; 2023</p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const image = document.querySelector('img[src="images/me.jpeg"]');
+        const toggleShapeButton = document.getElementById('toggleShape');
+        
+        const shapes = ['img-circle', 'img-square', 'img-flag', 'img-triangle'];
+        let currentShapeIndex = 0;
+
+        toggleShapeButton.addEventListener('click', function() {
+            for (const shape of shapes) {
+                image.classList.remove(shape);
+            }
+            currentShapeIndex = (currentShapeIndex + 1) % shapes.length;
+            image.classList.add(shapes[currentShapeIndex]);
+        });
+    });
+</script>
+</body>
+</html>

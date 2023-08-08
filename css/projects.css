@@ -1,0 +1,25 @@
+main {
+  text-align: center;
+  }
+  
+  .projects-container {
+    display: flex;
+    align-items: start; 
+    gap: 0px; /* Espaço entre a lista de projetos e a imagem */
+}
+
+.project-list {
+    flex: 1; 
+    padding-right: 0px;
+    width: 30%; 
+}
+
+.project-image {
+    flex-basis: 50%;
+    max-width: 50%;
+}
+
+.project-image img {
+    width: 100%;
+    height: auto;
+}

@@ -1,0 +1,109 @@
+/* Define variáveis CSS para cores e tamanhos de fonte */
+:root {
+  --primary-color: #ff5e00;
+  --secondary-color: #ccc;
+  --highlight-color: #fff;
+  --font-size-large: 20px;
+  --font-size-normal: 16px;
+}
+
+nav {
+  float: none;
+}
+
+nav a {
+  display: inline-block;
+  padding: 5px 10px;
+  text-decoration: none;
+  color: var(--primary-color);
+}
+
+nav a:hover {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+}
+
+    /* Estilos aplicados ao corpo da página inteira */
+body {
+  font-family: sans-serif;  /* Tipo de fonte usada na página */
+  margin: 0;  /* Remove as margens padrão */
+  padding: 0;  /* Remove o padding padrão */
+  background-color: #f5f5f5;  /* Define a cor de fundo da página */
+  
+  
+    }
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+li:last-child {
+  margin-right: 0;
+}
+
+a {
+  text-decoration: none;
+  color: var(--primary-color);
+  transition: all 0.3s ease-in-out;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #ff5e00
+}
+
+footer {
+  background-color: var(--highlight-color);
+  padding: 10px;
+  border-top: 1px solid var(--secondary-color);
+}
+
+.black-banner {
+  background-color: black;
+  height: 20px;
+  width: 100%;
+}
+
+.copyrights {
+  text-align: center;
+  transition: opacity 0.3s;
+  font-weight: bold;
+}
+
+.copyrights:hover {
+  opacity: 0.7;
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+}
+
+.social-links li {
+  margin: 0 10px;
+}
+
+.social-links a {
+  color: var(--primary-color);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.social-links i {
+  margin-right: 5px;
+}
+
+  /* Estilos para o cabeçalho da página */
+  header {
+    background-color: var(--highlight-color);  /* Define a cor de fundo do cabeçalho */
+    padding: 10px;  /* Adiciona espaçamento interno ao cabeçalho */
+    transition: all 0.5s;  /* Adiciona uma transição suave para todas as propriedades durante 0.5s */
+  }
