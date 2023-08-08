@@ -109,3 +109,35 @@ footer {
   }
 
   /* Estilos para o cabeçalho da página teste*/
+
+  /* Estilos padrão (mobile-first) */
+
+body {
+  font-size: 16px;
+}
+
+/* Estilos para tablets */
+@media (min-width: 768px) {
+  body {
+      font-size: 18px;
+  }
+}
+
+/* Estilos para desktops */
+@media (min-width: 1024px) {
+  body {
+      font-size: 20px;
+  }
+}
+
+/* Estilos para TVs */
+@media (min-width: 1824px) {
+  body {
+      font-size: 22px;
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
