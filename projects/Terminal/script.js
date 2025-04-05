@@ -1,7 +1,38 @@
 "use strict";
 
 (function() {
-  // A história exibida no terminal
+  // Logo em ASCII com referência geek/hacker
+  const asciiLogo = `
+   ____  _            _       _             
+  / ___|| | ___   ___| | __ _| |_ ___  _ __ 
+  \\___ \\| |/ _ \\ / __| |/ _\` | __/ _ \\| '__|
+   ___) | | (_) | (__| | (_| | || (_) | |   
+  |____/|_|\\___/ \\___|_|\\__,_|\\__\\___/|_|   
+
+       [ Terminal Hacker - Versão 3.0.1 ]
+  `;
+
+  // Menu de comandos disponíveis
+  const menuString = `
+Menu de Comandos:
+  help ou ?           - Exibe este menu de comandos
+  .calc [expressão]   - Calcula uma expressão matemática
+  .filosofia          - Exibe uma frase filosófica aleatória
+  .anime              - Mostra informações de um anime popular aleatório
+  .prog               - Exibe um erro comum cometido por desenvolvedores
+  .finance            - Mostra uma fórmula/indicador financeiro com explicação
+  .date               - Exibe a data e hora atuais
+  .echo [mensagem]    - Repete a mensagem digitada
+  .matrix             - Inicia um efeito estilo Matrix
+  .hack               - Exibe uma mensagem hacker
+  .glitch             - Exibe texto glitchado
+  .reboot             - Simula um reboot do sistema
+  .historia           - Modo História: apresenta o conto completo
+  .clear ou .cls      - Limpa o terminal
+  .menu               - Exibe este menu novamente
+`;
+
+  // História para o modo história
   const story = `A luz fraca do terminal de computador lançava um brilho espectral sobre o meu rosto. O silêncio do meu abrigo, sepultado profundamente no subsolo, era apenas quebrado pelo zumbido suave das máquinas e pelo som ritmado das minhas teclas. Eu era o hacker, a última linha de defesa contra o apocalipse.
 A superfície da Terra era um deserto inóspito, transformado em um mundo selvagem e mortífero por uma série de desastres ambientais, conflitos e pandemias que tinham dizimado a humanidade. Nossas cidades, antes símbolos orgulhosos do nosso engenho e ambição, agora eram apenas ruínas enferrujadas, lar de criaturas mutantes e sobreviventes desesperados.
 Mas abaixo da superfície, enterrado em segurança contra o caos acima, havia um refúgio. Este era o meu mundo, uma rede de túneis e câmaras, abrigando a última esperança da humanidade: o terminal.
@@ -11,25 +42,42 @@ Mas cada fragmento de informação era valioso. Cada linha de código, cada byte
 No final do dia, enquanto eu assistia ao pôr do sol virtual projetado na parede da minha câmara, eu sabia que cada dia que passava era uma vitória. Uma vitória contra o esquecimento, contra a extinção. Eu estava mantendo viva a chama do conhecimento humano, um ciber-herói solitário no abismo do apocalipse.
 Eu era a última esperança da humanidade. Aperte qualquer tecla`;
 
-  // Inicializa o Typed.js para exibir a história
-  const typed = new Typed('#terminal', {
-    strings: story.split('\n'),
-    typeSpeed: 1,
-    backSpeed: 10,
-    backDelay: 25555,
-    startDelay: 0,
-    loop: false,
-    showCursor: false,
-    onComplete: startTerminal
-  });
-
   // Seleção dos elementos do terminal e entrada do usuário
   const terminal = document.getElementById("terminal");
   const userInput = document.getElementById("user-input");
   let commandHistory = [];
   let commandIndex = 0;
 
-  // Inicia o terminal após a exibição da história
+  // Exibe o logo e o menu no carregamento do terminal
+  function displayStartup() {
+    terminal.innerText = asciiLogo + "\n" + menuString;
+    scrollTerminal();
+  }
+
+  // Exibe o menu de comandos
+  function displayMenu() {
+    appendToTerminal("\n" + menuString);
+  }
+
+  // Inicia o modo história utilizando Typed.js
+  function displayStory() {
+    // Limpa o terminal para exibir somente a história
+    terminal.innerText = "";
+    new Typed('#terminal', {
+      strings: story.split('\n'),
+      typeSpeed: 30,
+      backSpeed: 0,
+      startDelay: 0,
+      loop: false,
+      showCursor: false,
+      onComplete: function() {
+        appendToTerminal("\n\n[Fim do Modo História] Digite '.menu' para voltar ao menu principal.");
+        scrollTerminal();
+      }
+    });
+  }
+
+  // Inicializa a escuta dos comandos do usuário
   function startTerminal() {
     userInput.addEventListener("keydown", handleKeyDown);
   }
@@ -45,7 +93,10 @@ Eu era a última esperança da humanidade. Aperte qualquer tecla`;
         commandIndex = commandHistory.length;
         userInput.value = "";
         const result = processCommand(command);
-        appendToTerminal(`\n${result}`);
+        // Apenas adiciona o resultado se houver conteúdo (para comandos que já manipulam a exibição, como .historia ou .menu)
+        if (result) {
+          appendToTerminal(`\n${result}`);
+        }
       }
       scrollTerminal();
     } else if (e.key === "ArrowUp") {
@@ -79,19 +130,9 @@ Eu era a última esperança da humanidade. Aperte qualquer tecla`;
   // Função para processar o comando digitado pelo usuário
   function processCommand(command) {
     let output = "";
-    // Comandos de ajuda
+    // Comando de ajuda
     if (command === "help" || command === "?") {
-      output = `Você pode digitar:
-- .calc [expressão]: Calcula uma expressão matemática (ex.: .calc 1+2)
-- .filosofia: Exibe uma frase filosófica aleatória
-- .anime: Mostra o nome e as visualizações de um anime popular aleatório
-- .prog: Exibe um erro comum cometido por desenvolvedores
-- .finance: Mostra uma fórmula/indicador financeiro com explicação
-- .date: Exibe a data e hora atuais
-- .echo [mensagem]: Repete a mensagem digitada
-- .clear ou .cls: Limpa o terminal
-- .matrix: Inicia um efeito estilo Matrix
-- .hack: Exibe uma mensagem hacker`;
+      output = menuString;
     }
     // Comando para cálculos
     else if (command.startsWith(".calc")) {
@@ -290,6 +331,16 @@ Eu era a última esperança da humanidade. Aperte qualquer tecla`;
     else if (command === ".glitch") {
       output = generateGlitchText(30);
     }
+    // Comando para iniciar o modo história
+    else if (command === ".historia") {
+      displayStory();
+      return "";
+    }
+    // Comando para exibir o menu novamente
+    else if (command === ".menu") {
+      displayMenu();
+      return "";
+    }
     // Comando desconhecido
     else {
       output = `Comando desconhecido: '${command}'. Digite 'help' ou '?' para obter ajuda.`;
@@ -330,6 +381,7 @@ Eu era a última esperança da humanidade. Aperte qualquer tecla`;
     return result;
   }
 
-  // Exibe mensagem de boas-vindas inicial no terminal
-  terminal.innerText = "Bem-vindo ao terminal Simulado v.3.0.1!\nDigite 'help' ou '?' para obter ajuda.";
+  // Exibe o logo e o menu ao iniciar o terminal
+  displayStartup();
+  startTerminal();
 })();
