@@ -9,7 +9,7 @@
    ___) | | (_) | (__| | (_| | || (_) | |   
   |____/|_|\\___/ \\___|_|\\__,_|\\__\\___/|_|   
 
-       [ Terminal Hacker - Versão 3.0.1 ]
+       [ Terminal Like a Boss - Versão 3.0.1 ]
   `;
 
   // Menu de comandos disponíveis
@@ -27,7 +27,10 @@ Menu de Comandos:
   .hack               - Exibe uma mensagem hacker
   .glitch             - Exibe texto glitchado
   .reboot             - Simula um reboot do sistema
-  .historia           - Ativa o modo História (conta a narrativa completa)
+  .ascii              - Exibe uma arte ASCII irada
+  .password [nível]   - Gera uma senha segura (níveis: hard, askaban, impossible)
+  .sorte [tipo]       - Rola dados (ex.: D4, D6, D20, etc) ou lança uma moeda ("coin" ou "moeda")
+  .historia           - Ativa o modo História (narrativa completa)
   .clear ou .cls      - Limpa o terminal
   .menu               - Exibe este menu novamente
 `;
@@ -54,27 +57,113 @@ Eu era a última esperança da humanidade. Aperte qualquer tecla`;
     scrollTerminal();
   }
 
-  // Exibe o menu de comandos
+  // Exibe o menu de comandos (sempre com o logo)
   function displayMenu() {
-    appendToTerminal("\n" + menuString);
+    terminal.innerText = asciiLogo + "\n" + menuString;
+    scrollTerminal();
   }
 
   // Inicia o modo história utilizando Typed.js
   function displayStory() {
-    // Limpa o terminal para exibir somente a história
-   // terminal.innerText = "";
-   // new Typed('#terminal', {
-   //   strings: story.split('\n'),
-   //   typeSpeed: 30,
-   //   backSpeed: 0,
-   //   startDelay: 0,
-   //   loop: false,
-   //   showCursor: false,
-   //   onComplete: function() {
-   //     appendToTerminal("\n\n[Fim do Modo História] Digite '.menu' para voltar ao menu principal.");
-   //     scrollTerminal();
-   //   }
-   // });
+    terminal.innerText = "";
+    new Typed('#terminal', {
+      strings: story.split('\n'),
+      typeSpeed: 30,
+      backSpeed: 0,
+      startDelay: 0,
+      loop: false,
+      showCursor: false,
+      onComplete: function() {
+        appendToTerminal("\n\n[Fim do Modo História] Digite '.menu' para voltar ao menu principal.");
+        scrollTerminal();
+      }
+    });
+  }
+
+  // Função para gerar uma arte ASCII aleatória
+  function generateRandomAscii() {
+    const asciiArts = [
+`             /\\
+            /  \\     __
+   ________/ /\\ \\___/ /  _   DRAGON
+  /  _____/ /  \\     /  / \\
+ /__/     /    \\   /__/   \\
+          \\    /   \\      /
+           \\__/     \\____/`,
+`          .-.
+         (o.o)
+          |=|
+         __|__
+       //.=|=.\\
+      // .=|=. \\
+      \\ .=|=. //
+       \\(_=_)//
+        (:| |:)
+         || ||
+         () ()
+         || ||
+         || ||
+        ==' '==`,
+`  _   _            _    _           _     _ 
+ | | | | __ _  ___| | _| |__   ___ | |__ (_)
+ | |_| |/ _\` |/ __| |/ / '_ \\ / _ \\| '_ \\| |
+ |  _  | (_| | (__|   <| | | | (_) | |_) | |
+ |_| |_|\\__,_|\\___|_|\\_\\_| |_|\\___/|_.__/|_|
+`
+    ];
+    const index = Math.floor(Math.random() * asciiArts.length);
+    return asciiArts[index];
+  }
+
+  // Função para gerar senhas seguras conforme o nível
+  function generatePassword(level) {
+    let length, explanation;
+    if (level === "askaban") {
+      length = 16;
+      explanation = "Alta segurança: 16 caracteres com uma mistura robusta de letras, números e símbolos.";
+    } else if (level === "impossible") {
+      length = 24;
+      explanation = "Segurança máxima: 24 caracteres tornando a senha extremamente difícil de ser decifrada.";
+    } else { // hard ou padrão
+      length = 12;
+      explanation = "Segurança moderada: 12 caracteres com letras, números e símbolos.";
+    }
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?";
+    let password = "";
+    for (let i = 0; i < length; i++) {
+      password += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return { password, explanation };
+  }
+
+  // Função para simular animação de rolagem para dados
+  function rollDiceAnimation(sides, callback) {
+    let count = 0;
+    const interval = setInterval(() => {
+      let randomRoll = Math.floor(Math.random() * sides) + 1;
+      appendToTerminal(`\nRolando D${sides}: ${randomRoll}`);
+      count++;
+      if (count >= 5) {
+        clearInterval(interval);
+        callback(randomRoll);
+      }
+      scrollTerminal();
+    }, 300);
+  }
+
+  // Função para simular animação de lançamento de moeda
+  function rollCoinAnimation(callback) {
+    let count = 0;
+    const interval = setInterval(() => {
+      let result = Math.random() < 0.5 ? "Cara" : "Coroa";
+      appendToTerminal(`\nLançando moeda: ${result}`);
+      count++;
+      if (count >= 5) {
+        clearInterval(interval);
+        callback(result);
+      }
+      scrollTerminal();
+    }, 300);
   }
 
   // Inicializa a escuta dos comandos do usuário
@@ -93,7 +182,7 @@ Eu era a última esperança da humanidade. Aperte qualquer tecla`;
         commandIndex = commandHistory.length;
         userInput.value = "";
         const result = processCommand(command);
-        // Apenas adiciona o resultado se houver conteúdo (para comandos que já manipulam a exibição, como .historia ou .menu)
+        // Apenas adiciona o resultado se houver conteúdo (para comandos que já manipulam a exibição, como .historia, .menu, .sorte, etc.)
         if (result) {
           appendToTerminal(`\n${result}`);
         }
@@ -330,6 +419,44 @@ Eu era a última esperança da humanidade. Aperte qualquer tecla`;
     // Comando para exibir texto glitchado
     else if (command === ".glitch") {
       output = generateGlitchText(30);
+    }
+    // Comando para exibir uma arte ASCII aleatória
+    else if (command === ".ascii") {
+      output = generateRandomAscii();
+    }
+    // Comando para gerar senha segura
+    else if (command.startsWith(".password")) {
+      const args = command.split(" ");
+      const level = args[1] ? args[1].toLowerCase() : "hard";
+      if (["hard", "askaban", "impossible"].includes(level)) {
+        const result = generatePassword(level);
+        output = `Senha gerada: ${result.password}\nExplicação: ${result.explanation}`;
+      } else {
+        output = "Nível inválido. Use: hard, askaban ou impossible.";
+      }
+    }
+    // Comando para rolar dados ou moeda
+    else if (command.startsWith(".sorte")) {
+      const args = command.split(" ");
+      let option = args[1] ? args[1].toLowerCase() : "coin";
+      if (option === "coin" || option === "moeda") {
+        rollCoinAnimation(function(result) {
+          appendToTerminal(`\nResultado final: ${result}`);
+        });
+        return ""; // a animação já cuida da saída
+      } else if (option.startsWith("d")) {
+        const sides = parseInt(option.substring(1));
+        if (isNaN(sides) || sides <= 0) {
+          output = "Tipo de dado inválido. Exemplo: D4, D6, D20, etc.";
+        } else {
+          rollDiceAnimation(sides, function(result) {
+            appendToTerminal(`\nResultado final do D${sides}: ${result}`);
+          });
+          return "";
+        }
+      } else {
+        output = "Opção inválida para .sorte. Use 'coin' (ou 'moeda') ou 'D<number>' (ex.: D6).";
+      }
     }
     // Comando para iniciar o modo história
     else if (command === ".historia") {
