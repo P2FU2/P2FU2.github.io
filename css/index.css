@@ -1,9 +1,9 @@
-/* Variáveis e Valores Globais */
+/* ===== Estilos Globais ===== */
 body {
   font-family: sans-serif;
   margin: 0;
-  padding: 20px; 
-  background-color: var(--secondary-color);
+  padding: 20px;
+  background-color: var(--secondary-color, #eee);
   color: #333;
   line-height: 1.7;
 }
@@ -14,34 +14,37 @@ img {
   border-radius: 8%;
 }
 
+/* ===== Destaques ===== */
 .highlight {
   color: #ff5e00;
   font-weight: 600;
 }
 
+/* ===== Títulos ===== */
 h1, h2, h3 {
   color: #444;
   margin-bottom: 20px;
   margin-left: 20px;
 }
 
+/* ===== Separadores ===== */
 hr {
   margin: 20px 0;
   border: none;
   border-top: 1px solid #eee;
 }
 
-/* Animação */
+/* ===== Animação da Imagem ===== */
 @keyframes imageGrow {
   from {
-      width: 50px;
+    width: 50px;
   }
   to {
-      width: 300px;
+    width: 300px;
   }
 }
 
-/* Estilos para a imagem */
+/* ===== Estilos Específicos para a Imagem ===== */
 img[src="/images/me.jpeg"] {
   display: block;
   margin: auto;
@@ -49,6 +52,7 @@ img[src="/images/me.jpeg"] {
   animation: imageGrow 2s forwards;
 }
 
+/* ===== Seção Home ===== */
 .home {
   display: flex;
   justify-content: center;
@@ -56,7 +60,7 @@ img[src="/images/me.jpeg"] {
   height: 300px;
 }
 
-/* Shapes para a imagem */
+/* ===== Formas (Shapes) ===== */
 .img-circle {
   border-radius: 50%;
 }
@@ -73,15 +77,14 @@ img[src="/images/me.jpeg"] {
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }
 
-/* Botão */
+/* ===== Botão de Alternância ===== */
 #toggleShape {
   background-color: #ff5e00;
-  color: white;
+  color: #fff;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
   font-size: 16px;
-  outline: none;
   margin-top: 20px;
   transition: transform 0.3s ease;
   cursor: pointer;
@@ -97,7 +100,7 @@ img[src="/images/me.jpeg"] {
   align-items: center;
 }
 
-/* Estilos gerais */
+/* ===== Estilos Gerais para Conteúdo ===== */
 main {
   margin-top: 10px;
 }
@@ -128,21 +131,21 @@ p {
   margin-bottom: 10px;
 }
 
-/* Responsividade */
+/* ===== Responsividade ===== */
 @media (min-width: 768px) {
   body {
-      font-size: 18px;
+    font-size: 18px;
   }
 }
 
 @media (min-width: 1024px) {
   body {
-      font-size: 20px;
+    font-size: 20px;
   }
 }
 
 @media (min-width: 1824px) {
   body {
-      font-size: 22px;
+    font-size: 22px;
   }
 }

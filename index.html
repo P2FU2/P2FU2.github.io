@@ -1,124 +1,200 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <!-- SEO meta tags -->
-    <meta name="description" content="Portfólio do desenvolvedor web Pedro Neves">
-    <meta name="keywords" content="Desenvolvedor Web, Portfólio, Pedro Neves">
+  <!-- Meta Tags SEO -->
+  <meta name="description" content="Portfólio do Desenvolvedor Web Pedro Neves">
+  <meta name="keywords" content="Desenvolvedor Web, Portfólio, Pedro Neves, Programação, Economia">
+  <meta name="author" content="Pedro Neves">
 
-    <title>My Portfolio</title>
+  <title>Pedro Neves | Portfólio</title>
 
-    <!-- Arquivos CSS -->
-    <link rel="stylesheet" href="/css/index.css">
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  <!-- Favicon -->
+  <link rel="icon" href="/images/favicon.ico">
+
+  <!-- Arquivos CSS -->
+  <link rel="stylesheet" href="/css/index.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+  <!-- Open Graph / Social Sharing -->
+  <meta property="og:title" content="Pedro Neves | Portfólio">
+  <meta property="og:description" content="Portfólio do Desenvolvedor Web Pedro Neves">
+  <meta property="og:image" content="/images/og-image.jpg">
+  <meta property="og:url" content="https://www.pedronevesportfolio.com">
+  <meta property="og:type" content="website">
 </head>
-
 <body>
-    <!-- Cabeçalho com a navegação do site -->
-    <header>
-        <nav>
-          <a href="index.html">Home</a>
-          <a href="/html/projects.html">Projects</a>
-          <a href="/html/cv.html">CV</a>
-          <a href="/html/analysis.html">Analysis</a>
-        </nav>
-    </header>
-
-    <main>
-        <!-- Seção da Home para alterar a imagem -->
-        <section class="home" id="home">
-            <img src="/images/me.jpeg" alt="My photo">
-        </section>
-
-        <div class="button-container">
-            <button id="toggleShape">Cick here?</button>
-        </div>
-
+  <!-- Link de pular conteúdo para acessibilidade -->
+  <a class="skip-link" href="#main-content">Pular para o conteúdo principal</a>
   
-        <h1>Hello, I'm Pedro Q. Neves.</h1>
-       
-        <p>  I've always been driven by two passions: technology and economics. It was with great enthusiasm that I found a way to unite these two forces into one purpose. </p>
+  <!-- Cabeçalho com navegação e menu de idioma -->
+  <header>
+    <div class="top-bar">
+      <!-- Menu de troca de idioma -->
+      <div class="language-selector">
+        <label for="languageSelect">Idioma:</label>
+        <select id="languageSelect" aria-label="Selecione o idioma">
+          <option value="pt" selected>Português (BR)</option>
+          <option value="en">English</option>
+          <option value="es">Español</option>
+          <option value="it">Italiano</option>
+          <option value="ru">Русский</option>
+          <option value="zh">中文</option>
+        </select>
+      </div>
+    </div>
+    <nav aria-label="Navegação Principal">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="/html/projects.html">Projects</a></li>
+        <li><a href="/html/cv.html">CV</a></li>
+        <li><a href="/html/analysis.html">Analysis</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Conteúdo principal -->
+  <main id="main-content">
+    <!-- Seção de introdução com imagem -->
+    <section class="home" id="home">
+      <img src="/images/me.jpeg" alt="Retrato de Pedro Neves">
+    </section>
+    
+    <!-- Botão para alternar o formato da imagem -->
+    <div class="button-container">
+      <button id="toggleShape" aria-label="Alternar formato da imagem">Clique aqui?</button>
+    </div>
+    
+    <!-- Seção de Apresentação -->
+    <section class="introduction">
+      <h1>Olá, eu sou o Pedro Q. Neves.</h1>
+      <p>Minha paixão por tecnologia e economia sempre me impulsionou a buscar a integração dessas duas áreas. Foi com grande entusiasmo que encontrei uma forma de unir forças em prol de um propósito singular.</p>
+      <p>Há apenas seis meses, iniciei uma nova jornada profissional. Como dizem, "toda grande jornada começa com um pequeno passo", e aqui estou eu, dando meus primeiros passos firmes e decididos.</p>
+      <p>Além de programar em linguagens como Python e JavaScript, sou motivado a aplicar esses conhecimentos para desenvolver análises econômicas, utilizando estatísticas e sistemas de simulação. Acredito que é na confluência entre tecnologia e economia que surgem as ideias mais transformadoras.</p>
+      <p>Não me defino apenas como programador ou economista, mas sim como a ponte que une esses dois mundos. Este site é o espaço onde compartilho não só meus projetos e ideias, mas também minha visão para um futuro em que tecnologia e economia caminhem juntas em benefício de todos.</p>
+      <p>Agradeço por sua visita e convido você a embarcar nessa jornada de aprendizado, crescimento e descobertas.</p>
+    </section>
+    
+    <!-- Seção de Currículo e Informações Profissionais -->
+    <section class="professional-background">
+      <hr>
+      <h2>Histórico Profissional</h2>
+      
+      <!-- Educação -->
+      <article class="education">
+        <h3>Formação Acadêmica</h3>
+        <ul>
+          <li><strong>Mestrado em Economia</strong> – Bocconi University, 2025<br><small>Pesquisa focada em economia digital e inovação tecnológica.</small></li>
+          <li><strong>Bacharelado em Economia</strong> – FAAP, 2023<br><small>Enfoque em análises econômicas e estatísticas avançadas.</small></li>
+          <li><strong>MBA em Engenharia de Software</strong> – FIAP, 2023<br><small>Integração de metodologias ágeis e desenvolvimento de soluções tecnológicas.</small></li>
+        </ul>
+      </article>
+      
+      <!-- Experiência Profissional -->
+      <article class="experience">
+        <h3>Experiência Profissional</h3>
+        <ul>
+          <li><strong>Software Engineer</strong> – Bloomberg, 2025 - Presente<br>
+              <small>Desenvolvimento e manutenção de sistemas financeiros de alta performance, utilizando tecnologias modernas e práticas de DevOps.</small></li>
+          <li><strong>Economic Analyst</strong> – Nelogica, 2021 - 2023<br>
+              <small>Análises de mercado e desenvolvimento de modelos preditivos para o setor financeiro, com foco em otimização de processos.</small></li>
+          <li><strong>Estagiário de Desenvolvimento</strong> – TechStart, 2020 - 2021<br>
+              <small>Colaboração em projetos de desenvolvimento web e suporte à equipe de TI, contribuindo para a implementação de soluções inovadoras.</small></li>
+        </ul>
+      </article>
+      
+      <!-- Habilidades e Competências -->
+      <article class="skills">
+        <h3>Habilidades e Competências</h3>
+        <ul>
+          <li><strong>Programação:</strong> Python, JavaScript, HTML5, CSS3, C++</li>
+          <li><strong>Frameworks e Ferramentas:</strong> React, Node.js, Git, Docker, SQL</li>
+          <li><strong>Análise de Dados:</strong> Estatística, Machine Learning, Simulações</li>
+          <li><strong>Idiomas:</strong> Português (nativo), Inglês, Espanhol, Italiano, Russo, Chinês</li>
+        </ul>
+      </article>
+      
+      <!-- Certificações -->
+      <article class="certifications">
+        <h3>Certificações</h3>
+        <ul>
+          <li>Certified Python Developer – Python Institute, 2024</li>
+          <li>Full-Stack Web Development – Coursera, 2023</li>
+          <li>Data Science Professional Certificate – IBM, 2022</li>
+        </ul>
+      </article>
+      
+      <!-- Projetos Relevantes -->
+      <article class="projects">
+        <h3>Projetos Relevantes</h3>
+        <ul>
+          <li><strong>Plataforma de Simulação Econômica:</strong> Ferramenta para simulação de cenários econômicos utilizando dados reais e técnicas avançadas de modelagem.</li>
+          <li><strong>Dashboard Financeiro:</strong> Desenvolvimento de dashboards interativos para monitoramento de indicadores financeiros em tempo real.</li>
+          <li><strong>Aplicativo de Análise de Dados:</strong> Projeto que integra visualização de dados e algoritmos de machine learning para insights estratégicos.</li>
+        </ul>
+      </article>
+      
+      <!-- Considerações Finais -->
+      <article class="final-thoughts">
+        <h3>Considerações Finais</h3>
+        <p>Em um mundo em constante transformação, acredito que a sinergia entre tecnologia e economia é a chave para a inovação. Estou comprometido com o aprendizado contínuo e a colaboração, buscando sempre estar na vanguarda das mudanças. Convido você a fazer parte desta jornada, onde a união de diferentes disciplinas gera resultados surpreendentes.</p>
+      </article>
+    </section>
+    
+    <!-- Assinatura -->
+    <section class="signature">
+      <img src="/images/ass.png" alt="Assinatura de Pedro Q. Neves">
+    </section>
+  </main>
+
+  <!-- Banner decorativo -->
+  <div class="black-banner"></div>
   
-          <p>Just six months ago, I decided to embark on a new journey. As the saying goes, "every great journey starts with a small step", and here I am, taking my first yet firm and decisive steps.</p>
-          
-          <p>I like to tinker with programming languages such as Python and JavaScript, but that's not all. What truly motivates me is applying these skills to create economic analyses with statistics and simulation systems. I genuinely believe that it's when these two areas - technology and economics - meet that we can make amazing things happen.</p>
-  
-          <p>I am not just a programmer or economist. I am a bridge between these two worlds. What you'll find here on this site are not just projects and ideas, but also my vision and my efforts to create a future where economics and technology can work together for the benefit of all.</p>
-  
-          <p>This isn't about me, it's about us. I'm inviting you to join me on this journey. To learn, to grow, to explore the unlimited possibilities that arise when we bring together technology and economics.</p>
-  
-          <p>Thank you for being here. I'm looking forward to seeing what we can achieve together.</p>
+  <!-- Rodapé com links para redes sociais -->
+  <footer>
+    <ul class="social-links">
+      <li><a href="https://github.com/P2FU2" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/pedroqneves/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i> LinkedIn</a></li>
+      <li><a href="mailto:pedromilani14@egmail.com"><i class="fas fa-envelope"></i> Email</a></li>
+      <li><a href="https://twitter.com/qpedroneves" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i> Twitter</a></li>
+    </ul>
+    <p class="copyright">&copy; 2023 Pedro Neves. Todos os direitos reservados.</p>
+  </footer>
 
-          <p>The intersection of <span class="highlight">technology</span> and <span class="highlight">economics</span> has always fascinated me. With a commitment to both fields, I've found a purpose that combines these distinct passions.</p>
+  <!-- Scripts -->
+  <script>
+    // Script para alternar o formato da imagem
+    document.addEventListener('DOMContentLoaded', () => {
+      const image = document.querySelector('img[src="/images/me.jpeg"]');
+      const toggleShapeButton = document.getElementById('toggleShape');
+      const shapes = ['img-circle', 'img-square', 'img-flag', 'img-triangle'];
+      let currentShapeIndex = 0;
       
-          <p>A mere six months ago, I ventured into a new phase of my professional journey. They say every remarkable journey starts with a single step, and I find myself on this path, determined and forward-looking.</p>
-      
-          <p>Beyond programming languages like Python and JavaScript, I'm compelled by the application of these skills to derive profound economic analyses, leveraging statistical methods and advanced simulation systems. It's in the confluence of technology and economics that transformative ideas emerge.</p>
-      
-          <p>I position myself not just as a programmer or an economist but as a confluence of these disciplines, striving for a future where both realms collaborate for overarching success.</p>
-      
-          <p>This platform is a testament to that vision and my efforts. Welcome to this narrative of blending technology with economics.</p>
-      
-          <hr>
-      
-          <h2>Professional Background</h2>
-      
-          <h3>Education</h3>
-          <p><span class="highlight">Master in Economics</span> - Bocconi University, 2025</p>
-          <p><span class="highlight">Bachelor in Economics</span> - FAAP, 2023</p>
-          <p><span class="highlight">MBA in Software Engineer</span> - FIAP, 2023</p>
-      
-          <h3>Experience</h3>
-          <p><span class="highlight">Software Engineer</span> - Bloomberg, 2025 - Now</p>
-          <p><span class="highlight">Economic Analyst</span> - Nelogica, 2021 - 2023</p>
-      
-          <h3>Final Thoughts</h3>
-          <p>In a world constantly reshaped by technological innovations and economic shifts, I believe in the synergy that comes from marrying these disciplines. Through continuous learning and collaboration, I aim to remain at the forefront of this exciting intersection. I look forward to engaging in constructive dialogues and partnerships that steer this vision forward.</p>
-      
+      toggleShapeButton.addEventListener('click', () => {
+        shapes.forEach(shape => image.classList.remove(shape));
+        currentShapeIndex = (currentShapeIndex + 1) % shapes.length;
+        image.classList.add(shapes[currentShapeIndex]);
+      });
+    });
 
-
-                <!-- Imagem da assinatura -->
-                <div class="signature">
-                    <img src="/images/ass.png" alt="Assinatura de Pedro Q Neves">
-                </div>
-            </main>
-
-            <!-- Banner preto -->
-            <div class="black-banner"></div>
-
-            <!-- Rodapé com direitos autorais e links para as redes sociais -->
-            <footer>
-            <ul class="social-links">
-                <li><a href="https://github.com/P2FU2"><i class="fab fa-github"></i> GitHub</a></li>
-                <li><a href="https://www.linkedin.com/in/pedroqneves/"><i class="fab fa-linkedin-in"></i> LinkedIn</a></li>
-                <li><a href="mailto:pedromilani14@egmail.com"><i class="fas fa-envelope"></i> Email</a></li>
-                <li><a href="https://twitter.com/qpedroneves"><i class="fab fa-twitter"></i> Twitter</a></li>
-            </ul>
-            <p class="copyrights">Copyright &copy; 2023</p>
-        </footer>
-
-        <script>
-      
-            document.addEventListener("DOMContentLoaded", function() {
-                const image = document.querySelector('img[src="images/me.jpeg"]');
-                const toggleShapeButton = document.getElementById('toggleShape');
-                
-                const shapes = ['img-circle', 'img-square', 'img-flag', 'img-triangle'];
-                let currentShapeIndex = 0;
-
-                toggleShapeButton.addEventListener('click', function() {
-                    for (const shape of shapes) {
-                        image.classList.remove(shape);
-                    }
-                    currentShapeIndex = (currentShapeIndex + 1) % shapes.length;
-                    image.classList.add(shapes[currentShapeIndex]);
-                });
-            });
-
-        </script>
-        </body>
+    // Script para redirecionar de acordo com a seleção do idioma
+    document.getElementById('languageSelect').addEventListener('change', function() {
+      const lang = this.value;
+      // Mapeamento dos idiomas para as respectivas URLs
+      const languagePaths = {
+        pt: '/index.html',
+        en: '/en/index.html',
+        es: '/es/index.html',
+        it: '/it/index.html',
+        ru: '/ru/index.html',
+        zh: '/zh/index.html'
+      };
+      window.location.href = languagePaths[lang] || '/index.html';
+    });
+  </script>
+</body>
 </html>

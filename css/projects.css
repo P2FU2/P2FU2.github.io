@@ -1,53 +1,53 @@
+/* ===== Estilos Gerais ===== */
 main {
   text-align: center;
-  }
-  
-  .projects-container {
-    display: flex;
-    align-items: start; 
-    gap: 0px; /* Espaço entre a lista de projetos e a imagem */
 }
 
+.projects-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 0; /* Espaço entre a lista de projetos e a imagem */
+}
+
+/* ===== Lista de Projetos ===== */
 .project-list {
-    flex: 1; 
-    padding-right: 0px;
-    width: 30%; 
+  flex: 1;
+  width: 30%;
+  padding-right: 0;
 }
 
+/* ===== Imagem do Projeto ===== */
 .project-image {
-    flex-basis: 50%;
-    max-width: 50%;
+  flex-basis: 50%;
+  max-width: 50%;
 }
 
 .project-image img {
-    width: 100%;
-    height: auto;
+  width: 100%;
+  height: auto;
 }
 
-/* Estilos padrão (mobile-first) */
-
+/* ===== Estilos Base (Mobile-First) ===== */
 body {
   font-size: 16px;
 }
 
-/* Estilos para tablets */
+/* ===== Responsividade ===== */
 @media (min-width: 768px) {
   body {
-      font-size: 18px;
+    font-size: 18px;
   }
 }
 
-/* Estilos para desktops */
 @media (min-width: 1024px) {
   body {
-      font-size: 20px;
+    font-size: 20px;
   }
 }
 
-/* Estilos para TVs */
 @media (min-width: 1824px) {
   body {
-      font-size: 22px;
+    font-size: 22px;
   }
 }
 

@@ -1,19 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-    <title>Terminal Personalizado</title>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="styles.css">
+  <meta charset="UTF-8">
+  <title>Terminal Personalizado</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Link para o CSS do Terminal -->
+  <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <div class="terminal" id="terminal"></div>
-    <input type="text" id="user-input" class="user-input" autofocus>
+  <!-- Área do Terminal -->
+  <div class="terminal" id="terminal"></div>
+  <!-- Campo de Entrada para Comandos -->
+  <input type="text" id="user-input" class="user-input" autofocus aria-label="Digite seu comando">
 
-    <!-- Incluir Typed.js via CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.9"></script>
-
-    <!-- Seu próprio JavaScript -->
-    <script src="script.js"></script>
-
+  <!-- Incluir Typed.js via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.9"></script>
+  <!-- Script customizado para o Terminal -->
+  <script src="script.js"></script>
 </body>
 </html>

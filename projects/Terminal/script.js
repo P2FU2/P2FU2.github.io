@@ -1,86 +1,110 @@
-// A sua história
-var story = "A luz fraca do terminal de computador lançava um brilho espectral sobre o meu rosto. O silêncio do meu abrigo, sepultado profundamente no subsolo, era apenas quebrado pelo zumbido suave das máquinas e pelo som ritmado das minhas teclas. Eu era o hacker, a última linha de defesa contra o apocalipse.\nA superfície da Terra era um deserto inóspito, transformado em um mundo selvagem e mortífero por uma série de desastres ambientais, conflitos e pandemias que tinham dizimado a humanidade. Nossas cidades, antes símbolos orgulhosos do nosso engenho e ambição, agora eram apenas ruínas enferrujadas, lar de criaturas mutantes e sobreviventes desesperados.\nMas abaixo da superfície, enterrado em segurança contra o caos acima, havia um refúgio. Este era o meu mundo, uma rede de túneis e câmaras, abrigando a última esperança da humanidade: o terminal.\nO terminal era a nossa Arca de Noé digital, uma compilação gigantesca de todo o conhecimento humano. Dados históricos, obras de arte, música, ciência, literatura, religião, filosofia, tecnologia, tudo estava aqui, armazenado em uma complexa rede de servidores e supercomputadores. Eu era o guardião deste tesouro, o último estudioso deste arquivo da civilização humana. Minha tarefa? Coletar, aprender e, mais importante, preservar.\nA cada dia, eu explorava um novo aspecto da rica tapeçaria da história humana, descobrindo camadas e camadas de conhecimento. Por vezes, eram relatos de momentos de grandeza e triunfo, histórias de inovação e exploração, de amizade e amor. Em outros momentos, eram narrativas mais sombrias, lições sobre as profundezas a que a humanidade poderia cair, lembretes da ganância, da crueldade e da ignorância que haviam nos levado a este ponto.\nMas cada fragmento de informação era valioso. Cada linha de código, cada byte de dados era uma peça do quebra-cabeça, uma contribuição para o retrato completo da humanidade. E cada peça que eu adicionava à minha compreensão me deixava um passo mais perto de cumprir a minha missão: a preservação do legado humano para as gerações futuras.\nNo final do dia, enquanto eu assistia ao pôr do sol virtual projetado na parede da minha câmara, eu sabia que cada dia que passava era uma vitória. Uma vitória contra o esquecimento, contra a extinção. Eu estava mantendo viva a chama do conhecimento humano, um ciber-herói solitário no abismo do apocalipse.\nEu era a última esperança da humanidade. Aperte qualquer tecla" // Coloque a sua história completa aqui
+"use strict";
 
-// Crie uma nova instância Typed.js para exibir a história
-var typed = new Typed('#terminal', {
-  strings: story.split('\n'), // Divida a história em parágrafos
-  
-  typeSpeed: 1, // Velocidade de digitação
-  backSpeed: 10, // Sem velocidade de apagamento
-  backDelay: 25555, // Tempo de espera antes de apagar
-  startDelay: 0, // Tempo de espera antes de começar a digitar
-  loop: false, // Não repita a história
-  loopCount: null, // Sem limite de repetições
-  showCursor: false, // Não mostre o cursor
-  onComplete: function(self) { startTerminal(); } // Inicie o terminal após terminar a história
-});
+(function() {
+  // A história exibida no terminal
+  const story = `A luz fraca do terminal de computador lançava um brilho espectral sobre o meu rosto. O silêncio do meu abrigo, sepultado profundamente no subsolo, era apenas quebrado pelo zumbido suave das máquinas e pelo som ritmado das minhas teclas. Eu era o hacker, a última linha de defesa contra o apocalipse.
+A superfície da Terra era um deserto inóspito, transformado em um mundo selvagem e mortífero por uma série de desastres ambientais, conflitos e pandemias que tinham dizimado a humanidade. Nossas cidades, antes símbolos orgulhosos do nosso engenho e ambição, agora eram apenas ruínas enferrujadas, lar de criaturas mutantes e sobreviventes desesperados.
+Mas abaixo da superfície, enterrado em segurança contra o caos acima, havia um refúgio. Este era o meu mundo, uma rede de túneis e câmaras, abrigando a última esperança da humanidade: o terminal.
+O terminal era a nossa Arca de Noé digital, uma compilação gigantesca de todo o conhecimento humano. Dados históricos, obras de arte, música, ciência, literatura, religião, filosofia, tecnologia, tudo estava aqui, armazenado em uma complexa rede de servidores e supercomputadores. Eu era o guardião deste tesouro, o último estudioso deste arquivo da civilização humana. Minha tarefa? Coletar, aprender e, mais importante, preservar.
+A cada dia, eu explorava um novo aspecto da rica tapeçaria da história humana, descobrindo camadas e camadas de conhecimento. Por vezes, eram relatos de momentos de grandeza e triunfo, histórias de inovação e exploração, de amizade e amor. Em outros momentos, eram narrativas mais sombrias, lições sobre as profundezas a que a humanidade poderia cair, lembretes da ganância, da crueldade e da ignorância que haviam nos levado a este ponto.
+Mas cada fragmento de informação era valioso. Cada linha de código, cada byte de dados era uma peça do quebra-cabeça, uma contribuição para o retrato completo da humanidade. E cada peça que eu adicionava à minha compreensão me deixava um passo mais perto de cumprir a minha missão: a preservação do legado humano para as gerações futuras.
+No final do dia, enquanto eu assistia ao pôr do sol virtual projetado na parede da minha câmara, eu sabia que cada dia que passava era uma vitória. Uma vitória contra o esquecimento, contra a extinção. Eu estava mantendo viva a chama do conhecimento humano, um ciber-herói solitário no abismo do apocalipse.
+Eu era a última esperança da humanidade. Aperte qualquer tecla`;
 
-function startTerminal() {
+  // Inicializa o Typed.js para exibir a história
+  const typed = new Typed('#terminal', {
+    strings: story.split('\n'),
+    typeSpeed: 1,
+    backSpeed: 10,
+    backDelay: 25555,
+    startDelay: 0,
+    loop: false,
+    showCursor: false,
+    onComplete: startTerminal
+  });
 
-// Seleciona o terminal e a entrada do usuário
-var terminal = document.getElementById("terminal");
-var userInput = document.getElementById("user-input");
-}
+  // Seleção dos elementos do terminal e entrada do usuário
+  const terminal = document.getElementById("terminal");
+  const userInput = document.getElementById("user-input");
+  let commandHistory = [];
+  let commandIndex = 0;
 
+  // Inicia o terminal após a exibição da história
+  function startTerminal() {
+    userInput.addEventListener("keydown", handleKeyDown);
+  }
 
-
-// Histórico de comandos e índice atual
-var commandHistory = [];
-var commandIndex = 0;
-
-// Adiciona um ouvinte de eventos para o evento keydown
-userInput.addEventListener("keydown", function(e) {
+  // Lida com os eventos de keydown na entrada do usuário
+  function handleKeyDown(e) {
     if (e.key === "Enter") {
-        e.preventDefault();
-        var command = userInput.value;
-        terminal.innerText += "\n> " + command;
+      e.preventDefault();
+      const command = userInput.value.trim();
+      if (command !== "") {
+        appendToTerminal(`\n> ${command}`);
         commandHistory.push(command);
         commandIndex = commandHistory.length;
         userInput.value = "";
-
-        var result = processCommand(command);
-        terminal.innerText += "\n" + result;
-
-        terminal.scrollTop = terminal.scrollHeight;
+        const result = processCommand(command);
+        appendToTerminal(`\n${result}`);
+      }
+      scrollTerminal();
     } else if (e.key === "ArrowUp") {
-        if (commandIndex > 0) {
-            commandIndex -= 1;
-            userInput.value = commandHistory[commandIndex];
-        }
-        e.preventDefault();
+      if (commandIndex > 0) {
+        commandIndex--;
+        userInput.value = commandHistory[commandIndex];
+      }
+      e.preventDefault();
     } else if (e.key === "ArrowDown") {
-        if (commandIndex < commandHistory.length - 1) {
-            commandIndex += 1;
-            userInput.value = commandHistory[commandIndex];
-        } else {
-            commandIndex = commandHistory.length;
-            userInput.value = "";
-        }
-        e.preventDefault();
+      if (commandIndex < commandHistory.length - 1) {
+        commandIndex++;
+        userInput.value = commandHistory[commandIndex];
+      } else {
+        commandIndex = commandHistory.length;
+        userInput.value = "";
+      }
+      e.preventDefault();
     }
-});
+  }
 
-// Função para processar o comando do usuário
-function processCommand(command) {
-    var output = "";
+  // Adiciona texto ao terminal
+  function appendToTerminal(text) {
+    terminal.innerText += text;
+  }
 
+  // Rola o terminal para o final
+  function scrollTerminal() {
+    terminal.scrollTop = terminal.scrollHeight;
+  }
+
+  // Função para processar o comando digitado pelo usuário
+  function processCommand(command) {
+    let output = "";
+    // Comandos de ajuda
     if (command === "help" || command === "?") {
-        output = "Você pode digitar: \n" +
-                 "'.calc' seguido por uma expressão matemática, exemplo: '.calc 1+2'.\n" +
-                 "'.filosofia' para uma frase filosófica aleatória.\n" +
-                 "'.anime' para obter o nome e o número de visualizações de um anime popular aleatório.\n" +
-                 "'.prog' para obter um dos erros mais comuns cometidos pelos desenvolvedores.\n" +
-                 "'.finance' para receber uma fórmula/indicador financeiro com uma breve explicação.";
-
-    } else if (command.startsWith(".calc")) {
-        var expression = command.slice(5);
-        try {
-            output = eval(expression);
-        } catch (err) {
-            output = "Erro ao processar a expressão matemática.";
-        }
-    } else if (command === ".filosofia") {
-        var quotes = [ /*... outras citações filosóficas ...*/,
+      output = `Você pode digitar:
+- .calc [expressão]: Calcula uma expressão matemática (ex.: .calc 1+2)
+- .filosofia: Exibe uma frase filosófica aleatória
+- .anime: Mostra o nome e as visualizações de um anime popular aleatório
+- .prog: Exibe um erro comum cometido por desenvolvedores
+- .finance: Mostra uma fórmula/indicador financeiro com explicação
+- .date: Exibe a data e hora atuais
+- .echo [mensagem]: Repete a mensagem digitada
+- .clear ou .cls: Limpa o terminal
+- .matrix: Inicia um efeito estilo Matrix
+- .hack: Exibe uma mensagem hacker`;
+    }
+    // Comando para cálculos
+    else if (command.startsWith(".calc")) {
+      const expression = command.slice(5).trim();
+      try {
+        output = eval(expression);
+      } catch (err) {
+        output = "Erro ao processar a expressão matemática.";
+      }
+    }
+    // Comando para frases filosóficas
+    else if (command === ".filosofia") {
+      const quotes = [
         "“Os fins justificam os meios.” - Maquiavel",
         "“A vida, se bem vivida, é longa.” - Sêneca",
         "“Só sei que nada sei.” - Sócrates",
@@ -107,7 +131,7 @@ function processCommand(command) {
         "“A existência precede a essência.” - Jean-Paul Sartre",
         "“No meio do inverno, aprendi finalmente que havia em mim um verão invencível.” - Albert Camus",
         "“Por que há ser ao invés de nada?” - Martin Heidegger",
-        "“A liberdade é a reconhecimento da necessidade.” - Friedrich Engels",
+        "“A liberdade é o reconhecimento da necessidade.” - Friedrich Engels",
         "“Não se pode entrar duas vezes no mesmo rio.” - Heráclito",
         "“Tenho apenas o sol e a lua como companhia constante.” - Diógenes",
         "“Não é da benevolência do açougueiro, do cervejeiro e do padeiro que esperamos o nosso jantar, mas da consideração que eles têm pelos próprios interesses.” - Adam Smith",
@@ -115,175 +139,197 @@ function processCommand(command) {
         "“O coração tem razões que a própria razão desconhece.” - Pascal",
         "“Melhor ser Sócrates insatisfeito do que um tolo satisfeito.” - John Stuart Mill",
         "“Da indústria dos livros depende a indústria do universo.” - Diderot",
-        "“A história do mundo é o progresso na consciência da liberdade.” - Georg Wilhelm Friedrich Hegel",
+        "“A história do mundo é o progresso na consciência da liberdade.” - Hegel",
         "“A vida oscila como um pêndulo, para frente e para trás, entre a dor e o tédio.” - Arthur Schopenhauer",
         "“Os limites da minha linguagem são os limites do meu mundo.” - Ludwig Wittgenstein",
         "“A razão é, e só deve ser, a escrava das paixões.” - David Hume",
         "“Ouse saber.” - Immanuel Kant",
-        "“Aquele que tem um porquê para viver pode suportar quase qualquer como.” - Friedrich Nietzsche",
-            
-            /*... Mais 40 citações de filósofos como Maquiavel, Sêneca etc ...*/
-        ];
-        var index = Math.floor(Math.random() * quotes.length);
-        output = quotes[index];
-    } else if (command === ".anime") {
-        var animes = [
-            {"nome": "Naruto", "views": 300000000},
-            {"nome": "One Piece", "views": 250000000},
-            {"nome": "Attack on Titan", "views": 200000000},
-            {"nome": "Bleach", "views": 150000000},
-            {"nome": "Dragon Ball", "views": 350000000},
-            {"nome": "Death Note", "views": 180000000},
-            {"nome": "Sword Art Online", "views": 140000000},
-            {"nome": "Fullmetal Alchemist: Brotherhood", "views": 130000000},
-            {"nome": "Hunter x Hunter", "views": 120000000},
-            {"nome": "My Hero Academia", "views": 110000000},
-            {"nome": "Fairy Tail", "views": 105000000},
-            {"nome": "Tokyo Ghoul", "views": 100000000},
-            {"nome": "Cowboy Bebop", "views": 90000000},
-            {"nome": "Jojo's Bizarre Adventure", "views": 80000000},
-            {"nome": "Demon Slayer: Kimetsu no Yaiba", "views": 200000000},
-            {"nome": "Code Geass", "views": 70000000},
-            {"nome": "Gintama", "views": 60000000},
-            {"nome": "Haikyuu", "views": 120000000},
-            {"nome": "Naruto: Shippuden", "views": 230000000},
-            {"nome": "Pokémon", "views": 300000000},
-            {"nome": "One Punch Man", "views": 190000000},
-            {"nome": "Neon Genesis Evangelion", "views": 65000000},
-            {"nome": "Psycho-Pass", "views": 75000000},
-            {"nome": "Yu-Gi-Oh", "views": 130000000},
-            {"nome": "Steins;Gate", "views": 70000000},
-            {"nome": "Inuyasha", "views": 100000000},
-            {"nome": "Doraemon", "views": 180000000},
-            {"nome": "Attack on Titan: Final Season", "views": 150000000},
-            {"nome": "Jujutsu Kaisen", "views": 140000000},
-            {"nome": "Mobile Suit Gundam", "views": 80000000},
-            {"nome": "Dragon Ball Z", "views": 290000000},
-            {"nome": "Ghost in the Shell", "views": 65000000},
-            {"nome": "Sailor Moon", "views": 120000000},
-            {"nome": "Nanatsu no Taizai", "views": 130000000},
-            {"nome": "Detective Conan", "views": 200000000},
-            {"nome": "Digimon", "views": 110000000},
-            {"nome": "Re:Zero", "views": 85000000},
-            {"nome": "Your Lie in April", "views": 75000000},
-            {"nome": "Boku no Pico", "views": 60000000},
-            {"nome": "Black Clover", "views": 110000000},
-            {"nome": "Shingeki no Kyojin", "views": 180000000},
-            {"nome": "Akame ga Kill!", "views": 70000000},
-            {"nome": "Boruto: Naruto Next Generations", "views": 130000000},
-            {"nome": "No Game No Life", "views": 90000000},
-            {"nome": "Angel Beats!", "views": 65000000},
-            {"nome": "Tokyo Revengers", "views": 120000000},
-            {"nome": "Clannad", "views": 50000000},
-            {"nome": "High School DxD", "views": 70000000},
-            {"nome": "Berserk", "views": 80000000},
-            {"nome": "Elfen Lied", "views": 60000000},
-
-            /* ... adicione todos os 50 animes ... */
-        ];
-        var index = Math.floor(Math.random() * animes.length);
-        output = animes[index].nome + " tem " + animes[index].views + " visualizações.";
-    } else if (command === ".prog") {
-        var erros = [
-            "Não comentar o código.",
-            "Ignorar os princípios do SOLID.",
-            "Não testar o código adequadamente.",
-            "Não tratar erros e exceções.",
-            "Uso excessivo de variáveis globais.",
-            "Não seguir convenções de nomenclatura.",
-            "Escrever código muito complexo e difícil de entender.",
-            "Não usar controle de versão.",
-            "Não reutilizar o código quando possível.",
-            "Esquecer de otimizar o código para melhor desempenho.",
-            "Não separar o código em funções ou métodos pequenos e claros.",
-            "Não validar ou desinfetar a entrada do usuário.",
-            "Não seguir os princípios de design responsivo em desenvolvimento web.",
-            "Ignorar a importância do UX/UI em aplicativos e sites.",
-            "Esquecer de liberar recursos após o uso (por exemplo, fechar conexões de banco de dados).",
-            "Codificar sem um plano ou estrutura clara em mente.",
-            "Não entender completamente a linguagem de programação que está sendo usada.",
-            "Uso excessivo de recursão, levando a desempenho ruim e possível estouro de pilha.",
-            "Assumir que o código sempre funcionará em todos os casos (não considerar casos extremos).",
-            "Não aprender sobre novas ferramentas, tecnologias e melhores práticas.",
-            "Não realizar revisões de código.",
-            "Escrever funções ou métodos longos, em vez de mantê-los curtos e focados.",
-            "Esquecer de fazer backups regulares do código.",
-            "Esquecer de usar ou atualizar documentação.",
-            "Não usar uma estrutura ou biblioteca quando isso poderia economizar tempo e esforço.",
-            "Ignorar a segurança e deixar o código vulnerável a ataques.",
-            "Não se comunicar efetivamente com a equipe ou com o cliente.",
-            "Ignorar a importância de um bom design de interface do usuário.",
-            "Esquecer de verificar se o código é compatível com diferentes plataformas ou navegadores.",
-            "Uso excessivo de bibliotecas e frameworks externos, o que pode tornar o código lento e pesado.",
-            "Ignorar a importância do SEO em desenvolvimento web.",
-            "Não se adaptar a novas mudanças ou requisitos do projeto.",
-            "Esquecer de lidar com caracteres especiais ou diferentes codificações de caracteres.",
-            "Ignorar a importância de testes unitários e testes de integração.",
-            "Esquecer de atualizar as dependências do projeto.",
-            "Não refatorar o código regularmente.",
-            "Esquecer de usar um ambiente de desenvolvimento isolado (como um contêiner Docker).",
-            "Hardcoding de valores que podem mudar no futuro.",
-            "Não acompanhar as alterações na especificação do projeto.",
-            "Não escrever testes para o código.",
-            "Não usar constantes para valores que não mudam.",
-            "Não considerar a experiência do usuário ao projetar interfaces de usuário.",
-            "Esquecer de realizar testes de carga e estresse em aplicativos web.",
-            "Ignorar as mensagens de erro ou avisos do compilador.",
-            "Não usar um debugger ao tentar resolver problemas de código.",
-            "Assumir que a entrada do usuário sempre será o que você espera.",
-            "Não seguir os princípios DRY (Don't Repeat Yourself).",
-            "Não seguir os princípios KISS (Keep It Simple, Stupid).",
-            "Esquecer de realizar testes de regressão ao modificar o código.",
-            "Escrever código sem considerar a acessibilidade para todos os usuários."
-            /* ... adicione todos os 10 erros ... */
-        ];
-        var index = Math.floor(Math.random() * erros.length);
-        output = erros[index];
-    } else if (command === ".finance") {
-        var formulas = [
-            {"nome": "Operating Profit Margin", "formula": "Lucro operacional / Receita total", "descricao": "Mede a eficiência operacional"},
-            {"nome": "Return on Sales (ROS)", "formula": "Lucro líquido / Receita de vendas", "descricao": "Lucro por venda"},
-            {"nome": "Return on Capital Employed (ROCE)", "formula": "EBIT / (Total de ativos - Passivos circulantes)", "descricao": "Lucro por capital utilizado"},
-            {"nome": "Debt Ratio", "formula": "Dívida total / Ativos totais", "descricao": "Parte da dívida no financiamento de ativos"},
-            {"nome": "Asset Turnover", "formula": "Receitas / Ativos médios", "descricao": "Eficiência do uso de ativos"},
-            {"nome": "Book Value per Share", "formula": "Patrimônio líquido / Total de ações", "descricao": "Valor contábil por ação"},
-            {"nome": "Interest Coverage", "formula": "EBIT / Despesas de juros", "descricao": "Habilidade de pagar juros"},
-            {"nome": "Accounts Receivable Turnover", "formula": "Vendas a crédito / Contas a receber médias", "descricao": "Eficiência na cobrança de crédito"},
-            {"nome": "Days Sales Outstanding", "formula": "365 / Recebíveis", "descricao": "Tempo médio de recebimento de vendas"},
-            {"nome": "Accounts Payable Turnover", "formula": "COGS / Contas a pagar médias", "descricao": "Eficiência no pagamento a fornecedores"},
-            {"nome": "Days Payable Outstanding", "formula": "365 / Payables Turnover", "descricao": "Tempo médio de pagamento a fornecedores"},
-            {"nome": "Cash Conversion Cycle", "formula": "Dias de estoque + Dias de recebíveis - Dias de contas a pagar", "descricao": "Tempo para converter investimentos em dinheiro"},
-            {"nome": "Fixed Asset Turnover", "formula": "Vendas / Ativos fixos médios", "descricao": "Eficiência do uso de ativos fixos"},
-            {"nome": "Equity Turnover", "formula": "Vendas / Patrimônio líquido médio", "descricao": "Eficiência do uso do patrimônio"},
-            {"nome": "Net Working Capital", "formula": "Ativos circulantes - Passivos circulantes", "descricao": "Liquidez de curto prazo"},
-            {"nome": "Debt to Income", "formula": "Dívida total / Renda total", "descricao": "Parte da renda que vai para a dívida"},
-            {"nome": "Earnings Yield", "formula": "EPS / Preço da ação", "descricao": "Retorno de investimento"},
-            {"nome": "Free Cash Flow per Share", "formula": "Free Cash Flow / Total de ações", "descricao": "Dinheiro disponível por ação"},
-            {"nome": "Operating Cash Flow Ratio", "formula": "Cash Flow Operacional / Passivos circulantes", "descricao": "Habilidade de pagar passivos"},
-            {"nome": "Price to Sales", "formula": "Preço da ação / Receita por ação", "descricao": "Valor da empresa em relação à receita"},
-            {"nome": "Price to Book", "formula": "Preço da ação / Valor contábil por ação", "descricao": "Valor de mercado em relação ao valor contábil"},
-            {"nome": "Payout Ratio", "formula": "Dividendos / Lucro líquido", "descricao": "Parte do lucro pago como dividendo"},
-            {"nome": "Current Cash Debt Coverage", "formula": "Cash Flow Operacional / Dívida total", "descricao": "Habilidade de pagar dívida com o fluxo de caixa"},
-            {"nome": "Cash Debt Coverage", "formula": "Cash Flow Operacional / Dívida total", "descricao": "Habilidade de pagar dívida com o fluxo de caixa"},
-            {"nome": "Total Debt Ratio", "formula": "(Ativos totais - Patrimônio líquido) / Ativos totais", "descricao": "Parte do financiamento que é dívida"},
-            {"nome": "Times Interest Earned", "formula": "Lucro antes dos juros e impostos / Despesas de juros", "descricao": "Habilidade de cumprir obrigações de juros"},
-            {"nome": "Cash Ratio", "formula": "(Caixa + Equivalentes de caixa) / Passivos circulantes", "descricao": "Liquidez imediata"},
-            {"nome": "Operating Cycle", "formula": "Dias de estoque + Dias de recebíveis", "descricao": "Tempo para vender e receber pagamento"},
-            {"nome": "Return on Total Assets", "formula": "Lucro líquido / Ativos totais", "descricao": "Eficiência do uso de ativos"},
-            {"nome": "Dividend Yield", "formula": "Dividendos por ação / Preço da ação", "descricao": "Retorno de dividendos"},
-            {"nome": "Economic Value Added", "formula": "NOPAT - (Capital investido * WACC)", "descricao": "Valor econômico criado"},
-            {"nome": "Economic Profit", "formula": "NOPAT - (Capital investido * Custo de capital)", "descricao": "Lucro econômico"},
-            {"nome": "Cash Return on Capital Invested", "formula": "Cash Flow Operacional / Capital investido", "descricao": "Retorno do fluxo de caixa para capital investido"},
-            /* ... adicione todas as 80 fórmulas ... */
-        ];
-        var index = Math.floor(Math.random() * formulas.length);
-        output = formulas[index].formula + ": " + formulas[index].descricao;
-    } else {
-        output = "Comando desconhecido: '" + command + "'. Digite 'help' ou '?' para obter ajuda.";
+        "“Aquele que tem um porquê para viver pode suportar quase qualquer como.” - Friedrich Nietzsche"
+      ];
+      const index = Math.floor(Math.random() * quotes.length);
+      output = quotes[index];
     }
-
+    // Comando para exibir informações sobre um anime
+    else if (command === ".anime") {
+      const animes = [
+        {"nome": "Naruto", "views": 300000000},
+        {"nome": "One Piece", "views": 250000000},
+        {"nome": "Attack on Titan", "views": 200000000},
+        {"nome": "Bleach", "views": 150000000},
+        {"nome": "Dragon Ball", "views": 350000000},
+        {"nome": "Death Note", "views": 180000000},
+        {"nome": "Sword Art Online", "views": 140000000},
+        {"nome": "Fullmetal Alchemist: Brotherhood", "views": 130000000},
+        {"nome": "Hunter x Hunter", "views": 120000000},
+        {"nome": "My Hero Academia", "views": 110000000},
+        {"nome": "Fairy Tail", "views": 105000000},
+        {"nome": "Tokyo Ghoul", "views": 100000000},
+        {"nome": "Cowboy Bebop", "views": 90000000},
+        {"nome": "Jojo's Bizarre Adventure", "views": 80000000},
+        {"nome": "Demon Slayer: Kimetsu no Yaiba", "views": 200000000},
+        {"nome": "Code Geass", "views": 70000000},
+        {"nome": "Gintama", "views": 60000000},
+        {"nome": "Haikyuu", "views": 120000000},
+        {"nome": "Naruto: Shippuden", "views": 230000000},
+        {"nome": "Pokémon", "views": 300000000},
+        {"nome": "One Punch Man", "views": 190000000},
+        {"nome": "Neon Genesis Evangelion", "views": 65000000},
+        {"nome": "Psycho-Pass", "views": 75000000},
+        {"nome": "Yu-Gi-Oh", "views": 130000000},
+        {"nome": "Steins;Gate", "views": 70000000},
+        {"nome": "Inuyasha", "views": 100000000},
+        {"nome": "Doraemon", "views": 180000000},
+        {"nome": "Attack on Titan: Final Season", "views": 150000000},
+        {"nome": "Jujutsu Kaisen", "views": 140000000},
+        {"nome": "Mobile Suit Gundam", "views": 80000000},
+        {"nome": "Dragon Ball Z", "views": 290000000},
+        {"nome": "Ghost in the Shell", "views": 65000000},
+        {"nome": "Sailor Moon", "views": 120000000},
+        {"nome": "Nanatsu no Taizai", "views": 130000000},
+        {"nome": "Detective Conan", "views": 200000000},
+        {"nome": "Digimon", "views": 110000000},
+        {"nome": "Re:Zero", "views": 85000000},
+        {"nome": "Your Lie in April", "views": 75000000},
+        {"nome": "Boku no Pico", "views": 60000000},
+        {"nome": "Black Clover", "views": 110000000},
+        {"nome": "Shingeki no Kyojin", "views": 180000000},
+        {"nome": "Akame ga Kill!", "views": 70000000},
+        {"nome": "Boruto: Naruto Next Generations", "views": 130000000},
+        {"nome": "No Game No Life", "views": 90000000},
+        {"nome": "Angel Beats!", "views": 65000000},
+        {"nome": "Tokyo Revengers", "views": 120000000},
+        {"nome": "Clannad", "views": 50000000},
+        {"nome": "High School DxD", "views": 70000000},
+        {"nome": "Berserk", "views": 80000000},
+        {"nome": "Elfen Lied", "views": 60000000}
+      ];
+      const index = Math.floor(Math.random() * animes.length);
+      output = `${animes[index].nome} tem ${animes[index].views} visualizações.`;
+    }
+    // Comando para exibir um erro comum de programação
+    else if (command === ".prog") {
+      const errors = [
+        "Não comentar o código.",
+        "Ignorar os princípios do SOLID.",
+        "Não testar o código adequadamente.",
+        "Não tratar erros e exceções.",
+        "Uso excessivo de variáveis globais.",
+        "Não seguir convenções de nomenclatura.",
+        "Escrever código muito complexo e difícil de entender.",
+        "Não usar controle de versão.",
+        "Não reutilizar o código quando possível.",
+        "Esquecer de otimizar o código para melhor desempenho.",
+        "Não separar o código em funções ou métodos pequenos e claros.",
+        "Não validar ou desinfetar a entrada do usuário.",
+        "Não seguir os princípios de design responsivo.",
+        "Ignorar a importância do UX/UI.",
+        "Esquecer de liberar recursos após o uso (ex.: fechar conexões de banco de dados).",
+        "Codificar sem um plano claro.",
+        "Não entender completamente a linguagem de programação.",
+        "Uso excessivo de recursão causando estouro de pilha.",
+        "Assumir que o código sempre funcionará sem testar casos extremos.",
+        "Não atualizar dependências e documentação.",
+        "Esquecer de realizar backups e revisões de código."
+      ];
+      const index = Math.floor(Math.random() * errors.length);
+      output = errors[index];
+    }
+    // Comando para exibir uma fórmula financeira
+    else if (command === ".finance") {
+      const formulas = [
+        {"nome": "Operating Profit Margin", "formula": "Lucro operacional / Receita total", "descricao": "Mede a eficiência operacional"},
+        {"nome": "Return on Sales (ROS)", "formula": "Lucro líquido / Receita de vendas", "descricao": "Lucro por venda"},
+        {"nome": "Return on Capital Employed (ROCE)", "formula": "EBIT / (Total de ativos - Passivos circulantes)", "descricao": "Lucro por capital utilizado"},
+        {"nome": "Debt Ratio", "formula": "Dívida total / Ativos totais", "descricao": "Parte da dívida no financiamento de ativos"},
+        {"nome": "Asset Turnover", "formula": "Receitas / Ativos médios", "descricao": "Eficiência do uso de ativos"},
+        {"nome": "Book Value per Share", "formula": "Patrimônio líquido / Total de ações", "descricao": "Valor contábil por ação"},
+        {"nome": "Interest Coverage", "formula": "EBIT / Despesas de juros", "descricao": "Habilidade de pagar juros"},
+        {"nome": "Dividend Yield", "formula": "Dividendos por ação / Preço da ação", "descricao": "Retorno de dividendos"}
+      ];
+      const index = Math.floor(Math.random() * formulas.length);
+      output = `${formulas[index].formula}: ${formulas[index].descricao}`;
+    }
+    // Comando para limpar o terminal
+    else if (command === ".clear" || command === ".cls") {
+      terminal.innerText = "";
+      output = "Terminal limpo.";
+    }
+    // Comando para exibir a data e hora atuais
+    else if (command === ".date") {
+      output = new Date().toLocaleString();
+    }
+    // Comando para ecoar a mensagem digitada
+    else if (command.startsWith(".echo")) {
+      output = command.slice(5).trim();
+      if (!output) {
+        output = "Nenhuma mensagem para ecoar.";
+      }
+    }
+    // Comando para iniciar o efeito Matrix
+    else if (command === ".matrix") {
+      matrixEffect();
+      output = "Efeito Matrix iniciado...";
+    }
+    // Comando para exibir uma mensagem com referências hacker
+    else if (command === ".hack") {
+      const hackerMessages = [
+        "Access granted. Welcome, hacker.",
+        "Decrypting data... Success.",
+        "You're in. Now, let's cause some chaos.",
+        "I know what you did last summer.",
+        "The cake is a lie."
+      ];
+      const index = Math.floor(Math.random() * hackerMessages.length);
+      output = hackerMessages[index];
+    }
+    // Comando para simular um reboot do sistema
+    else if (command === ".reboot") {
+      output = "Rebooting system...\nSystem rebooted successfully.";
+    }
+    // Comando para exibir texto glitchado
+    else if (command === ".glitch") {
+      output = generateGlitchText(30);
+    }
+    // Comando desconhecido
+    else {
+      output = `Comando desconhecido: '${command}'. Digite 'help' ou '?' para obter ajuda.`;
+    }
     return output;
-}
+  }
 
-// Mensagem de boas vindas
-terminal.innerText = "Bem-vindo ao terminal Simulado v.3.0.1!\nDigite 'help' ou '?' para obter ajuda.";
+  // Função para gerar uma linha de código binário (usada no efeito Matrix)
+  function generateBinaryLine() {
+    let line = "";
+    for (let i = 0; i < 40; i++) {
+      line += Math.random() < 0.5 ? "0" : "1";
+    }
+    return line;
+  }
+
+  // Função que inicia o efeito Matrix (exibe linhas de código binário)
+  function matrixEffect() {
+    let count = 0;
+    const interval = setInterval(() => {
+      appendToTerminal("\n" + generateBinaryLine());
+      count++;
+      if (count >= 20) {
+        clearInterval(interval);
+        appendToTerminal("\nEfeito Matrix concluído.");
+      }
+      scrollTerminal();
+    }, 250);
+  }
+
+  // Função para gerar texto glitchado aleatório
+  function generateGlitchText(length) {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+{}[]|:;<>,.?/~`";
+    let result = "";
+    for (let i = 0; i < length; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+  }
+
+  // Exibe mensagem de boas-vindas inicial no terminal
+  terminal.innerText = "Bem-vindo ao terminal Simulado v.3.0.1!\nDigite 'help' ou '?' para obter ajuda.";
+})();
