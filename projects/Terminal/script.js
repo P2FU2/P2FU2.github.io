@@ -27,7 +27,7 @@ Menu de Comandos:
   .hack               - Exibe uma mensagem hacker
   .glitch             - Exibe texto glitchado
   .reboot             - Simula um reboot do sistema
-  .historia           - Modo História: apresenta o conto completo
+  .historia           - Ativa o modo História (conta a narrativa completa)
   .clear ou .cls      - Limpa o terminal
   .menu               - Exibe este menu novamente
 `;
@@ -48,7 +48,7 @@ Eu era a última esperança da humanidade. Aperte qualquer tecla`;
   let commandHistory = [];
   let commandIndex = 0;
 
-  // Exibe o logo e o menu no carregamento do terminal
+  // Exibe o logo ASCII e o menu na inicialização
   function displayStartup() {
     terminal.innerText = asciiLogo + "\n" + menuString;
     scrollTerminal();
@@ -381,7 +381,7 @@ Eu era a última esperança da humanidade. Aperte qualquer tecla`;
     return result;
   }
 
-  // Exibe o logo e o menu ao iniciar o terminal
+  // Exibe o logo ASCII e o menu na inicialização
   displayStartup();
   startTerminal();
 })();
