@@ -62,19 +62,19 @@ Eu era a última esperança da humanidade. Aperte qualquer tecla`;
   // Inicia o modo história utilizando Typed.js
   function displayStory() {
     // Limpa o terminal para exibir somente a história
-    terminal.innerText = "";
-    new Typed('#terminal', {
-      strings: story.split('\n'),
-      typeSpeed: 30,
-      backSpeed: 0,
-      startDelay: 0,
-      loop: false,
-      showCursor: false,
-      onComplete: function() {
-        appendToTerminal("\n\n[Fim do Modo História] Digite '.menu' para voltar ao menu principal.");
-        scrollTerminal();
-      }
-    });
+   // terminal.innerText = "";
+   // new Typed('#terminal', {
+   //   strings: story.split('\n'),
+   //   typeSpeed: 30,
+   //   backSpeed: 0,
+   //   startDelay: 0,
+   //   loop: false,
+   //   showCursor: false,
+   //   onComplete: function() {
+   //     appendToTerminal("\n\n[Fim do Modo História] Digite '.menu' para voltar ao menu principal.");
+   //     scrollTerminal();
+   //   }
+   // });
   }
 
   // Inicializa a escuta dos comandos do usuário
