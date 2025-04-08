@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pedro Neves | > Economist and Software Engineer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@500&family=Inter:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #00ff88;
+      --accent: #4fffcd;
+      --text: #ffffff;
+      --muted: #ffffff;
+      --bg: #0c0c0c;
+      --panel: #1a1a1a;
+    }
+    body.light {
+      --bg: #ffffff;
+      --text: #c14141;
+      --panel: #ffffff;
+      --primary: #c6d400;
+      --accent: #4fffcd;
+      --muted: #c6d400;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      cursor: url('https://cdn-icons-png.flaticon.com/512/32/32355.png'), auto;
+    }
+    canvas.matrix {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .controls {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      z-index: 100;
+    }
+    .controls button {
+      background: #222;
+      border: 1px solid #444;
+      border-radius: 0px;
+      padding: 0.5rem 1rem;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      color: #ffffff;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .controls button:hover {
+      background-color: var(--primary);
+      color: #000;
+    }
+    header {
+      text-align: center;
+      padding: 4rem 1rem 2rem;
+      position: relative;
+      z-index: 10;
+    }
+    .profile-img {
+      width: 400px;
+      height: 400px;
+      margin: 0 auto;
+      background: url('https://i.ibb.co/V032JTCn/Perfil.jpg') center/contain no-repeat;
+      background-color: transparent;
+      position: relative;
+      border-radius: 50%;
+      transition: all 0.4s ease;
+      z-index: 1;
+    }
+    .shape-circle { border-radius: 50%; }
+    .shape-square { border-radius: 0%; }
+    .shape-rectangle { width: 400px; height: 300px; border-radius: 15px; }
+    .shape-monitor {
+      clip-path: polygon(0 0, 100% 0, 100% 85%, 65% 85%, 60% 100%, 40% 100%, 35% 85%, 0 85%);
+      border-radius: 0;
+    }
+    h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      margin-top: 1.5rem;
+      position: relative;
+      z-index: 2;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: background-position 0.5s;
+      background-size: 200% auto;
+    }
+    h1:hover {
+      background-position: right center;
+    }
+    .subtitle-text {
+      font-size: 1.3rem;
+      font-family: 'Fira Code', monospace;
+      margin-top: 0.5rem;
+    }
+    .terminal-cursor {
+      animation: blink 2s infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    .description {
+      max-width: 600px;
+      margin: 1rem auto;
+      font-size: 0.95rem;
+      color: var(--muted);
+      font-family: 'Fira Code', monospace;
+      min-height: 1.5em;
+    }
+    .stats {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    .stat {
+      background-color: var(--panel);
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      min-width: 140px;
+    }
+    .stat h3 {
+      font-size: 1.8rem;
+      color: var(--primary);
+      font-family: 'Fira Code', monospace;
+    }
+    .plus-sign {
+      display: inline-block;
+      animation: rotate 4s linear infinite;
+    }
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .stat p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+    }
+    .btn-group a {
+      font-family: 'Fira Code', monospace;
+      padding: 0.8rem 1.4rem;
+      background: #fff;
+      color: #000;
+      text-decoration: none;
+      border-radius: 0px;
+      border: 2px solid #000;
+      transition: all 0.3s ease;
+    }
+    .btn-group a:hover {
+      transform: translateY(-3px);
+      border-color: var(--primary);
+    }
+    .terminal-chat {
+      max-width: 1000px;
+      max-height: 1000px;
+      margin: 1rem auto;
+      background: #0e0e0e;
+      padding: 3rem;
+      border-radius: 8px;
+      font-family: 'Fira Code', monospace;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    .terminal-line {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .terminal-line::before {
+      content: "> ";
+      color: var(--primary);
+    }
+    .terminal-input {
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-family: 'Fira Code', monospace;
+      width: 100%;
+      outline: none;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <canvas class="matrix"></canvas>
+  <div class="controls">
+    <button onclick="document.body.classList.toggle('light')">Theme</button>
+    <button onclick="cycleShape()">Shape</button>
+    <button onclick="toggleImage()">Image</button>
+    <button onclick="toggleMusic()">Music</button>
+  </div>
+  <header>
+    <div class="profile-img shape-circle" id="profileImg"></div>
+    <h1>Pedro Neves</h1>
+    <div class="subtitle-text">> Economist and Software Engineer<span class="terminal-cursor">_</span></div>
+    <p class="description" id="typingDesc"></p>
+
+    <div class="stats" style="margin: 4rem 0;">
+      <div class="stat"><h3 id="years">6<span class="plus-sign">+</span></h3><p>Years of experience</p></div>
+      <div class="stat"><h3 id="projects">60<span class="plus-sign">+</span></h3><p>Projects Completed</p></div>
+      <div class="stat"><h3 id="opensource">12<span class="plus-sign">+</span></h3><p>OpenSource Libraries</p></div>
+      <div class="stat"><h3 id="customers">50<span class="plus-sign">+</span></h3><p>Happy Customers</p></div>
+    </div>
+
+    <div class="btn-group" style="margin: 5rem 0;">
+      <a href="https://P2FU2.github.io/html/cv.html">Download Resume</a>
+      <a href="https://P2FU2.github.io/html/analysis.html">Go to Analysis</a>
+      <a href="projects.html">Projects</a>
+    </div>
+
+    <div class="terminal-chat">
+      <div class="terminal-line">Type a command:</div>
+      <input class="terminal-input" type="text" id="terminalInput" placeholder="e.g. resume, projects, analysis" onkeypress="handleTerminal(event)" />
+    </div>
+  </header>
+
+  <audio id="musicPlayer" src="assets/background-music.mp3" type="audio/mp3" preload="auto" loop></audio>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>
+    const music = document.getElementById('musicPlayer');
+    let playing = false;
+    
+    // Função principal para controlar a música
+    async function toggleMusic() {
+      try {
+        if (playing) {
+          music.pause();
+          playing = false;
+          const musicButton = document.querySelector('button[onclick="toggleMusic()"]');
+          if (musicButton) musicButton.textContent = 'Play Music';
+          return;
+        }
+
+        // Tenta reproduzir
+        try {
+          await music.play();
+          playing = true;
+          const musicButton = document.querySelector('button[onclick="toggleMusic()"]');
+          if (musicButton) musicButton.textContent = 'Pause Music';
+          
+          // Configura o volume gradualmente
+          music.volume = 0.5; // Começa com volume médio
+        } catch (playError) {
+          console.error("Erro específico ao tocar:", playError);
+          if (playError.name === "NotAllowedError") {
+            alert("O navegador bloqueou a reprodução automática. Por favor, clique novamente para tocar.");
+          } else if (playError.name === "NotFoundError") {
+            alert("Arquivo de música não encontrado. Verifique se o arquivo existe em assets/background-music.mp3");
+          } else {
+            alert(`Erro ao tocar música: ${playError.message}`);
+          }
+        }
+
+      } catch (error) {
+        console.error("Erro geral:", error);
+        alert("Ocorreu um erro inesperado. Por favor, verifique o console para mais detalhes.");
+      }
+    }
+
+    const shapes = ['shape-circle', 'shape-square', 'shape-rectangle', 'shape-monitor'];
+    let currentShape = 0;
+    function cycleShape() {
+      const img = document.getElementById('profileImg');
+      shapes.forEach(shape => img.classList.remove(shape));
+      currentShape = (currentShape + 1) % shapes.length;
+      img.classList.add(shapes[currentShape]);
+    }
+
+    let showingAlt = false;
+    function toggleImage() {
+      const img = document.getElementById('profileImg');
+      img.style.backgroundImage = showingAlt
+        ? "url('https://i.ibb.co/V032JTCn/Perfil.jpg')"
+        : "url('https://i.ibb.co/bjqDPVFg/perfil3.png')";
+      showingAlt = !showingAlt;
+    }
+
+    function animateType(id, text, delay) {
+      let el = document.getElementById(id);
+      let i = 0;
+      const interval = setInterval(() => {
+        el.textContent += text[i];
+        i++;
+        if (i >= text.length) clearInterval(interval);
+      }, delay);
+    }
+
+    function handleTerminal(e) {
+      if (e.key === 'Enter') {
+        const cmd = e.target.value.toLowerCase();
+        if (cmd.includes('resume')) window.location.href = 'https://P2FU2.github.io/html/cv.html';
+        else if (cmd.includes('project')) window.location.href = 'projects.html';
+        else if (cmd.includes('analysis')) window.location.href = 'https://P2FU2.github.io/html/analysis.html';
+        else alert('Unknown command');
+        e.target.value = '';
+      }
+    }
+
+    window.onload = () => {
+      animateType("typingDesc", "Focused on building meaningful digital solutions that solve real problems using data, design and logic.", 20);
+      document.getElementById("years").innerHTML = '6<span class="plus-sign">+</span>';
+      document.getElementById("projects").innerHTML = '60<span class="plus-sign">+</span>';
+      document.getElementById("opensource").innerHTML = '12<span class="plus-sign">+</span>';
+      document.getElementById("customers").innerHTML = '50<span class="plus-sign">+</span>';
+
+      const canvas = document.querySelector("canvas.matrix");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const letters = "アカサタナハマヤラワ0123456789ΓΩπΣΨЖΩФ@#$%&";
+      const fontSize = 16;
+      const columns = canvas.width / fontSize;
+      const drops = Array(Math.floor(columns)).fill(1);
+
+      function drawMatrix() {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#00ff88";
+        ctx.font = fontSize + "px monospace";
+        for (let i = 0; i < drops.length; i++) {
+          const text = letters[Math.floor(Math.random() * letters.length)];
+          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+          drops[i]++;
+        }
+      }
+      setInterval(drawMatrix, 33);
+    }
+  </script>
+</body>
+</html>
