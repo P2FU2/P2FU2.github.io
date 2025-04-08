@@ -10,8 +10,39 @@
     /* Você pode manter estes estilos no cv.css */
     body { font-family: Arial, sans-serif; background: #f9f9f9; color: #333; margin: 0; padding: 0; }
     .container { max-width: 800px; margin: 20px auto; background: #fff; padding: 20px 40px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    header {
+      position: relative;
+      z-index: 10;
+      padding: 2rem 0;
+      text-align: center;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+    }
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-family: 'Fira Code', monospace;
+      transition: color 0.3s;
+    }
+    nav a:hover {
+      color: var(--primary);
+    }
   </style>
 </head>
+
+  <!-- Cabeçalho -->
+  <header>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="cv.html">CV</a>
+      <a href="analysis.html">Analysis</a>
+    </nav>
+  </header>
+  
 <body>
   <div class="container">
     <!-- Cabeçalho -->
