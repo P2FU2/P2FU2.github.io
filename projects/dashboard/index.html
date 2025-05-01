@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Pessoal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>🌞 Meu Dashboard</h1>
+    <button id="toggle-theme">Alternar Tema</button>
+  </header>
+
+  <main>
+    <section class="quote-box">
+      <h2>Frase do Dia</h2>
+      <p id="quote">Clique abaixo para gerar uma nova frase.</p>
+      <button onclick="newQuote()">Nova Frase</button>
+    </section>
+
+    <section class="todo-box">
+      <h2>Minhas Tarefas</h2>
+      <input type="text" id="todo-input" placeholder="Digite uma nova tarefa...">
+      <button onclick="addTodo()">Adicionar</button>
+      <ul id="todo-list"></ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>Feito com 💛 por você.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
