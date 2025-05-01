@@ -3,32 +3,151 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dashboard pessoal com lista de tarefas e frases motivacionais">
+  <meta name="theme-color" content="#2563eb">
   <title>Dashboard Pessoal</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
   <header>
-    <h1>🌞 Meu Dashboard</h1>
-    <button id="toggle-theme">Alternar Tema</button>
+    <h1><i class="fas fa-chart-line"></i> Meu Dashboard</h1>
+    <div class="clock-container">
+      <div id="clock"></div>
+      <div id="date"></div>
+    </div>
+    <button id="toggle-theme">
+      <i class="fas fa-moon"></i>
+      <span>Alternar Tema</span>
+    </button>
   </header>
 
   <main>
-    <section class="quote-box">
-      <h2>Frase do Dia</h2>
-      <p id="quote">Clique abaixo para gerar uma nova frase.</p>
-      <button onclick="newQuote()">Nova Frase</button>
-    </section>
+    <div class="dashboard-grid">
+      <div class="left-column">
+        <section class="quote-box">
+          <h2><i class="fas fa-quote-left"></i> Frase do Dia</h2>
+          <p id="quote">Clique abaixo para gerar uma nova frase motivacional.</p>
+          <button onclick="newQuote()">
+            <i class="fas fa-sync-alt"></i>
+            Nova Frase
+          </button>
+        </section>
 
-    <section class="todo-box">
-      <h2>Minhas Tarefas</h2>
-      <input type="text" id="todo-input" placeholder="Digite uma nova tarefa...">
-      <button onclick="addTodo()">Adicionar</button>
-      <ul id="todo-list"></ul>
-    </section>
+        <section class="todo-box">
+          <h2><i class="fas fa-tasks"></i> Minhas Tarefas</h2>
+          <div class="todo-input-container">
+            <input type="text" id="todo-input" placeholder="Digite uma nova tarefa...">
+            <button onclick="addTodo()">
+              <i class="fas fa-plus"></i>
+              Adicionar
+            </button>
+          </div>
+          <ul id="todo-list"></ul>
+          <div class="export-section">
+            <button onclick="exportTasks()" class="export-btn">
+              <i class="fas fa-file-export"></i>
+              Exportar Tarefas
+            </button>
+          </div>
+        </section>
+
+        <section class="stats-box">
+          <h2><i class="fas fa-chart-pie"></i> Estatísticas</h2>
+          <div class="stats-container">
+            <div class="stat-item">
+              <i class="fas fa-check-circle"></i>
+              <span id="completed-tasks">0</span>
+              <p>Tarefas Concluídas</p>
+            </div>
+            <div class="stat-item">
+              <i class="fas fa-clock"></i>
+              <span id="pending-tasks">0</span>
+              <p>Tarefas Pendentes</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="right-column">
+        <section class="pomodoro-box">
+          <h2><i class="fas fa-hourglass-half"></i> Pomodoro</h2>
+          <div class="pomodoro-timer">
+            <div class="timer-display">
+              <span id="minutes">25</span>:<span id="seconds">00</span>
+            </div>
+            <div class="timer-controls">
+              <button id="start-pomodoro" onclick="startPomodoro()">
+                <i class="fas fa-play"></i>
+                Iniciar
+              </button>
+              <button id="reset-pomodoro" onclick="resetPomodoro()">
+                <i class="fas fa-redo"></i>
+                Resetar
+              </button>
+            </div>
+            <div class="pomodoro-modes">
+              <button class="mode-btn active" data-mode="focus" onclick="setPomodoroMode('focus')">
+                Foco (25min)
+              </button>
+              <button class="mode-btn" data-mode="short-break" onclick="setPomodoroMode('short-break')">
+                Pausa Curta (5min)
+              </button>
+              <button class="mode-btn" data-mode="long-break" onclick="setPomodoroMode('long-break')">
+                Pausa Longa (15min)
+              </button>
+            </div>
+          </div>
+          <div class="pomodoro-stats">
+            <h3>Estatísticas do Dia</h3>
+            <div class="stats-grid">
+              <div class="stat-item">
+                <i class="fas fa-check-circle"></i>
+                <span id="completed-pomodoros">0</span>
+                <p>Pomodoros</p>
+              </div>
+              <div class="stat-item">
+                <i class="fas fa-clock"></i>
+                <span id="total-focus-time">0</span>
+                <p>Minutos em Foco</p>
+              </div>
+              <div class="stat-item">
+                <i class="fas fa-coffee"></i>
+                <span id="total-break-time">0</span>
+                <p>Minutos de Pausa</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="notes-box">
+          <div class="notes-header">
+            <h2><i class="fas fa-sticky-note"></i> Bloco de Notas</h2>
+          </div>
+          <div class="notes-toolbar">
+            <button class="new-note-btn" onclick="createNewNote()">
+              <i class="fas fa-plus"></i>
+              Nova Nota
+            </button>
+            <div class="color-picker">
+              <button class="color-btn" style="background-color: #ffffff" data-color="#ffffff"></button>
+              <button class="color-btn" style="background-color: #fef3c7" data-color="#fef3c7"></button>
+              <button class="color-btn" style="background-color: #d1fae5" data-color="#d1fae5"></button>
+              <button class="color-btn" style="background-color: #dbeafe" data-color="#dbeafe"></button>
+              <button class="color-btn" style="background-color: #ede9fe" data-color="#ede9fe"></button>
+              <button class="color-btn" style="background-color: #fce7f3" data-color="#fce7f3"></button>
+            </div>
+          </div>
+          <div id="notes-container"></div>
+        </section>
+      </div>
+    </div>
   </main>
 
   <footer>
-    <p>Feito com 💛 por você.</p>
+    <p>Feito com <i class="fas fa-heart"></i> por você</p>
+    <p class="date" id="current-date"></p>
   </footer>
 
   <script src="script.js"></script>
