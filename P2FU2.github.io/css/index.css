@@ -1,0 +1,151 @@
+/* ===== Estilos Globais ===== */
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: var(--secondary-color, #eee);
+  color: #333;
+  line-height: 1.7;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8%;
+}
+
+/* ===== Destaques ===== */
+.highlight {
+  color: #ff5e00;
+  font-weight: 600;
+}
+
+/* ===== Títulos ===== */
+h1, h2, h3 {
+  color: #444;
+  margin-bottom: 20px;
+  margin-left: 20px;
+}
+
+/* ===== Separadores ===== */
+hr {
+  margin: 20px 0;
+  border: none;
+  border-top: 1px solid #eee;
+}
+
+/* ===== Animação da Imagem ===== */
+@keyframes imageGrow {
+  from {
+    width: 50px;
+  }
+  to {
+    width: 300px;
+  }
+}
+
+/* ===== Estilos Específicos para a Imagem ===== */
+img[src="/images/me.jpeg"] {
+  display: block;
+  margin: auto;
+  width: 300px;
+  animation: imageGrow 2s forwards;
+}
+
+/* ===== Seção Home ===== */
+.home {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
+
+/* ===== Formas (Shapes) ===== */
+.img-circle {
+  border-radius: 50%;
+}
+
+.img-square {
+  border-radius: 10px;
+}
+
+.img-flag {
+  clip-path: polygon(0% 0%, 100% 0%, 80% 50%, 100% 100%, 0% 100%);
+}
+
+.img-triangle {
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+/* ===== Botão de Alternância ===== */
+#toggleShape {
+  background-color: #ff5e00;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-top: 20px;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+#toggleShape:active {
+  transform: scale(0.9);
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ===== Estilos Gerais para Conteúdo ===== */
+main {
+  margin-top: 10px;
+}
+
+section {
+  padding: 10px;
+}
+
+h1 {
+  font-size: 2em;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 1em;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: justify;
+  padding: 8px;
+}
+
+.signature {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* ===== Responsividade ===== */
+@media (min-width: 768px) {
+  body {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 1824px) {
+  body {
+    font-size: 22px;
+  }
+}

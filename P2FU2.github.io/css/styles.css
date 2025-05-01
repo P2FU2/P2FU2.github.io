@@ -1,0 +1,122 @@
+/* ===== Variáveis Globais ===== */
+:root {
+  --primary-color: #ff5e00;
+  --secondary-color: #ccc;
+  --highlight-color: #fff;
+  --font-size-large: 20px;
+  --font-size-normal: 16px;
+}
+
+/* ===== Navegação ===== */
+nav {
+  text-align: center;
+}
+
+nav a {
+  display: inline-block;
+  padding: 5px 10px;
+  text-decoration: none;
+  color: var(--primary-color);
+  transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+  background-color: var(--secondary-color);
+}
+
+/* ===== Corpo da Página ===== */
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+}
+
+/* ===== Listas ===== */
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+/* ===== Links ===== */
+a {
+  text-decoration: none;
+  color: var(--primary-color);
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #ff5e00;
+}
+
+/* ===== Rodapé ===== */
+footer {
+  background-color: var(--highlight-color);
+  padding: 10px;
+  border-top: 1px solid var(--secondary-color);
+}
+
+/* ===== Banner Preto ===== */
+.black-banner {
+  background-color: #000;
+  height: 20px;
+  width: 100%;
+}
+
+/* ===== Créditos e Redes Sociais ===== */
+.social-links {
+  display: flex;
+  justify-content: center;
+}
+
+.social-links li {
+  margin: 0 10px;
+}
+
+.social-links a {
+  display: flex;
+  align-items: center;
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.social-links i {
+  margin-right: 5px;
+}
+
+/* ===== Cabeçalho ===== */
+header {
+  background-color: var(--highlight-color);
+  padding: 10px;
+  transition: background-color 0.5s;
+}
+
+/* ===== Responsividade Global ===== */
+@media (min-width: 768px) {
+  body {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 1824px) {
+  body {
+    font-size: 22px;
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}

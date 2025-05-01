@@ -1,0 +1,22 @@
+body {
+    background-color: #000; /* Define a cor de fundo da página como preta */
+    color: #0F0; /* Define a cor do texto como verde */
+    font-family: 'Courier New', Courier, monospace; /* Define a família de fontes como monospace */
+}
+
+#terminal {
+    padding: 10px; /* Adiciona um pouco de espaço em torno do terminal */
+    cursor: text; /* Muda o cursor para o tipo texto quando paira sobre o terminal */
+}
+
+#output {
+    margin-bottom: 10px; /* Adiciona um pouco de espaço abaixo da saída do terminal */
+}
+
+#user-input {
+    background-color: #000; /* Define a cor de fundo da entrada de texto como preta */
+    color: #0F0; /* Define a cor do texto na entrada de texto como verde */
+    border: none; /* Remove a borda da entrada de texto */
+    outline: none; /* Remove o contorno da entrada de texto */
+    width: 100%; /* Faz a entrada de texto ocupar toda a largura do terminal */
+}
