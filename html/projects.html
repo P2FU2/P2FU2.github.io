@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
@@ -8,25 +8,24 @@
     <meta name="description" content="Portfólio de projetos do desenvolvedor Pedro Neves">
     <meta name="keywords" content="Desenvolvedor Web, Projetos, Pedro Neves">
     <title>Projetos de Pedro Neves</title>
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/projects.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@500&family=Inter:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <style>
         :root {
             --primary: #00ff88;
             --accent: #4fffcd;
             --text: #ffffff;
-            --muted: #999999;
+            --muted: #ffffff;
             --bg: #0c0c0c;
             --panel: #1a1a1a;
         }
         body.light {
-            --bg: #ffffff;
-            --text: #c14141;
-            --panel: #ffffff;
-            --primary: #c6d400;
-            --accent: #4fffcd;
-            --muted: #c6d400;
+            --bg: #f3f6fa;
+            --text: #222831;
+            --panel: #fff;
+            --primary: #1a237e;
+            --accent: #1976d2;
+            --muted: #1976d2;
         }
         * {
             margin: 0;
@@ -59,39 +58,64 @@
             z-index: 100;
         }
         .controls button {
-            background: #222;
-            border: 1px solid #444;
-            border-radius: 0px;
+            background: var(--panel);
+            border: 1px solid var(--primary);
+            border-radius: 4px;
             padding: 0.5rem 1rem;
             font-family: 'Fira Code', monospace;
             font-size: 0.85rem;
-            color: #ffffff;
+            color: var(--primary);
             cursor: pointer;
-            transition: background 0.3s;
+            transition: background 0.3s, color 0.3s;
         }
         .controls button:hover {
             background-color: var(--primary);
-            color: #000;
+            color: #fff;
         }
         header {
+            text-align: center;
+            padding: 4rem 1rem 2rem;
             position: relative;
             z-index: 10;
-            padding: 2rem 0;
-            text-align: center;
+        }
+        h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: background-position 0.5s;
+            background-size: 200% auto;
+        }
+        h1:hover {
+            background-position: right center;
+        }
+        .subtitle-text {
+            font-size: 1.3rem;
+            font-family: 'Fira Code', monospace;
+            margin-bottom: 1rem;
         }
         nav {
             display: flex;
             justify-content: center;
             gap: 2rem;
+            margin-bottom: 2rem;
         }
         nav a {
             color: var(--text);
             text-decoration: none;
             font-family: 'Fira Code', monospace;
             transition: color 0.3s;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--primary);
+            border-radius: 4px;
         }
         nav a:hover {
-            color: var(--primary);
+            background-color: var(--primary);
+            color: var(--bg);
         }
         .projects-container {
             max-width: 1200px;
@@ -151,9 +175,13 @@
             text-decoration: none;
             transition: color 0.3s;
             font-family: 'Fira Code', monospace;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--primary);
+            border-radius: 4px;
         }
         .project-links a:hover {
-            color: var(--primary);
+            background-color: var(--primary);
+            color: var(--bg);
         }
         footer {
             position: relative;
@@ -172,9 +200,17 @@
             color: var(--text);
             text-decoration: none;
             transition: color 0.3s;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--primary);
+            border-radius: 4px;
         }
         .social-links a:hover {
-            color: var(--primary);
+            background-color: var(--primary);
+            color: var(--bg);
+        }
+        .copyrights {
+            color: var(--muted);
+            font-family: 'Fira Code', monospace;
         }
     </style>
 </head>
@@ -187,188 +223,127 @@
     </div>
 
     <header>
+        <h1>Meus Projetos</h1>
+        <div class="subtitle-text">> Desenvolvimento Web e Análise de Dados<span class="terminal-cursor">_</span></div>
         <nav>
             <a href="../index.html">Home</a>
-            <a href="projects.html">Projects</a>
+            <a href="projects.html">Projetos</a>
             <a href="cv.html">CV</a>
-            <a href="analysis.html">Analysis</a>
+            <a href="analysis.html">Análise</a>
         </nav>
     </header>
    
     <main>
-        <section class="projects" id="projects">
-            <h2>My Projects</h2>
-            <p>Esta é a página onde apresento meus projetos. Clique nas pastas para saber mais sobre cada um deles.</p>
-
-            <div class="projects-container">
-                <ul class="project-list">
-                    <!-- Primeiro projeto -->
-                    <li>
-                        <a href="../projects/Terminal/index.html">
-                            <i class="fas fa-folder fa-3x"></i>
-                            <span>Terminal</span>
-                        </a>
-
-                        <a href="../projects/Dashboard/index.html">
-                            <i class="fas fa-folder fa-3x"></i>
-                            <span>Terminal</span>
-                        </a>
-
-                        <a href="link_para_projeto_especifico.html">
-                            <i class="fas fa-folder fa-3x"></i>
-                            <span>Terminal</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="link_para_projeto_especifico.html">
-                            <i class="fas fa-folder fa-3x"></i>
-                            <span>Terminal</span>
-                        </a>
-
-                        <a href="link_para_projeto_especifico.html">
-                            <i class="fas fa-folder fa-3x"></i>
-                            <span>Terminal</span>
-                        </a>
-
-                        <a href="link_para_projeto_especifico.html">
-                            <i class="fas fa-folder fa-3x"></i>
-                            <span>Terminal</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="link_para_projeto_especifico.html">
-                            <i class="fas fa-folder fa-3x"></i>
-                            <span>Terminal</span>
-                        </a>
-
-                        <a href="link_para_projeto_especifico.html">
-                            <i class="fas fa-folder fa-3x"></i>
-                            <span>Terminal</span>
-                        </a>
-
-                        <a href="link_para_projeto_especifico.html">
-                            <i class="fas fa-folder fa-3x"></i>
-                            <span>Terminal</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="link_para_projeto_especifico.html">
-                            <i class="fas fa-folder fa-3x"></i>
-                            <span>Terminal</span>
-                        </a>
-
-                        <a href="link_para_projeto_especifico.html">
-                            <i class="fas fa-folder fa-3x"></i>
-                            <span>Terminal</span>
-                        </a>
-
-                        <a href="link_para_projeto_especifico.html">
-                            <i class="fas fa-folder fa-3x"></i>
-                            <span>Terminal</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="link_para_projeto_especifico.html">
-                            <i class="fas fa-folder fa-3x"></i>
-                            <span>Terminal</span>
-                        </a>
-
-                        <a href="link_para_projeto_especifico.html">
-                            <i class="fas fa-folder fa-3x"></i>
-                            <span>Terminal</span>
-                        </a>
-
-                        <a href="link_para_projeto_especifico.html">
-                            <i class="fas fa-folder fa-3x"></i>
-                            <span>Terminal</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="link_para_projeto_especifico.html">
-                            <i class="fas fa-folder fa-3x"></i>
-                            <span>Terminal</span>
-                        </a>
-
-                        <a href="link_para_projeto_especifico.html">
-                            <i class="fas fa-folder fa-3x"></i>
-                            <span>Terminal</span>
-                        </a>
-
-                        <a href="link_para_projeto_especifico.html">
-                            <i class="fas fa-folder fa-3x"></i>
-                            <span>Terminal</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="link_para_projeto_especifico.html">
-                            <i class="fas fa-folder fa-3x"></i>
-                            <span>Terminal</span>
-                        </a>
-
-                        <a href="link_para_projeto_especifico.html">
-                            <i class="fas fa-folder fa-3x"></i>
-                            <span>Terminal</span>
-                        </a>
-
-                        <a href="link_para_projeto_especifico.html">
-                            <i class="fas fa-folder fa-3x"></i>
-                            <span>Terminal</span>
-                        </a>
-                    </li>
-                    <!-- ... outros projetos ... -->
-                </ul>
-               
-                <img src="../images/pc.png" alt="Descrição da Imagem" class="project-image">
+        <div class="projects-container">
+            <div class="project-card">
+                <h3 class="project-title">Terminal</h3>
+                <p class="project-description">Um terminal web interativo com funcionalidades de linha de comando.</p>
+                <div class="project-tech">
+                    <span class="tech-tag">HTML</span>
+                    <span class="tech-tag">CSS</span>
+                    <span class="tech-tag">JavaScript</span>
+                </div>
+                <div class="project-links">
+                    <a href="../projects/Terminal/index.html">
+                        <i class="fas fa-external-link-alt"></i>
+                        Ver Projeto
+                    </a>
+                </div>
             </div>
-        </section>
+
+            <div class="project-card">
+                <h3 class="project-title">Study Dashboard</h3>
+                <p class="project-description">Dashboard pessoal com gerenciamento de tarefas, notas e timer Pomodoro.</p>
+                <div class="project-tech">
+                    <span class="tech-tag">HTML</span>
+                    <span class="tech-tag">CSS</span>
+                    <span class="tech-tag">JavaScript</span>
+                </div>
+                <div class="project-links">
+                    <a href="../projects/StudyDashboard/index.html">
+                        <i class="fas fa-external-link-alt"></i>
+                        Ver Projeto
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    <div class="project-card">
+                <h3 class="project-title">Study Dashboard</h3>
+                <p class="project-description">Dashboard pessoal com gerenciamento de tarefas, notas e timer Pomodoro.</p>
+                <div class="project-tech">
+                    <span class="tech-tag">HTML</span>
+                    <span class="tech-tag">CSS</span>
+                    <span class="tech-tag">JavaScript</span>
+                </div>
+                <div class="project-links">
+                    <a href="../projects/StudyDashboard/index.html">
+                        <i class="fas fa-external-link-alt"></i>
+                        Ver Projeto
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <h3 class="project-title">Mind Canvas</h3>
+            <p class="project-description">Canvas interativo para desenho e criação de diagramas.</p>
+            <div class="project-tech">
+                <span class="tech-tag">HTML</span>
+                <span class="tech-tag">CSS</span>
+                <span class="tech-tag">JavaScript</span>
+            </div>
+            <div class="project-links">
+                <a href="../projects/MindCanvas/index.html">
+                    <i class="fas fa-external-link-alt"></i>
+                    Ver Projeto
+                </a>
+            </div>
+        </div>
+    </div>
+
     </main>
-    <!-- Banner preto -->
-    <div class="black-banner"></div>
 
     <footer>
-      <ul class="social-links">
-          <li><a href="https://github.com/P2FU2"><i class="fab fa-github"></i> GitHub</a></li>
-          <li><a href="https://www.linkedin.com/in/pedroqneves/"><i class="fab fa-linkedin-in"></i> LinkedIn</a></li>
-          <li><a href="mailto:pedromilani14@egmail.com"><i class="fas fa-envelope"></i> Email</a></li>
-          <li><a href="https://twitter.com/qpedroneves"><i class="fab fa-twitter"></i> Twitter</a></li>
-      </ul>
-      <p class="copyrights" style="color: var(--muted);">Copyright &copy; 2023</p>
-  </footer>
+        <ul class="social-links">
+            <li><a href="https://github.com/P2FU2"><i class="fab fa-github"></i> GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/pedroqneves/"><i class="fab fa-linkedin-in"></i> LinkedIn</a></li>
+            <li><a href="mailto:pedromilani14@egmail.com"><i class="fas fa-envelope"></i> Email</a></li>
+            <li><a href="https://twitter.com/qpedroneves"><i class="fab fa-twitter"></i> Twitter</a></li>
+        </ul>
+        <p class="copyrights">Copyright &copy; 2023</p>
+    </footer>
 
-  <script>
-    // Matrix animation code
-    const canvas = document.querySelector("canvas.matrix");
-    const ctx = canvas.getContext("2d");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    const letters = "アカサタナハマヤラワ0123456789ΓΩπΣΨЖΩФ@#$%&";
-    const fontSize = 16;
-    const columns = canvas.width / fontSize;
-    const drops = Array(Math.floor(columns)).fill(1);
+    <script>
+        // Matrix animation code
+        const canvas = document.querySelector("canvas.matrix");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const letters = "アカサタナハマヤラワ0123456789ΓΩπΣΨЖΩФ@#$%&";
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
 
-    function drawMatrix() {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#00ff88";
-      ctx.font = fontSize + "px monospace";
-      for (let i = 0; i < drops.length; i++) {
-        const text = letters[Math.floor(Math.random() * letters.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-        drops[i]++;
-      }
-    }
-    setInterval(drawMatrix, 33);
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#00ff88";
+            ctx.font = fontSize + "px monospace";
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters[Math.floor(Math.random() * letters.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 33);
 
-    // Ajustar canvas quando a janela for redimensionada
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    });
-  </script>
+        // Ajustar canvas quando a janela for redimensionada
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
 </body>
-<!--teste-->
 </html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindCanvas - Quadro Digital Interativo</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <div class="canvas-title">
+            <input type="text" id="canvas-name" value="Canvas 1" class="canvas-name-input">
+        </div>
+        <div class="canvas-tabs">
+            <button class="canvas-tab active" data-canvas="1">Canvas 1</button>
+            <button class="canvas-tab" data-canvas="2">Canvas 2</button>
+            <button class="canvas-tab" data-canvas="3">Canvas 3</button>
+            <button class="canvas-tab" id="new-canvas">
+                <i class="fas fa-plus"></i> Novo Canvas
+            </button>
+        </div>
+        <div class="toolbar">
+            <button id="select-tool" class="tool-btn active" title="Selecionar">
+                <i class="fas fa-mouse-pointer"></i>
+            </button>
+            <button id="draw-tool" class="tool-btn" title="Desenhar">
+                <i class="fas fa-pen"></i>
+            </button>
+            <button id="text-tool" class="tool-btn" title="Texto">
+                <i class="fas fa-font"></i>
+            </button>
+            <button id="shape-tool" class="tool-btn" title="Formas">
+                <i class="fas fa-square"></i>
+            </button>
+            <button id="arrow-tool" class="tool-btn" title="Setas">
+                <i class="fas fa-arrow-right"></i>
+            </button>
+            <button id="image-tool" class="tool-btn" title="Imagem">
+                <i class="fas fa-image"></i>
+            </button>
+            <button id="emoji-tool" class="tool-btn" title="Emoji">
+                <i class="far fa-smile"></i>
+            </button>
+            <button id="eraser" class="tool-btn" title="Borracha">
+                <i class="fas fa-eraser"></i>
+            </button>
+
+            <div class="color-picker">
+                <input type="color" id="color-input" class="color-input" value="#000000">
+            </div>
+
+            <div class="brush-size">
+                <input type="range" id="brush-size" min="1" max="20" value="5">
+            </div>
+
+            <div class="background-options">
+                <button id="grid-bg" class="tool-btn" title="Fundo com Grade">
+                    <i class="fas fa-th"></i>
+                </button>
+                <button id="dots-bg" class="tool-btn" title="Fundo com Pontos">
+                    <i class="fas fa-circle"></i>
+                </button>
+                <button id="solid-bg" class="tool-btn active" title="Fundo Sólido">
+                    <i class="fas fa-square"></i>
+                </button>
+            </div>
+
+            <button id="theme-toggle" class="tool-btn" title="Alternar Tema">
+                <i class="fas fa-moon"></i>
+            </button>
+
+            <button id="save-btn" class="save-btn">
+                <i class="fas fa-save"></i> Salvar
+            </button>
+            <button id="export-btn" class="export-btn">
+                <i class="fas fa-download"></i> Exportar
+            </button>
+        </div>
+
+        <div class="workspace solid">
+            <canvas id="drawing-canvas"></canvas>
+            <div id="objects-container"></div>
+        </div>
+    </div>
+
+    <!-- Tool Options -->
+    <div id="brush-options" class="tool-options">
+        <div class="brush-options">
+            <div class="brush-type">
+                <button class="active" data-type="pen"><i class="fas fa-pen"></i></button>
+                <button data-type="marker"><i class="fas fa-highlighter"></i></button>
+                <button data-type="pencil"><i class="fas fa-pencil-alt"></i></button>
+            </div>
+            <input type="range" id="brush-opacity" min="0" max="100" value="100">
+        </div>
+    </div>
+
+    <div id="text-options" class="tool-options">
+        <div class="text-options">
+            <select id="font-family">
+                <option value="Arial">Arial</option>
+                <option value="Times New Roman">Times New Roman</option>
+                <option value="Courier New">Courier New</option>
+                <option value="Inter">Inter</option>
+            </select>
+            <select id="font-size">
+                <option value="12">12px</option>
+                <option value="14">14px</option>
+                <option value="16">16px</option>
+                <option value="18">18px</option>
+                <option value="20">20px</option>
+                <option value="24">24px</option>
+                <option value="32">32px</option>
+                <option value="48">48px</option>
+            </select>
+            <div class="text-style">
+                <button data-style="bold"><i class="fas fa-bold"></i></button>
+                <button data-style="italic"><i class="fas fa-italic"></i></button>
+                <button data-style="underline"><i class="fas fa-underline"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="shape-options" class="tool-options">
+        <div class="shape-options">
+            <div class="shape-type">
+                <button class="active" data-shape="square"><i class="fas fa-square"></i></button>
+                <button data-shape="circle"><i class="fas fa-circle"></i></button>
+                <button data-shape="triangle"><i class="fas fa-play"></i></button>
+                <button data-shape="star"><i class="fas fa-star"></i></button>
+                <button data-shape="hexagon"><i class="fas fa-hexagon"></i></button>
+                <button data-shape="pentagon"><i class="fas fa-pentagon"></i></button>
+                <button data-shape="diamond"><i class="fas fa-diamond"></i></button>
+                <button data-shape="heart"><i class="fas fa-heart"></i></button>
+            </div>
+            <input type="range" id="shape-size" min="20" max="200" value="100">
+        </div>
+    </div>
+
+    <!-- Emoji Modal -->
+    <div id="emoji-modal" class="emoji-modal">
+        <button class="close-modal">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="emoji-categories">
+            <button class="emoji-category active" data-category="faces">Faces</button>
+            <button class="emoji-category" data-category="animals">Animais</button>
+            <button class="emoji-category" data-category="food">Comida</button>
+            <button class="emoji-category" data-category="objects">Objetos</button>
+            <button class="emoji-category" data-category="symbols">Símbolos</button>
+            <button class="emoji-category" data-category="ascii">ASCII</button>
+        </div>
+        <input type="text" class="emoji-search" placeholder="Buscar emoji...">
+        <div class="emoji-grid"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

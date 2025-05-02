@@ -1,0 +1,497 @@
+:root {
+    --primary-color: #2196f3;
+    --secondary-color: #ff4081;
+    --background-color: #121212;
+    --surface-color: #1e1e1e;
+    --text-color: #ffffff;
+    --border-color: #333333;
+    --hover-color: #2a2a2a;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+body.light {
+    --background-color: #f5f5f5;
+    --surface-color: #ffffff;
+    --text-color: #000000;
+    --border-color: #e0e0e0;
+    --hover-color: #f0f0f0;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+.canvas-title {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.canvas-name-input {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+    width: 100%;
+    max-width: 300px;
+}
+
+.canvas-name-input:hover,
+.canvas-name-input:focus {
+    background-color: var(--hover-color);
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.canvas-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+}
+
+.canvas-tab {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.canvas-tab:hover {
+    background-color: var(--hover-color);
+    border-color: var(--primary-color);
+}
+
+.canvas-tab.active {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+.delete-canvas {
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    opacity: 0.5;
+}
+
+.delete-canvas:hover {
+    opacity: 1;
+    color: var(--secondary-color);
+}
+
+#new-canvas .delete-canvas {
+    display: none;
+}
+
+.toolbar {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background-color: var(--surface-color);
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px var(--shadow-color);
+    flex-wrap: wrap;
+}
+
+.tool-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tool-btn:hover {
+    background-color: var(--hover-color);
+    border-color: var(--primary-color);
+}
+
+.tool-btn.active {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+.color-picker {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.color-input {
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.color-input:hover {
+    transform: scale(1.1);
+}
+
+.brush-size {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.brush-size input {
+    width: 100px;
+    cursor: pointer;
+}
+
+.workspace {
+    flex: 1;
+    position: relative;
+    background-color: var(--surface-color);
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px var(--shadow-color);
+    overflow: hidden;
+}
+
+.workspace.grid {
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    background-position: center center;
+}
+
+.workspace.dots {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    background-position: center center;
+}
+
+body.light .workspace.grid {
+    background-image: 
+        linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+}
+
+body.light .workspace.dots {
+    background-image: radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+}
+
+#drawing-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+}
+
+#objects-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.draggable {
+    position: absolute;
+    pointer-events: auto;
+    cursor: move;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.draggable:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.draggable:active {
+    transform: scale(1.05);
+    z-index: 1000;
+}
+
+.text-block {
+    min-width: 100px;
+    min-height: 30px;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    background-color: var(--surface-color);
+    box-shadow: 0 2px 4px var(--shadow-color);
+    resize: both;
+    overflow: auto;
+    border: 1px solid var(--border-color);
+}
+
+.text-block:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.shape-block {
+    width: 100px;
+    height: 100px;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.shape-block.circle {
+    border-radius: 50%;
+}
+
+.shape-block.triangle {
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.arrow {
+    width: 100px;
+    height: 2px;
+    background-color: currentColor;
+    position: relative;
+}
+
+.arrow::after {
+    content: '';
+    position: absolute;
+    right: -8px;
+    top: -4px;
+    width: 0;
+    height: 0;
+    border-left: 8px solid currentColor;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+}
+
+.image-block {
+    max-width: 300px;
+    max-height: 300px;
+    object-fit: contain;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.emoji {
+    font-size: 24px;
+    user-select: none;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+}
+
+.tool-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px var(--shadow-color);
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    display: none;
+    z-index: 1000;
+}
+
+.tool-options.active {
+    display: block;
+}
+
+.brush-options, .text-options, .shape-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.brush-type, .text-style, .shape-type {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.brush-type button, .text-style button, .shape-type button {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.brush-type button:hover, .text-style button:hover, .shape-type button:hover {
+    background-color: var(--hover-color);
+}
+
+.brush-type button.active, .text-style button.active, .shape-type button.active {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+#font-family, #font-size {
+    background-color: var(--hover-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    width: 100%;
+}
+
+#font-family:focus, #font-size:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.emoji-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    padding: 1rem;
+    z-index: 1000;
+    display: none;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: auto;
+}
+
+.emoji-modal.active {
+    display: block;
+}
+
+.emoji-categories {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.emoji-category {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.emoji-category:hover {
+    background-color: var(--hover-color);
+}
+
+.emoji-category.active {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+.emoji-search {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    background-color: var(--hover-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    border-radius: 0.5rem;
+}
+
+.emoji-search:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.emoji-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+    gap: 0.5rem;
+}
+
+.emoji-btn {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1.5rem;
+}
+
+.emoji-btn:hover {
+    background-color: var(--hover-color);
+}
+
+@media (max-width: 768px) {
+    .toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .canvas-tabs {
+        flex-direction: column;
+    }
+
+    .canvas-tab {
+        width: 100%;
+    }
+
+    .tool-btn {
+        width: 100%;
+    }
+
+    .emoji-grid {
+        grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+    }
+} 
