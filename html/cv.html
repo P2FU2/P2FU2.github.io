@@ -3,57 +3,85 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Currículo de Pedro Neves - Economista e Desenvolvedor">
+  <meta name="keywords" content="Currículo, Pedro Neves, Economista, Desenvolvedor">
   <title>Currículo 2033 - Pedro Neves</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@500&family=Inter:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="/css/cv.css">
-  <!-- Estilos inline mínimos para demonstração -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="../translations.js"></script>
   <style>
-    /* Você pode manter estes estilos no cv.css */
-    body { font-family: Arial, sans-serif; background: #f9f9f9; color: #333; margin: 0; padding: 0; }
-    .container { max-width: 800px; margin: 20px auto; background: #fff; padding: 20px 40px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    header {
-      position: relative;
-      z-index: 10;
-      padding: 2rem 0;
-      text-align: center;
-    }
-    nav {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-    }
-    nav a {
-      color: var(--text);
-      text-decoration: none;
+    .language-selector {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 100;
+      background: var(--panel);
+      border: 1px solid var(--primary);
+      border-radius: 4px;
+      padding: 0.5rem;
       font-family: 'Fira Code', monospace;
-      transition: color 0.3s;
-    }
-    nav a:hover {
+      font-size: 0.85rem;
       color: var(--primary);
+      cursor: pointer;
+    }
+    .language-selector select {
+      background: transparent;
+      border: none;
+      color: var(--primary);
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      cursor: pointer;
+      outline: none;
+    }
+    .language-selector select option {
+      background: var(--panel);
+      color: var(--text);
     }
   </style>
 </head>
 
+<body>
+  <!-- Seletor de Idioma -->
+  <div class="language-selector">
+    <select id="languageSelect" onchange="changeLanguage(this.value)">
+      <option value="en">English</option>
+      <option value="pt">Português</option>
+      <option value="es">Español</option>
+      <option value="zh">中文</option>
+      <option value="ja">日本語</option>
+    </select>
+  </div>
+
+  <!-- Botão de Download -->
+  <button class="download-btn" onclick="generatePDF()">
+    <i class="fas fa-download"></i> <span id="downloadText">Download PDF</span>
+  </button>
+
   <!-- Cabeçalho -->
   <header>
+    <h1 id="cvTitle">Currículo</h1>
+    <div class="subtitle-text" id="cvSubtitle">> Meu Currículo<span class="terminal-cursor">_</span></div>
     <nav>
-      <a href="../index.html">Home</a>
-      <a href="projects.html">Projects</a>
-      <a href="cv.html">CV</a>
-      <a href="analysis.html">Analysis</a>
+      <a href="../index.html" id="navHome">Home</a>
+      <a href="projects.html" id="navProjects">Projetos</a>
+      <a href="cv.html" id="navCV">CV</a>
+      <a href="analysis.html" id="navAnalysis">Análise</a>
     </nav>
   </header>
-  
-<body>
-  <div class="container">
+
+  <div class="container" id="content-to-print">
     <!-- Cabeçalho -->
     <header>
       <h1>Pedro Neves</h1>
-      <p>Empreendedor | Economista | Desenvolvedor &amp; Visionário</p>
+      <p class="subtitle-text" id="cvRole">Empreendedor | Economista | Desenvolvedor</p>
       <p>
         <a href="mailto:pedromilani14@gmail.com">pedromilani14@gmail.com</a> |
         <a href="https://www.linkedin.com/in/pedroqneves" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       </p>
-      <p>São Paulo, Brasil</p>
+      <p id="cvLocation">São Paulo, Brasil</p>
     </header>
 
     <hr>
@@ -62,115 +90,115 @@
     <main>
       <!-- Resumo Profissional -->
       <section id="resumo-profissional">
-        <h2>Resumo Profissional</h2>
-        <p>
+        <h2 id="professionalSummary">Resumo Profissional</h2>
+        <p id="summaryText">
           Em 2033, sou reconhecido como um líder visionário na intersecção entre economia e tecnologia. Com mais de uma década de experiência transformadora, tenho liderado iniciativas que unem modelagem econômica avançada e desenvolvimento de software de ponta para revolucionar o setor financeiro.
         </p>
       </section>
 
       <!-- Experiência Profissional -->
       <section id="experiencia">
-        <h2>Experiência Profissional</h2>
+        <h2 id="experienceTitle">Experiência Profissional</h2>
 
         <article>
-          <h3>Chief Economic &amp; Technology Strategist <small>Global FinTech Innovations</small></h3>
-          <p><em>2030 - Presente | São Paulo, Brasil</em></p>
+          <h3 id="job1Title">Chief Economic &amp; Technology Strategist <small>Global FinTech Innovations</small></h3>
+          <p><em id="job1Period">2030 - Presente | São Paulo, Brasil</em></p>
           <ul>
-            <li>Lidero a integração de modelagem econômica avançada e machine learning para previsões financeiras precisas.</li>
-            <li>Implementei sistemas blockchain para transações transparentes, aumentando a confiança dos investidores em 40%.</li>
-            <li>Coordeno equipes multidisciplinares para transformar dados complexos em insights estratégicos.</li>
+            <li id="job1Task1">Lidero a integração de modelagem econômica avançada e machine learning para previsões financeiras precisas.</li>
+            <li id="job1Task2">Implementei sistemas blockchain para transações transparentes, aumentando a confiança dos investidores em 40%.</li>
+            <li id="job1Task3">Coordeno equipes multidisciplinares para transformar dados complexos em insights estratégicos.</li>
           </ul>
         </article>
 
         <article>
-          <h3>Vice Presidente de Data &amp; Economic Analytics <small>Comdinheiro</small></h3>
-          <p><em>2027 - 2030 | São Paulo, Brasil</em></p>
+          <h3 id="job2Title">Vice Presidente de Data & Economic Analytics <small>Comdinheiro</small></h3>
+          <p><em id="job2Period">2027 - 2030 | São Paulo, Brasil</em></p>
           <ul>
-            <li>Gerenciei a transformação digital da empresa com soluções analíticas e automação.</li>
-            <li>Desenvolvi modelos preditivos que aprimoraram as projeções de mercado em 35%.</li>
-            <li>Integrei análise econômica com tecnologias emergentes para promover crescimento sustentável.</li>
+            <li id="job2Task1">Gerenciei a transformação digital da empresa com soluções analíticas e automação.</li>
+            <li id="job2Task2">Desenvolvi modelos preditivos que aprimoraram as projeções de mercado em 35%.</li>
+            <li id="job2Task3">Integrei análise econômica com tecnologias emergentes para promover crescimento sustentável.</li>
           </ul>
         </article>
 
         <article>
-          <h3>Senior Business Analyst &amp; Software Developer <small>Comdinheiro</small></h3>
-          <p><em>2023 - 2027 | São Paulo, Brasil</em></p>
+          <h3 id="job3Title">Senior Business Analyst &amp; Software Developer <small>Comdinheiro</small></h3>
+          <p><em id="job3Period">2023 - 2027 | São Paulo, Brasil</em></p>
           <ul>
-            <li>Desenvolvi soluções de software para análise financeira, otimizando a coleta e o processamento de dados.</li>
-            <li>Implantei metodologias ágeis que melhoraram a eficiência operacional e reduziram custos.</li>
-            <li>Atuei como elo entre equipes de tecnologia e finanças, facilitando a comunicação e a integração estratégica.</li>
+            <li id="job3Task1">Desenvolvi soluções de software para análise financeira, otimizando a coleta e o processamento de dados.</li>
+            <li id="job3Task2">Implantei metodologias ágeis que melhoraram a eficiência operacional e reduziram custos.</li>
+            <li id="job3Task3">Atuei como elo entre equipes de tecnologia e finanças, facilitando a comunicação e a integração estratégica.</li>
           </ul>
         </article>
 
         <article>
-          <h3>Estágios e Empreendimentos Iniciais</h3>
-          <p><em>2018 - 2023</em></p>
+          <h3 id="job4Title">Estágios e Empreendimentos Iniciais</h3>
+          <p><em id="job4Period">2018 - 2023</em></p>
           <ul>
-            <li>Co-Fundador da PaderoApp, integrando programação e análise econômica.</li>
-            <li>Experiência em consultoria empresarial e análise de dados para avaliação financeira e estratégica.</li>
+            <li id="job4Task1">Co-Fundador da PaderoApp, integrando programação e análise econômica.</li>
+            <li id="job4Task2">Experiência em consultoria empresarial e análise de dados para avaliação financeira e estratégica.</li>
           </ul>
         </article>
       </section>
 
       <!-- Formação Acadêmica -->
       <section id="formacao">
-        <h2>Formação Acadêmica</h2>
+        <h2 id="educationTitle">Formação Acadêmica</h2>
         <ul>
-          <li><strong>Ph.D. em Economia Computacional</strong> - Universidade de São Paulo, 2030</li>
-          <li><strong>MBA em Engenharia de Software &amp; Análise Econômica</strong> - FIAP, 2023 - 2025</li>
-          <li><strong>Bacharelado em Economia</strong> - FAAP, 2017 - 2021</li>
+          <li id="education1"><strong>Ph.D. em Economia Computacional</strong> - Universidade de São Paulo, 2030</li>
+          <li id="education2"><strong>MBA em Engenharia de Software &amp; Análise Econômica</strong> - FIAP, 2023 - 2025</li>
+          <li id="education3"><strong>Bacharelado em Economia</strong> - FAAP, 2017 - 2021</li>
         </ul>
       </section>
 
       <!-- Certificações -->
       <section id="certificacoes">
-        <h2>Certificações</h2>
+        <h2 id="certificationsTitle">Certificações</h2>
         <ul>
-          <li>Certified Financial Data Scientist – 2028</li>
-          <li>Advanced Programming in Python for Economic Modeling – Coursera, 2028</li>
-          <li>Certified Blockchain Economist – Blockchain Institute, 2029</li>
-          <li>Scrum Master Certified – Scrum Alliance, 2023</li>
-          <li>Microsoft Power BI – 2023</li>
+          <li id="certification1">Certified Financial Data Scientist – 2028</li>
+          <li id="certification2">Advanced Programming in Python for Economic Modeling – Coursera, 2028</li>
+          <li id="certification3">Certified Blockchain Economist – Blockchain Institute, 2029</li>
+          <li id="certification4">Scrum Master Certified – Scrum Alliance, 2023</li>
+          <li id="certification5">Microsoft Power BI – 2023</li>
         </ul>
       </section>
 
       <!-- Habilidades e Competências -->
       <section id="habilidades">
-        <h2>Habilidades e Competências</h2>
+        <h2 id="skillsTitle">Habilidades e Competências</h2>
         <ul>
-          <li><strong>Economia &amp; Finanças:</strong> Modelagem Econômica, Análise Financeira, Previsão de Mercado, Big Data Analytics</li>
-          <li><strong>Programação &amp; Tecnologia:</strong> Python, JavaScript, Machine Learning, Inteligência Artificial, Blockchain, SQL, Data Visualization</li>
-          <li><strong>Gestão &amp; Liderança:</strong> Estratégia Empresarial, Gestão de Projetos, Metodologias Ágeis, Análise de Negócios</li>
+          <li id="skills1"><strong>Economia &amp; Finanças:</strong> Modelagem Econômica, Análise Financeira, Previsão de Mercado, Big Data Analytics</li>
+          <li id="skills2"><strong>Programação &amp; Tecnologia:</strong> Python, JavaScript, Machine Learning, Inteligência Artificial, Blockchain, SQL, Data Visualization</li>
+          <li id="skills3"><strong>Gestão &amp; Liderança:</strong> Estratégia Empresarial, Gestão de Projetos, Metodologias Ágeis, Análise de Negócios</li>
         </ul>
       </section>
 
       <!-- Idiomas -->
       <section id="idiomas">
-        <h2>Idiomas</h2>
+        <h2 id="languagesTitle">Idiomas</h2>
         <ul class="languages-list">
-          <li>Português (Nativo)</li>
-          <li>Inglês (Fluente)</li>
-          <li>Espanhol (Fluente)</li>
-          <li>Italiano (Avançado)</li>
-          <li>Russo (Intermediário)</li>
-          <li>Chinês (Intermediário)</li>
+          <li id="language1">Português (Nativo)</li>
+          <li id="language2">Inglês (Fluente)</li>
+          <li id="language3">Espanhol (Fluente)</li>
+          <li id="language4">Italiano (Avançado)</li>
+          <li id="language5">Russo (Intermediário)</li>
+          <li id="language6">Chinês (Intermediário)</li>
         </ul>
       </section>
 
       <!-- Projetos e Realizações -->
       <section id="projetos">
-        <h2>Projetos e Realizações</h2>
+        <h2 id="projectsTitle">Projetos e Realizações</h2>
         <ul>
-          <li>Plataforma de simulação econômica baseada em IA, revolucionando a análise de tendências de mercado.</li>
-          <li>Soluções blockchain para transações financeiras, promovendo transparência e eficiência.</li>
-          <li>Keynote speaker em conferências internacionais sobre inovação econômica e tecnológica.</li>
+          <li id="project1">Plataforma de simulação econômica baseada em IA, revolucionando a análise de tendências de mercado.</li>
+          <li id="project2">Soluções blockchain para transações financeiras, promovendo transparência e eficiência.</li>
+          <li id="project3">Keynote speaker em conferências internacionais sobre inovação econômica e tecnológica.</li>
         </ul>
       </section>
 
       <!-- Interesses -->
       <section id="interesses">
-        <h2>Interesses</h2>
-        <p>
+        <h2 id="interestsTitle">Interesses</h2>
+        <p id="interestsText">
           Apaixonado por viagens, inovação tecnológica, economia sustentável, mentorias e educação continuada. Em constante busca por integrar tecnologia e economia para gerar impactos transformadores.
         </p>
       </section>
@@ -179,8 +207,127 @@
     <!-- Rodapé -->
     <footer>
       <hr>
-      <p>Referências disponíveis mediante solicitação.</p>
+      <p id="footerText">Referências disponíveis mediante solicitação.</p>
     </footer>
   </div>
+
+  <script>
+    // Carrega o idioma salvo ou usa o padrão
+    window.onload = () => {
+      const savedLanguage = localStorage.getItem('preferredLanguage') || 'pt';
+      document.getElementById('languageSelect').value = savedLanguage;
+      changeLanguage(savedLanguage);
+    };
+
+    function changeLanguage(lang) {
+      // Salva a preferência de idioma
+      localStorage.setItem('preferredLanguage', lang);
+      
+      // Atualiza o idioma do HTML
+      document.documentElement.lang = lang;
+
+      // Atualiza os textos
+      const elements = {
+        'cvTitle': document.getElementById('cvTitle'),
+        'cvSubtitle': document.getElementById('cvSubtitle'),
+        'downloadText': document.getElementById('downloadText'),
+        'navHome': document.getElementById('navHome'),
+        'navProjects': document.getElementById('navProjects'),
+        'navCV': document.getElementById('navCV'),
+        'navAnalysis': document.getElementById('navAnalysis'),
+        'cvRole': document.getElementById('cvRole'),
+        'cvLocation': document.getElementById('cvLocation'),
+        'professionalSummary': document.getElementById('professionalSummary'),
+        'summaryText': document.getElementById('summaryText'),
+        'experienceTitle': document.getElementById('experienceTitle'),
+        'job1Title': document.getElementById('job1Title'),
+        'job1Period': document.getElementById('job1Period'),
+        'job1Task1': document.getElementById('job1Task1'),
+        'job1Task2': document.getElementById('job1Task2'),
+        'job1Task3': document.getElementById('job1Task3'),
+        'educationTitle': document.getElementById('educationTitle'),
+        'education1': document.getElementById('education1'),
+        'education2': document.getElementById('education2'),
+        'education3': document.getElementById('education3'),
+        'footerText': document.getElementById('footerText'),
+        'job2Title': document.getElementById('job2Title'),
+        'job2Period': document.getElementById('job2Period'),
+        'job2Task1': document.getElementById('job2Task1'),
+        'job2Task2': document.getElementById('job2Task2'),
+        'job2Task3': document.getElementById('job2Task3'),
+        'job3Title': document.getElementById('job3Title'),
+        'job3Period': document.getElementById('job3Period'),
+        'job3Task1': document.getElementById('job3Task1'),
+        'job3Task2': document.getElementById('job3Task2'),
+        'job3Task3': document.getElementById('job3Task3'),
+        'job4Title': document.getElementById('job4Title'),
+        'job4Period': document.getElementById('job4Period'),
+        'job4Task1': document.getElementById('job4Task1'),
+        'job4Task2': document.getElementById('job4Task2'),
+        'certificationsTitle': document.getElementById('certificationsTitle'),
+        'certification1': document.getElementById('certification1'),
+        'certification2': document.getElementById('certification2'),
+        'certification3': document.getElementById('certification3'),
+        'certification4': document.getElementById('certification4'),
+        'certification5': document.getElementById('certification5'),
+        'skillsTitle': document.getElementById('skillsTitle'),
+        'skills1': document.getElementById('skills1'),
+        'skills2': document.getElementById('skills2'),
+        'skills3': document.getElementById('skills3'),
+        'languagesTitle': document.getElementById('languagesTitle'),
+        'language1': document.getElementById('language1'),
+        'language2': document.getElementById('language2'),
+        'language3': document.getElementById('language3'),
+        'language4': document.getElementById('language4'),
+        'language5': document.getElementById('language5'),
+        'language6': document.getElementById('language6'),
+        'projectsTitle': document.getElementById('projectsTitle'),
+        'project1': document.getElementById('project1'),
+        'project2': document.getElementById('project2'),
+        'project3': document.getElementById('project3'),
+        'interestsTitle': document.getElementById('interestsTitle'),
+        'interestsText': document.getElementById('interestsText')
+      };
+
+      // Atualiza cada elemento com sua tradução
+      for (const [key, element] of Object.entries(elements)) {
+        if (element) {
+          element.textContent = translations[lang][key];
+        }
+      }
+    }
+
+    // PDF Generation
+    function generatePDF() {
+      // Hide elements that shouldn't be in the PDF
+      const elementsToHide = document.querySelectorAll('.download-btn');
+      elementsToHide.forEach(el => el.style.display = 'none');
+
+      // Configure PDF options
+      const opt = {
+        margin: [0.5, 0.5, 0.5, 0.5],
+        filename: 'curriculo-pedro-neves.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { 
+          scale: 2,
+          useCORS: true,
+          letterRendering: true,
+          allowTaint: true
+        },
+        jsPDF: { 
+          unit: 'in', 
+          format: 'a4', 
+          orientation: 'portrait',
+          compress: true
+        }
+      };
+
+      // Generate PDF
+      html2pdf().set(opt).from(document.getElementById('content-to-print')).save().then(() => {
+        // Show hidden elements again
+        elementsToHide.forEach(el => el.style.display = '');
+      });
+    }
+  </script>
 </body>
 </html>

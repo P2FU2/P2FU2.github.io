@@ -10,22 +10,23 @@
     <title>Projetos de Pedro Neves</title>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@500&family=Inter:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <script src="../translations.js"></script>
     <style>
         :root {
+            --primary: #27408B;
+            --accent: #4169E1;
+            --text: #1F1F1F;
+            --muted: #666666;
+            --bg: #F8F9FA;
+            --panel: #FFFFFF;
+        }
+        body.matrix {
             --primary: #00ff88;
             --accent: #4fffcd;
             --text: #ffffff;
             --muted: #ffffff;
             --bg: #0c0c0c;
             --panel: #1a1a1a;
-        }
-        body.light {
-            --bg: #f3f6fa;
-            --text: #222831;
-            --panel: #fff;
-            --primary: #1a237e;
-            --accent: #1976d2;
-            --muted: #1976d2;
         }
         * {
             margin: 0;
@@ -84,11 +85,8 @@
             margin-bottom: 1.5rem;
             position: relative;
             z-index: 2;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            transition: background-position 0.5s;
-            background-size: 200% auto;
+            color: var(--primary);
+            transition: color 0.3s;
         }
         h1:hover {
             background-position: right center;
@@ -132,9 +130,10 @@
             padding: 1.5rem;
             border-radius: 8px;
             transition: all 0.3s ease;
-            border: 2px solid transparent;
+            border: 2px solid var(--primary);
             display: flex;
             flex-direction: column;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .project-card:hover {
             transform: translateY(-5px);
@@ -212,14 +211,46 @@
             color: var(--muted);
             font-family: 'Fira Code', monospace;
         }
+        /* Seletor de Idioma */
+        .language-selector {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 100;
+            background: var(--panel);
+            border: 1px solid var(--primary);
+            border-radius: 4px;
+            padding: 0.5rem;
+            font-family: 'Fira Code', monospace;
+            color: var(--primary);
+        }
+        
+        .language-selector select {
+            background: transparent;
+            border: none;
+            color: var(--primary);
+            font-family: 'Fira Code', monospace;
+            cursor: pointer;
+            outline: none;
+        }
     </style>
 </head>
 
 <body>
     <canvas class="matrix"></canvas>
     
+    <div class="language-selector">
+        <select id="languageSelect" onchange="changeLanguage()">
+            <option value="pt">Português</option>
+            <option value="en">English</option>
+            <option value="es">Español</option>
+            <option value="zh">中文</option>
+            <option value="ja">日本語</option>
+        </select>
+    </div>
+
     <div class="controls">
-        <button onclick="document.body.classList.toggle('light')">Theme</button>
+        <button onclick="document.body.classList.toggle('matrix')">Theme</button>
     </div>
 
     <header>
@@ -236,15 +267,15 @@
     <main>
         <div class="projects-container">
             <div class="project-card">
-                <h3 class="project-title">Terminal</h3>
-                <p class="project-description">Um terminal web interativo com funcionalidades de linha de comando.</p>
+                <h3 class="project-title" id="terminalTitle">Terminal</h3>
+                <p class="project-description" id="terminalDescription">Um terminal web interativo com funcionalidades de linha de comando.</p>
                 <div class="project-tech">
                     <span class="tech-tag">HTML</span>
                     <span class="tech-tag">CSS</span>
                     <span class="tech-tag">JavaScript</span>
                 </div>
                 <div class="project-links">
-                    <a href="../projects/Terminal/index.html">
+                    <a href="../projects/Terminal/index.html" id="terminalViewProject">
                         <i class="fas fa-external-link-alt"></i>
                         Ver Projeto
                     </a>
@@ -252,55 +283,39 @@
             </div>
 
             <div class="project-card">
-                <h3 class="project-title">Study Dashboard</h3>
-                <p class="project-description">Dashboard pessoal com gerenciamento de tarefas, notas e timer Pomodoro.</p>
+                <h3 class="project-title" id="studyDashboardTitle">Study Dashboard</h3>
+                <p class="project-description" id="studyDashboardDescription">Dashboard pessoal com gerenciamento de tarefas, notas e timer Pomodoro.</p>
                 <div class="project-tech">
                     <span class="tech-tag">HTML</span>
                     <span class="tech-tag">CSS</span>
                     <span class="tech-tag">JavaScript</span>
                 </div>
                 <div class="project-links">
-                    <a href="../projects/StudyDashboard/index.html">
+                    <a href="../projects/StudyDashboard/index.html" id="studyDashboardViewProject">
                         <i class="fas fa-external-link-alt"></i>
                         Ver Projeto
                     </a>
                 </div>
             </div>
-        </div>
+        
 
-    <div class="project-card">
-                <h3 class="project-title">Study Dashboard</h3>
-                <p class="project-description">Dashboard pessoal com gerenciamento de tarefas, notas e timer Pomodoro.</p>
+
+            <div class="project-card">
+                <h3 class="project-title" id="mindCanvasTitle">Mind Canvas</h3>
+                <p class="project-description" id="mindCanvasDescription">Canvas interativo para desenho e criação de diagramas.</p>
                 <div class="project-tech">
                     <span class="tech-tag">HTML</span>
                     <span class="tech-tag">CSS</span>
                     <span class="tech-tag">JavaScript</span>
                 </div>
                 <div class="project-links">
-                    <a href="../projects/StudyDashboard/index.html">
+                    <a href="../projects/MindCanvas/index.html" id="mindCanvasViewProject">
                         <i class="fas fa-external-link-alt"></i>
                         Ver Projeto
                     </a>
                 </div>
             </div>
         </div>
-
-        <div class="project-card">
-            <h3 class="project-title">Mind Canvas</h3>
-            <p class="project-description">Canvas interativo para desenho e criação de diagramas.</p>
-            <div class="project-tech">
-                <span class="tech-tag">HTML</span>
-                <span class="tech-tag">CSS</span>
-                <span class="tech-tag">JavaScript</span>
-            </div>
-            <div class="project-links">
-                <a href="../projects/MindCanvas/index.html">
-                    <i class="fas fa-external-link-alt"></i>
-                    Ver Projeto
-                </a>
-            </div>
-        </div>
-    </div>
 
     </main>
 
@@ -311,7 +326,7 @@
             <li><a href="mailto:pedromilani14@egmail.com"><i class="fas fa-envelope"></i> Email</a></li>
             <li><a href="https://twitter.com/qpedroneves"><i class="fab fa-twitter"></i> Twitter</a></li>
         </ul>
-        <p class="copyrights">Copyright &copy; 2023</p>
+        <p class="copyrights" id="copyright">Copyright © 2023</p>
     </footer>
 
     <script>
@@ -326,6 +341,11 @@
         const drops = Array(Math.floor(columns)).fill(1);
 
         function drawMatrix() {
+            if (!document.body.classList.contains('matrix')) {
+                canvas.style.display = 'none';
+                return;
+            }
+            canvas.style.display = 'block';
             ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = "#00ff88";
@@ -343,6 +363,51 @@
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+        });
+
+        // Função para mudar o idioma
+        function changeLanguage() {
+            const select = document.getElementById('languageSelect');
+            const lang = select.value;
+            localStorage.setItem('preferredLanguage', lang);
+            document.documentElement.lang = lang;
+            
+            // Atualizar textos traduzíveis
+            const elements = {
+                'projectsTitle': document.querySelector('h1'),
+                'projectsSubtitle': document.querySelector('.subtitle-text'),
+                'navHome': document.querySelector('nav a[href="../index.html"]'),
+                'navProjects': document.querySelector('nav a[href="projects.html"]'),
+                'navCV': document.querySelector('nav a[href="cv.html"]'),
+                'navAnalysis': document.querySelector('nav a[href="analysis.html"]'),
+                'terminalTitle': document.getElementById('terminalTitle'),
+                'terminalDescription': document.getElementById('terminalDescription'),
+                'studyDashboardTitle': document.getElementById('studyDashboardTitle'),
+                'studyDashboardDescription': document.getElementById('studyDashboardDescription'),
+                'mindCanvasTitle': document.getElementById('mindCanvasTitle'),
+                'mindCanvasDescription': document.getElementById('mindCanvasDescription'),
+                'copyright': document.getElementById('copyright')
+            };
+
+            // Atualizar botões "Ver Projeto"
+            const viewProjectButtons = document.querySelectorAll('.project-links a');
+            viewProjectButtons.forEach(button => {
+                button.innerHTML = `<i class="fas fa-external-link-alt"></i> ${translations[lang].viewProject}`;
+            });
+
+            for (const [key, element] of Object.entries(elements)) {
+                if (element) {
+                    element.textContent = translations[lang][key];
+                }
+            }
+        }
+
+        // Carregar idioma preferido ao carregar a página
+        window.addEventListener('load', () => {
+            const savedLang = localStorage.getItem('preferredLanguage') || 'pt';
+            document.getElementById('languageSelect').value = savedLang;
+            document.documentElement.lang = savedLang;
+            changeLanguage(); // Aplicar traduções imediatamente
         });
     </script>
 </body>

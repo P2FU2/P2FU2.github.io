@@ -1,27 +1,160 @@
+/* ===== Variáveis Globais ===== */
+:root {
+  --primary: #27408B;
+  --accent: #4169E1;
+  --text: #1F1F1F;
+  --muted: #666666;
+  --bg: #F8F9FA;
+  --panel: #FFFFFF;
+}
+
 /* ===== Estilos Básicos ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  min-height: 100vh;
+  position: relative;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
+.container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  position: relative;
+  z-index: 10;
 }
 
-/* ===== Visualizador de PDF ===== */
-.pdf-viewer {
-  width: 100%;
-  height: 600px;
+/* ===== Cabeçalho ===== */
+header {
+  text-align: center;
+  padding: 4rem 1rem 2rem;
+  position: relative;
+  z-index: 10;
 }
 
-/* ===== Outras Seções ===== */
-#magazine {
-  margin: auto;
+header h1 {
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 2;
+  color: var(--primary);
+  transition: color 0.3s;
 }
 
-.page img {
-  width: 100%;
-  height: 100%;
+.subtitle-text {
+  font-size: 1.3rem;
+  font-family: 'Fira Code', monospace;
+  margin-bottom: 1rem;
+}
+
+/* ===== Navegação ===== */
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-family: 'Fira Code', monospace;
+  transition: color 0.3s;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--primary);
+  border-radius: 4px;
+}
+
+nav a:hover {
+  background-color: var(--primary);
+  color: var(--bg);
+}
+
+/* ===== Seções ===== */
+section {
+  background: var(--panel);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  border: 2px solid var(--primary);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+section h2 {
+  color: var(--primary);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-family: 'Fira Code', monospace;
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 0.5rem;
+}
+
+article {
+  margin-bottom: 1.5rem;
+}
+
+article h3 {
+  color: var(--text);
+  margin-bottom: 0.5rem;
+  font-family: 'Fira Code', monospace;
+}
+
+article small {
+  color: var(--muted);
+  font-family: 'Fira Code', monospace;
+}
+
+/* ===== Listas ===== */
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+li {
+  margin-bottom: 0.5rem;
+  font-family: 'Fira Code', monospace;
+}
+
+/* ===== Links ===== */
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+/* ===== Botão de Download ===== */
+.download-btn {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: var(--panel);
+  border: 1px solid var(--primary);
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.85rem;
+  color: var(--primary);
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  z-index: 100;
+}
+
+.download-btn:hover {
+  background-color: var(--primary);
+  color: var(--bg);
 }
 
 /* ===== Responsividade ===== */

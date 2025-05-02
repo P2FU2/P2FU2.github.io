@@ -3,24 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pedro Neves | > Economist and Software Engineer</title>
+  <title>Pedro Neves | Economist and Software Engineer</title>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@500&family=Inter:wght@700&display=swap" rel="stylesheet">
+  <script src="translations.js"></script>
   <style>
     :root {
-      --primary: #00ff88;
-      --accent: #4fffcd;
-      --text: #ffffff;
-      --muted: #ffffff;
-      --bg: #0c0c0c;
-      --panel: #1a1a1a;
-    }
-    body.light {
-      --bg: #f3f6fa;
-      --text: #222831;
-      --panel: #fff;
       --primary: #1a237e;
       --accent: #1976d2;
+      --text: #222831;
       --muted: #1976d2;
+      --bg: #f3f6fa;
+      --panel: #fff;
+    }
+    body.dark {
+      --bg: #0c0c0c;
+      --text: #ffffff;
+      --panel: #1a1a1a;
+      --primary: #00ff88;
+      --accent: #4fffcd;
+      --muted: #ffffff;
     }
     * {
       margin: 0;
@@ -66,6 +67,18 @@
     .controls button:hover {
       background-color: var(--primary);
       color: #fff;
+    }
+    .controls button#imageButton {
+      display: none;
+    }
+    body.dark .controls button#imageButton {
+      display: block;
+    }
+    .controls button#themeButton {
+      display: none;
+    }
+    .controls button#themeButton.unlocked {
+      display: block;
     }
     header {
       text-align: center;
@@ -233,14 +246,50 @@
       margin-left: 0.5rem;
       font-size: 1rem;
     }
+    .language-selector {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 100;
+      background: var(--panel);
+      border: 1px solid var(--primary);
+      border-radius: 4px;
+      padding: 0.5rem;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      color: var(--primary);
+      cursor: pointer;
+    }
+    .language-selector select {
+      background: transparent;
+      border: none;
+      color: var(--primary);
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      cursor: pointer;
+      outline: none;
+    }
+    .language-selector select option {
+      background: var(--panel);
+      color: var(--text);
+    }
   </style>
 </head>
 <body>
   <canvas class="matrix"></canvas>
+  <div class="language-selector">
+    <select id="languageSelect" onchange="changeLanguage(this.value)">
+      <option value="en">English</option>
+      <option value="pt">Português</option>
+      <option value="es">Español</option>
+      <option value="zh">中文</option>
+      <option value="ja">日本語</option>
+    </select>
+  </div>
   <div class="controls">
-    <button onclick="toggleTheme()">Theme</button>
+    <button onclick="toggleTheme()" id="themeButton">Theme</button>
     <button onclick="cycleShape()">Shape</button>
-    <button onclick="toggleImage()">Image</button>
+    <button onclick="toggleImage()" id="imageButton">Image</button>
   </div>
   <header>
     <div class="profile-img shape-circle" id="profileImg"></div>
@@ -256,16 +305,16 @@
     </div>
 
     <div class="btn-group" style="margin: 5rem 0;">
-      <a href="/html/cv.html">Download Resume</a>
+      <a href="/html/cv.html">Go to Resume</a>
       <a href="/html/analysis.html">Go to Analysis</a>
-      <a href="/html/projects.html">Projects</a>
+      <a href="/html/projects.html">Go to Projects</a>
     </div>
 
     <div class="terminal-chat">
       <div class="terminal-line">Type a command:</div>
       <div class="terminal-input-container">
         <span class="terminal-prompt">&gt;</span>
-        <input class="terminal-input" type="text" id="terminalInput" placeholder="e.g. resume, projects, analysis" onkeypress="handleTerminal(event)" autocomplete="off" />
+        <input class="terminal-input" type="text" id="terminalInput" placeholder="resume, projects, help" onkeypress="handleTerminal(event)" autocomplete="on" />
       </div>
     </div>
   </header>
@@ -284,7 +333,7 @@
     let showingAlt = false;
     function toggleImage() {
       const img = document.getElementById('profileImg');
-      if (document.body.classList.contains('light')) {
+      if (document.body.classList.contains('dark')) {
         img.style.backgroundImage = "url('/images/perfil_prof.png')";
         showingAlt = false;
       } else {
@@ -313,6 +362,16 @@
           e.target.value = '';
           return;
         }
+        if (cmd === 'theme') {
+          document.getElementById('themeButton').classList.add('unlocked');
+          const chat = document.querySelector('.terminal-chat');
+          const response = document.createElement('div');
+          response.className = 'terminal-line';
+          response.textContent = 'Theme button unlocked!';
+          chat.appendChild(response);
+          e.target.value = '';
+          return;
+        }
         if (cmd.includes('resume')) window.location.href = '/html/cv.html';
         else if (cmd.includes('project')) window.location.href = '/html/projects.html';
         else if (cmd.includes('analysis')) window.location.href = '/html/analysis.html';
@@ -324,7 +383,7 @@
     function typeHelpText() {
       const chat = document.querySelector('.terminal-chat');
       let helpBox = document.getElementById('helpBox');
-      const helpText = `\nComandos disponíveis:\n\nhelp - Mostra esta mensagem de ajuda\nresume - Baixa o currículo\nprojects - Vai para a página de projetos\nanalysis - Vai para a página de análises\n\nDigite um dos comandos acima e pressione Enter.`;
+      const helpText = `\nComandos disponíveis:\n\nhelp - Mostra esta mensagem de ajuda\nresume - Baixa o currículo\nprojects - Vai para a página de projetos\nanalysis - Vai para a página de análises\ntheme - Desbloqueia o botão de tema\n\nDigite um dos comandos acima e pressione Enter.`;
       if (!helpBox) {
         helpBox = document.createElement('div');
         helpBox.id = 'helpBox';
@@ -368,18 +427,63 @@
     }
 
     function toggleTheme() {
-      document.body.classList.toggle('light');
+      document.body.classList.toggle('dark');
       const img = document.getElementById('profileImg');
-      if (document.body.classList.contains('light')) {
-        img.style.backgroundImage = "url('/images/perfil_prof.png')";
-        document.querySelector('canvas.matrix').style.display = 'none';
-      } else {
+      if (document.body.classList.contains('dark')) {
         img.style.backgroundImage = "url('/images/Perfil.jpg')";
         document.querySelector('canvas.matrix').style.display = 'block';
+      } else {
+        img.style.backgroundImage = "url('/images/perfil_prof.png')";
+        document.querySelector('canvas.matrix').style.display = 'none';
       }
     }
 
+    function changeLanguage(lang) {
+      // Salva a preferência de idioma no localStorage
+      localStorage.setItem('preferredLanguage', lang);
+      
+      // Atualiza o idioma em todas as páginas
+      const elements = {
+        'title': document.title,
+        'subtitle': document.querySelector('.subtitle-text'),
+        'description': document.getElementById('typingDesc'),
+        'years': document.querySelector('.stat:nth-child(1) p'),
+        'projectsCompleted': document.querySelector('.stat:nth-child(2) p'),
+        'opensource': document.querySelector('.stat:nth-child(3) p'),
+        'customers': document.querySelector('.stat:nth-child(4) p'),
+        'resume': document.querySelector('.btn-group a:nth-child(1)'),
+        'analysis': document.querySelector('.btn-group a:nth-child(2)'),
+        'projectsButton': document.querySelector('.btn-group a:nth-child(3)'),
+        'theme': document.getElementById('themeButton'),
+        'shape': document.querySelector('.controls button:nth-child(2)'),
+        'image': document.getElementById('imageButton'),
+        'typeCommand': document.querySelector('.terminal-line'),
+        'terminalInput': document.getElementById('terminalInput')
+      };
+
+      // Atualiza os textos
+      for (const [key, element] of Object.entries(elements)) {
+        if (element) {
+          if (key === 'title') {
+            document.title = translations[lang][key];
+          } else if (key === 'terminalInput') {
+            element.placeholder = translations[lang]['help'];
+          } else {
+            element.textContent = translations[lang][key];
+          }
+        }
+      }
+
+      // Atualiza o idioma do HTML
+      document.documentElement.lang = lang;
+    }
+
+    // Carrega o idioma salvo ou usa o padrão (inglês)
     window.onload = () => {
+      const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
+      document.getElementById('languageSelect').value = savedLanguage;
+      changeLanguage(savedLanguage);
+      
       animateType("typingDesc", "Focused on building meaningful digital solutions that solve real problems using data, design and logic.", 20);
       
       // Animações de contagem para os números
@@ -411,14 +515,9 @@
       }
       setInterval(drawMatrix, 33);
 
-      // Garante que ao carregar o tema claro já use a imagem profissional
-      if (document.body.classList.contains('light')) {
-        document.getElementById('profileImg').style.backgroundImage = "url('/images/perfil_prof.png')";
-        document.querySelector('canvas.matrix').style.display = 'none';
-      } else {
-        document.getElementById('profileImg').style.backgroundImage = "url('/images/Perfil.jpg')";
-        document.querySelector('canvas.matrix').style.display = 'block';
-      }
+      // Inicia com o tema claro e a imagem profissional
+      document.getElementById('profileImg').style.backgroundImage = "url('/images/perfil_prof.png')";
+      document.querySelector('canvas.matrix').style.display = 'none';
     }
   </script>
 </body>

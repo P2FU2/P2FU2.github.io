@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,27 +8,28 @@
   <!-- SEO Meta Tags -->
   <meta name="description" content="Portfólio do desenvolvedor web Pedro Neves">
   <meta name="keywords" content="Desenvolvedor Web, Portfólio, Pedro Neves">
-  <title>My Portfolio - Analysis</title>
+  <title data-translate="analysisTitle">Análises</title>
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  <script src="../translations.js"></script>
   
   <style>
     :root {
+      --primary: #27408B;
+      --accent: #4169E1;
+      --text: #1F1F1F;
+      --muted: #666666;
+      --bg: #F8F9FA;
+      --panel: #FFFFFF;
+    }
+    body.matrix {
       --primary: #00ff88;
       --accent: #4fffcd;
       --text: #ffffff;
-      --muted: #999999;
+      --muted: #ffffff;
       --bg: #0c0c0c;
       --panel: #1a1a1a;
-    }
-    body.light {
-      --bg: #ffffff;
-      --text: #c14141;
-      --panel: #ffffff;
-      --primary: #c6d400;
-      --accent: #4fffcd;
-      --muted: #c6d400;
     }
     * {
       margin: 0;
@@ -41,6 +42,7 @@
       color: var(--text);
       overflow-x: hidden;
       cursor: url('https://cdn-icons-png.flaticon.com/512/32/32355.png'), auto;
+      min-height: 100vh;
     }
     canvas.matrix {
       position: fixed;
@@ -61,25 +63,39 @@
       z-index: 100;
     }
     .controls button {
-      background: #222;
-      border: 1px solid #444;
-      border-radius: 0px;
+      background: var(--panel);
+      border: 1px solid var(--primary);
+      border-radius: 4px;
       padding: 0.5rem 1rem;
       font-family: 'Fira Code', monospace;
       font-size: 0.85rem;
-      color: #ffffff;
+      color: var(--primary);
       cursor: pointer;
-      transition: background 0.3s;
+      transition: background 0.3s, color 0.3s;
     }
     .controls button:hover {
       background-color: var(--primary);
-      color: #000;
+      color: #fff;
     }
     header {
+      text-align: center;
+      padding: 4rem 1rem 2rem;
       position: relative;
       z-index: 10;
-      padding: 2rem 0;
-      text-align: center;
+    }
+    h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 2;
+      color: var(--primary);
+      transition: color 0.3s;
+    }
+    .subtitle-text {
+      font-size: 1.3rem;
+      font-family: 'Fira Code', monospace;
+      margin-bottom: 1rem;
     }
     nav {
       display: flex;
@@ -91,44 +107,71 @@
       text-decoration: none;
       font-family: 'Fira Code', monospace;
       transition: color 0.3s;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--primary);
+      border-radius: 4px;
     }
     nav a:hover {
-      color: var(--primary);
+      background-color: var(--primary);
+      color: var(--bg);
     }
     .medium-posts {
-      max-width: 800px;
+      max-width: 1200px;
       margin: 2rem auto;
       padding: 0 1rem;
       position: relative;
       z-index: 10;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
     }
     .post-card {
       background: var(--panel);
-      margin: 1rem 0;
       padding: 1.5rem;
       border-radius: 8px;
       transition: all 0.3s ease;
-      border: 2px solid transparent;
+      border: 2px solid var(--primary);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
     }
     .post-card:hover {
       transform: translateY(-5px);
-      border-color: var(--primary);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     }
     .post-title {
       color: var(--primary);
       font-size: 1.5rem;
       margin-bottom: 1rem;
       font-family: 'Fira Code', monospace;
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 0.5rem;
     }
     .post-excerpt {
       color: var(--text);
       margin-bottom: 1rem;
       font-family: 'Fira Code', monospace;
+      flex-grow: 1;
     }
     .post-date {
       color: var(--muted);
       font-size: 0.9rem;
       font-family: 'Fira Code', monospace;
+      margin-bottom: 1rem;
+    }
+    .post-link {
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.3s;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--primary);
+      border-radius: 4px;
+      display: inline-block;
+      width: fit-content;
+    }
+    .post-link:hover {
+      background-color: var(--primary);
+      color: var(--bg);
     }
     .loading {
       text-align: center;
@@ -153,33 +196,71 @@
       color: var(--text);
       text-decoration: none;
       transition: color 0.3s;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--primary);
+      border-radius: 4px;
     }
     .social-links a:hover {
+      background-color: var(--primary);
+      color: var(--bg);
+    }
+    /* Seletor de Idioma */
+    .language-selector {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 100;
+      background: var(--panel);
+      border: 1px solid var(--primary);
+      border-radius: 4px;
+      padding: 0.5rem;
+      font-family: 'Fira Code', monospace;
       color: var(--primary);
+    }
+    
+    .language-selector select {
+      background: transparent;
+      border: none;
+      color: var(--primary);
+      font-family: 'Fira Code', monospace;
+      cursor: pointer;
+      outline: none;
     }
   </style>
 </head>
 <body>
   <canvas class="matrix"></canvas>
   
+  <div class="language-selector">
+    <select id="languageSelect" onchange="changeLanguage()">
+      <option value="pt">Português</option>
+      <option value="en">English</option>
+      <option value="es">Español</option>
+      <option value="zh">中文</option>
+      <option value="ja">日本語</option>
+    </select>
+  </div>
+
   <div class="controls">
-    <button onclick="document.body.classList.toggle('light')">Theme</button>
+    <button onclick="document.body.classList.toggle('matrix')" data-translate="theme">Tema</button>
   </div>
 
   <!-- Cabeçalho -->
   <header>
+    <h1 data-translate="analysisTitle">Análises</h1>
+    <div class="subtitle-text" data-translate="analysisSubtitle">> Artigos e Análises Técnicas<span class="terminal-cursor">_</span></div>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="projects.html">Projects</a>
-      <a href="cv.html">CV</a>
-      <a href="analysis.html">Analysis</a>
+      <a href="../index.html" data-translate="navHome">Início</a>
+      <a href="projects.html" data-translate="navProjects">Projetos</a>
+      <a href="cv.html" data-translate="navCV">Currículo</a>
+      <a href="analysis.html" data-translate="navAnalysis">Análises</a>
     </nav>
   </header>
 
   <!-- Conteúdo Principal -->
   <main>
     <div class="medium-posts" id="mediumPosts">
-      <div class="loading">Carregando publicações do Medium...</div>
+      <div class="loading" data-translate="loadingPosts">Carregando publicações do Medium...</div>
     </div>
   </main>
 
@@ -191,7 +272,7 @@
       <li><a href="mailto:pedromilani14@egmail.com"><i class="fas fa-envelope"></i> Email</a></li>
       <li><a href="https://twitter.com/qpedroneves"><i class="fab fa-twitter"></i> Twitter</a></li>
     </ul>
-    <p class="copyrights" style="color: var(--muted);">Copyright &copy; 2023</p>
+    <p class="copyrights" data-translate="copyright">Copyright &copy; 2023</p>
   </footer>
 
   <script>
@@ -206,6 +287,11 @@
     const drops = Array(Math.floor(columns)).fill(1);
 
     function drawMatrix() {
+      if (!document.body.classList.contains('matrix')) {
+        canvas.style.display = 'none';
+        return;
+      }
+      canvas.style.display = 'block';
       ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = "#00ff88";
@@ -218,6 +304,35 @@
       }
     }
     setInterval(drawMatrix, 33);
+
+    // Função para mudar o idioma
+    function changeLanguage() {
+      const select = document.getElementById('languageSelect');
+      const lang = select.value;
+      console.log('Mudando idioma para:', lang);
+      console.log('Translations disponível:', translations !== undefined);
+      document.documentElement.lang = lang;
+      updateTranslations();
+    }
+
+    // Função para atualizar as traduções
+    function updateTranslations() {
+      const lang = document.documentElement.lang;
+      console.log('Atualizando traduções para:', lang);
+      const elements = document.querySelectorAll('[data-translate]');
+      console.log('Elementos encontrados:', elements.length);
+      
+      elements.forEach(element => {
+        const key = element.getAttribute('data-translate');
+        console.log('Traduzindo elemento:', key);
+        if (translations[lang] && translations[lang][key]) {
+          console.log('Tradução encontrada:', translations[lang][key]);
+          element.textContent = translations[lang][key];
+        } else {
+          console.log('Tradução não encontrada para:', key);
+        }
+      });
+    }
 
     // Medium posts fetching
     async function fetchMediumPosts() {
@@ -240,7 +355,7 @@
               <h2 class="post-title">${post.title}</h2>
               <p class="post-excerpt">${post.description.substring(0, 200)}...</p>
               <p class="post-date">${date}</p>
-              <a href="${post.link}" target="_blank" style="color: var(--primary);">Ler mais</a>
+              <a href="${post.link}" target="_blank" class="post-link" data-translate="readMore">Ler mais</a>
             `;
             postsContainer.appendChild(postElement);
           });
@@ -251,15 +366,20 @@
         console.error('Erro ao buscar posts:', error);
         document.getElementById('mediumPosts').innerHTML = `
           <div style="text-align: center; color: var(--muted);">
-            <p>Não foi possível carregar as publicações.</p>
-            <p>Por favor, visite diretamente: <a href="https://medium.com/@pedromilani14" target="_blank" style="color: var(--primary);">meu perfil no Medium</a></p>
+            <p data-translate="errorLoading">Não foi possível carregar as publicações.</p>
+            <p><span data-translate="visitProfile">Por favor, visite diretamente:</span> <a href="https://medium.com/@pedromilani14" target="_blank" style="color: var(--primary);" data-translate="myMediumProfile">meu perfil no Medium</a></p>
           </div>
         `;
       }
     }
 
-    // Carregar posts quando a página carregar
-    window.onload = fetchMediumPosts;
+    // Carregar posts e traduções quando a página carregar
+    window.onload = function() {
+      console.log('Página carregada');
+      console.log('Translations disponível:', translations !== undefined);
+      fetchMediumPosts();
+      updateTranslations();
+    };
   </script>
 </body>
 </html>
