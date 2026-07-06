@@ -472,7 +472,9 @@
       display: flex; flex-direction: column; gap: 0;
       scroll-behavior: smooth;
       transition: background 0.4s, color 0.4s;
+      text-align: left;
     }
+    .terminal-wrap { text-align: left; }
     .terminal-body::-webkit-scrollbar { width: 4px; }
     .terminal-body::-webkit-scrollbar-track { background: transparent; }
     .terminal-body::-webkit-scrollbar-thumb { background: var(--terminal-prompt); border-radius: 2px; }
@@ -489,6 +491,7 @@
       font-family: 'Fira Code', monospace; font-size: 0.83rem;
       color: var(--terminal-text);
       scroll-behavior: smooth;
+      text-align: left;
     }
     .logs-body::-webkit-scrollbar { width: 4px; }
     .logs-body::-webkit-scrollbar-thumb { background: var(--terminal-prompt); border-radius: 2px; }
@@ -506,7 +509,7 @@
     }
     .log-empty {
       color: var(--terminal-dim); font-size: 0.8rem;
-      padding: 2rem; text-align: center;
+      padding: 1.2rem 0; text-align: left;
     }
 
     /* Terminal lines — light/dark/matrix */
@@ -1040,7 +1043,7 @@
     printSeparator();
     const cmds = [
       ['help / h / ?',   'show this help'],
-      ['story / about',  '📖 the P2FU2 story — read this first!'],
+      ['story / about',  'the P2FU2 story — read this first!'],
       ['whoami',         'display info about me'],
       ['neofetch',       'system info (hacker style)'],
       ['skills',         'list tech skills'],
@@ -1094,7 +1097,7 @@
       `           @@    @@@@@@@@    @@         <span style="color:var(--primary)">OS</span>: GitHub Pages / Static`,
       `          @@   @@        @@   @@        <span style="color:var(--primary)">Host</span>: P2FU2.github.io`,
       `         @@   @@  @@@@@@  @@   @@       <span style="color:var(--primary)">Shell</span>: JS Terminal v2.0`,
-      `         @@   @@  @@  @@  @@   @@       <span style="color:var(--primary)">Theme</span>: ${isDark ? 'Matrix Dark 🟩' : 'Clean Light ☀️'}`,
+      `         @@   @@  @@  @@  @@   @@       <span style="color:var(--primary)">Theme</span>: ${isDark ? 'Matrix Dark' : 'Light'}`,
       `         @@   @@  @@@@@@  @@   @@       <span style="color:var(--primary)">Lang</span>: JavaScript ES2022`,
       `          @@   @@        @@   @@        <span style="color:var(--primary)">Font</span>: Fira Code`,
       `           @@    @@@@@@@@    @@         <span style="color:var(--primary)">Stack</span>: HTML, CSS, JS, GH API`,
@@ -1291,7 +1294,7 @@
       { t: 'out',        v: 'Primeiro: análise estatística econométrica.' },
       { t: 'out',        v: 'Depois: um dashboard interativo.' },
       { t: 'out',        v: 'Depois: um site completo.' },
-      { t: 'green',      v: 'Depois: um terminal dentro de um site. 👈 aqui.' },
+      { t: 'green',      v: 'Depois: um terminal dentro de um site. [voce esta aqui]' },
       { t: '',           v: '' },
       { t: 'yellow bold',v: 'CAPÍTULO III  —  O STACK' },
       { t: 'dim',        v: '────────────────────────────────────────────' },
@@ -1307,7 +1310,7 @@
       { t: '',           v: '' },
       { t: 'yellow bold',v: 'CAPÍTULO IV  —  AS REFERÊNCIAS' },
       { t: 'dim',        v: '────────────────────────────────────────────' },
-      { t: 'out',        v: '  📚 LIVROS QUE MOLDARAM O CAMINHO:' },
+      { t: 'out',        v: '  LIVROS QUE MOLDARAM O CAMINHO:' },
       { t: 'green',      v: '  ├── "Python for Data Analysis"  — Wes McKinney' },
       { t: 'green',      v: '  ├── "Thinking, Fast and Slow"   — Daniel Kahneman' },
       { t: 'green',      v: '  ├── "The Pragmatic Programmer"  — Hunt & Thomas' },
@@ -1315,7 +1318,7 @@
       { t: 'green',      v: '  ├── "SICP"  — Abelson & Sussman' },
       { t: 'green',      v: '  └── "The Wealth of Nations"     — Adam Smith' },
       { t: '',           v: '' },
-      { t: 'out',        v: '  🎬 FILMES / SÉRIES QUE INSPIRARAM:' },
+      { t: 'out',        v: '  FILMES / SERIES QUE INSPIRARAM:' },
       { t: 'cyan',       v: '  ├── The Matrix (1999)     — questionar tudo' },
       { t: 'cyan',       v: '  ├── Moneyball (2011)      — dados vs intuição' },
       { t: 'cyan',       v: '  ├── The Social Network     — construir do zero' },
@@ -1510,7 +1513,7 @@
     const bootMsgs = [
       '// P2FU2 Portfolio Terminal v2.0',
       '// Type "help" to see all commands.',
-      '// 💡 Try: story · whoami · neofetch · hack · theme',
+      '// Try: story · whoami · neofetch · hack · theme',
     ];
     bootMsgs.forEach((msg, i) => {
       setTimeout(() => {
