@@ -7,7 +7,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@700&display=swap" rel="stylesheet">
   <script src="translations.js"></script>
   <style>
-    /* ── VARIABLES ───────────────────────────────────────────────── */
+    /* ══════════════════════════════════════════
+       TEMA 1 — LIGHT  (azul + branco, padrão)
+       ══════════════════════════════════════════ */
     :root {
       --primary: #1a237e;
       --accent: #1976d2;
@@ -15,13 +17,45 @@
       --muted: #4a5568;
       --bg: #f0f4f8;
       --panel: #ffffff;
-      --border: rgba(26,35,126,0.2);
+      --border: rgba(26,35,126,0.18);
+      --glow: none;
+      --terminal-bg: #f6f8fa;
+      --terminal-bar: #e8ecf0;
+      --terminal-text: #24292f;
+      --terminal-prompt: #1a237e;
+      --terminal-out: #57606a;
+      --terminal-green: #1a7a4a;
+      --terminal-dim: #8c959f;
+      --terminal-border: rgba(26,35,126,0.18);
+    }
+
+    /* ══════════════════════════════════════════
+       TEMA 2 — DARK  (azul escuro + cinza)
+       ══════════════════════════════════════════ */
+    body.dark {
+      --primary: #58a6ff;
+      --accent: #79c0ff;
+      --text: #c9d1d9;
+      --muted: #8b949e;
+      --bg: #0d1117;
+      --panel: #161b22;
+      --border: rgba(48,54,61,0.9);
       --glow: none;
       --terminal-bg: #0d1117;
+      --terminal-bar: #161b22;
       --terminal-text: #c9d1d9;
+      --terminal-prompt: #58a6ff;
+      --terminal-out: #8b949e;
+      --terminal-green: #3fb950;
+      --terminal-dim: #4a5568;
+      --terminal-border: rgba(48,54,61,0.9);
     }
-    /* dark = escuro simples | matrix = escuro + chuva — ambos mesmas cores */
-    body.dark, body.matrix {
+
+    /* ══════════════════════════════════════════
+       TEMA 3 — MATRIX / HACKER  (verde néon)
+       Ativado APENAS via terminal: theme
+       ══════════════════════════════════════════ */
+    body.matrix {
       --primary: #00ff88;
       --accent: #4fffcd;
       --text: #e0ffe0;
@@ -30,18 +64,6 @@
       --panel: #0d1a14;
       --border: rgba(0,255,136,0.25);
       --glow: 0 0 10px rgba(0,255,136,0.45), 0 0 30px rgba(0,255,136,0.15);
-      /* terminal dark */
-      --terminal-bg: #0d1117;
-      --terminal-bar: #161b22;
-      --terminal-text: #c9d1d9;
-      --terminal-prompt: #00ff88;
-      --terminal-out: #8b949e;
-      --terminal-green: #00ff88;
-      --terminal-dim: #4a5568;
-      --terminal-border: rgba(0,255,136,0.3);
-    }
-    body.matrix {
-      /* terminal matrix: mais hacker */
       --terminal-bg: #000;
       --terminal-bar: #001100;
       --terminal-text: #00ff88;
@@ -177,6 +199,16 @@
     .profile-img-wrap:hover .profile-img {
       transform: scale(1.04);
       box-shadow: 0 0 0 4px var(--primary), var(--glow);
+    }
+    /* MATRIX MODE: foto com filtro hacker verde */
+    body.matrix .profile-img {
+      filter: grayscale(0.2) sepia(0.6) hue-rotate(95deg) saturate(2.5) brightness(0.75) contrast(1.1);
+      border-color: #00ff88;
+      box-shadow: 0 0 0 3px #00ff88, 0 0 25px rgba(0,255,136,0.5), 0 0 60px rgba(0,255,136,0.2);
+    }
+    body.matrix .profile-img-wrap:hover .profile-img {
+      filter: grayscale(0) sepia(0.4) hue-rotate(95deg) saturate(3) brightness(0.85);
+      box-shadow: 0 0 0 4px #00ff88, 0 0 40px rgba(0,255,136,0.7);
     }
 
     /* Name */
@@ -332,25 +364,46 @@
     /* Terminal title bar */
     .terminal-titlebar {
       background: var(--terminal-bar);
-      padding: 0.55rem 1rem;
+      padding: 0.5rem 1rem;
       display: flex; align-items: center; gap: 0.5rem;
       border-bottom: 1px solid var(--terminal-border);
       transition: background 0.4s;
     }
-    .tb-dot { width: 12px; height: 12px; border-radius: 50%; }
+    .tb-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
     .tb-dot.red    { background: #ff5f57; }
     .tb-dot.yellow { background: #febc2e; }
     .tb-dot.green  { background: #28c840; }
-    .tb-title {
-      flex: 1; text-align: center;
+
+    /* TERMINAL TABS */
+    .term-tabs {
+      flex: 1; display: flex; align-items: center;
+      justify-content: center; gap: 0.25rem;
+    }
+    .term-tab {
+      background: transparent; border: none; cursor: pointer;
       font-family: 'Fira Code', monospace; font-size: 0.72rem;
       color: var(--terminal-dim);
+      padding: 0.2rem 0.75rem; border-radius: 4px;
+      transition: all 0.2s; position: relative;
     }
+    .term-tab:hover { color: var(--terminal-prompt); background: rgba(255,255,255,0.05); }
+    .term-tab.active {
+      color: var(--terminal-prompt);
+      border-bottom: 2px solid var(--terminal-prompt);
+    }
+    .term-tab .badge {
+      position: absolute; top: -2px; right: -2px;
+      background: #ff4444; color: #fff;
+      font-size: 0.55rem; border-radius: 50%;
+      width: 14px; height: 14px;
+      display: none; align-items: center; justify-content: center;
+    }
+    .term-tab .badge.show { display: flex; }
+
     .tb-expand {
       background: transparent; border: none; cursor: pointer;
       color: var(--terminal-dim); font-size: 0.95rem;
-      padding: 0 0.2rem; transition: color 0.2s;
-      line-height: 1;
+      padding: 0 0.2rem; transition: color 0.2s; line-height: 1; flex-shrink: 0;
     }
     .tb-expand:hover { color: var(--terminal-prompt); }
 
@@ -369,6 +422,38 @@
     .terminal-body::-webkit-scrollbar { width: 4px; }
     .terminal-body::-webkit-scrollbar-track { background: transparent; }
     .terminal-body::-webkit-scrollbar-thumb { background: var(--terminal-prompt); border-radius: 2px; }
+
+    /* Tab panes */
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    /* Logs pane */
+    .logs-body {
+      padding: 1rem 1.5rem;
+      min-height: 240px; max-height: 400px;
+      overflow-y: auto;
+      font-family: 'Fira Code', monospace; font-size: 0.83rem;
+      color: var(--terminal-text);
+      scroll-behavior: smooth;
+    }
+    .logs-body::-webkit-scrollbar { width: 4px; }
+    .logs-body::-webkit-scrollbar-thumb { background: var(--terminal-prompt); border-radius: 2px; }
+    .terminal-wrap.expanded .logs-body { max-height: calc(100vh - 8rem); }
+
+    .log-entry {
+      padding: 0.15rem 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+      line-height: 1.6; white-space: pre-wrap; word-break: break-word;
+    }
+    .log-entry:last-child { border-bottom: none; }
+    .log-entry .log-cmd {
+      color: var(--terminal-prompt); font-weight: 700;
+      margin-bottom: 0.15rem; display: block;
+      font-size: 0.75rem; opacity: 0.7;
+    }
+    .log-empty {
+      color: var(--terminal-dim); font-size: 0.8rem;
+      padding: 2rem; text-align: center;
+    }
 
     /* Terminal lines — light/dark/matrix */
     .t-line { line-height: 1.6; white-space: pre-wrap; word-break: break-word; margin-bottom: 0.1rem; }
@@ -542,20 +627,35 @@
       <div id="terminalBackdrop" class="terminal-backdrop" onclick="collapseTerminal()"></div>
       <div class="terminal-wrap" id="termWrap">
         <div class="terminal-titlebar">
-          <span class="tb-dot red" onclick="collapseTerminal()" title="Fechar/minimizar" style="cursor:pointer"></span>
+          <span class="tb-dot red" onclick="collapseTerminal()" title="Minimizar" style="cursor:pointer"></span>
           <span class="tb-dot yellow"></span>
           <span class="tb-dot green"></span>
-          <span class="tb-title">pedro@portfolio — terminal</span>
-          <button class="tb-expand" id="expandBtn" onclick="toggleExpand()" title="Expandir terminal">⤢</button>
+          <div class="term-tabs">
+            <button class="term-tab active" id="tabBtnTerminal" onclick="switchTab('terminal')">Terminal</button>
+            <button class="term-tab" id="tabBtnLogs" onclick="switchTab('logs')">
+              Logs <span class="badge" id="logsBadge">0</span>
+            </button>
+          </div>
+          <button class="tb-expand" id="expandBtn" onclick="toggleExpand()" title="Expandir">⤢</button>
         </div>
-        <div class="terminal-body" id="terminalBody">
-          <!-- Lines added by JS -->
-          <div class="t-prompt-row">
-            <span class="t-prompt">pedro@portfolio:~$</span>
-            <input class="t-input" id="termInput" type="text"
-              placeholder="type 'help' for commands"
-              autocomplete="off" spellcheck="false"
-              onkeydown="handleKey(event)" />
+
+        <!-- ABA: Terminal (só input + eco do comando) -->
+        <div class="tab-pane active" id="paneTerminal">
+          <div class="terminal-body" id="terminalBody">
+            <div class="t-prompt-row">
+              <span class="t-prompt">pedro@portfolio:~$</span>
+              <input class="t-input" id="termInput" type="text"
+                placeholder="type 'help' for commands"
+                autocomplete="off" spellcheck="false"
+                onkeydown="handleKey(event)" />
+            </div>
+          </div>
+        </div>
+
+        <!-- ABA: Logs (saída de todos os comandos) -->
+        <div class="tab-pane" id="paneLogs">
+          <div class="logs-body" id="logsBody">
+            <div class="log-empty">// Nenhum comando executado ainda.<br>Execute um comando na aba Terminal.</div>
           </div>
         </div>
       </div>
@@ -609,7 +709,7 @@
 
     clearInterval(matInterval);
     matInterval = setInterval(() => {
-      if (!document.body.classList.contains('dark')) return;
+      if (!document.body.classList.contains('matrix')) return;
       matCtx.fillStyle = 'rgba(5,13,10,0.07)';
       matCtx.fillRect(0, 0, matCanvas.width, matCanvas.height);
       for (let i = 0; i < drops.length; i++) {
@@ -626,21 +726,62 @@
   initMatrix();
 
   // ════════════════════════════════════════════════════════════════
-  //  THEME
+  //  THEME  —  3 temas: light / dark / matrix
+  //  Botão do topbar: cicla light ↔ dark (matrix: só via terminal)
   // ════════════════════════════════════════════════════════════════
-  // Botão do topbar: apenas light ↔ dark (sem matrix)
-  function toggleTheme() {
-    // Se estava em matrix, clicando volta ao light
+  function updateThemeBtn() {
+    const btn = document.getElementById('themeBtn');
+    if (!btn) return;
     if (document.body.classList.contains('matrix')) {
-      document.body.classList.remove('matrix', 'dark');
-      document.getElementById('themeBtn').textContent = '[ dark ]';
-      localStorage.setItem('matrixActive', 'false');
-      printLine('// Matrix desativado → Light mode', 'yellow');
-      return;
+      btn.textContent = '[ matrix ]';
+    } else if (document.body.classList.contains('dark')) {
+      btn.textContent = '[ light ]';
+    } else {
+      btn.textContent = '[ dark ]';
     }
-    const isNowDark = document.body.classList.toggle('dark');
-    document.getElementById('themeBtn').textContent = isNowDark ? '[ light ]' : '[ dark ]';
-    printLine('// theme: ' + (isNowDark ? 'DARK MODE' : 'LIGHT MODE'), isNowDark ? 'cyan' : 'yellow');
+  }
+
+  function toggleTheme() {
+    if (document.body.classList.contains('matrix')) {
+      // Matrix → Light
+      document.body.classList.remove('matrix', 'dark');
+      localStorage.setItem('matrixActive', 'false');
+      localStorage.setItem('theme', 'light');
+    } else if (document.body.classList.contains('dark')) {
+      // Dark → Light
+      document.body.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    } else {
+      // Light → Dark
+      document.body.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    }
+    updateThemeBtn();
+  }
+
+  // ════════════════════════════════════════════════════════════════
+  //  TERMINAL TABS
+  // ════════════════════════════════════════════════════════════════
+  let logsUnread = 0;
+  let activeTab = 'terminal';
+
+  function switchTab(tab) {
+    activeTab = tab;
+    document.getElementById('paneTerminal').classList.toggle('active', tab === 'terminal');
+    document.getElementById('paneLogs').classList.toggle('active', tab === 'logs');
+    document.getElementById('tabBtnTerminal').classList.toggle('active', tab === 'terminal');
+    document.getElementById('tabBtnLogs').classList.toggle('active', tab === 'logs');
+    if (tab === 'logs') {
+      logsUnread = 0;
+      const badge = document.getElementById('logsBadge');
+      badge.classList.remove('show');
+      // scroll to bottom
+      const lb = document.getElementById('logsBody');
+      lb.scrollTop = lb.scrollHeight;
+    }
+    if (tab === 'terminal') {
+      setTimeout(() => document.getElementById('termInput').focus(), 50);
+    }
   }
 
   // ════════════════════════════════════════════════════════════════
@@ -761,33 +902,74 @@
     },
   };
 
+  // ─── currentLogEntry: agrupa as linhas de um mesmo comando ───────
+  let currentLogEntry = null;
+
+  function startLogEntry(cmdText) {
+    const lb = document.getElementById('logsBody');
+    // Remove placeholder
+    const empty = lb.querySelector('.log-empty');
+    if (empty) empty.remove();
+    // Nova entrada de log
+    currentLogEntry = document.createElement('div');
+    currentLogEntry.className = 'log-entry';
+    const cmdSpan = document.createElement('span');
+    cmdSpan.className = 'log-cmd';
+    cmdSpan.textContent = '$ ' + cmdText;
+    currentLogEntry.appendChild(cmdSpan);
+    lb.appendChild(currentLogEntry);
+    // Badge no Logs tab se não estiver ativo
+    if (activeTab !== 'logs') {
+      logsUnread++;
+      const badge = document.getElementById('logsBadge');
+      badge.textContent = logsUnread > 9 ? '9+' : logsUnread;
+      badge.classList.add('show');
+    }
+    lb.scrollTop = lb.scrollHeight;
+  }
+
   function printLine(text, cls = 'out', animate = false) {
-    const promptRow = termBody.querySelector('.t-prompt-row');
+    const lb = document.getElementById('logsBody');
     const div = document.createElement('div');
     div.className = 't-line ' + cls;
+    div.style.cssText = 'padding:0; border:none; white-space:pre-wrap; word-break:break-word; font-family:inherit; font-size:inherit;';
+    if (!currentLogEntry) {
+      lb.appendChild(div);
+    } else {
+      currentLogEntry.appendChild(div);
+    }
     if (animate) {
       div.textContent = '';
-      termBody.insertBefore(div, promptRow);
       let i = 0;
       const iv = setInterval(() => {
         div.textContent += text[i++];
-        termBody.scrollTop = termBody.scrollHeight;
+        lb.scrollTop = lb.scrollHeight;
         if (i >= text.length) clearInterval(iv);
       }, 5);
     } else {
       div.textContent = text;
-      termBody.insertBefore(div, promptRow);
     }
-    termBody.scrollTop = termBody.scrollHeight;
+    lb.scrollTop = lb.scrollHeight;
+    if (activeTab !== 'logs') {
+      logsUnread++;
+      const badge = document.getElementById('logsBadge');
+      badge.textContent = logsUnread > 9 ? '9+' : logsUnread;
+      badge.classList.add('show');
+    }
   }
 
   function printHTML(html, cls = 'out') {
-    const promptRow = termBody.querySelector('.t-prompt-row');
+    const lb = document.getElementById('logsBody');
     const div = document.createElement('div');
     div.className = 't-line ' + cls;
+    div.style.cssText = 'padding:0; border:none;';
     div.innerHTML = html;
-    termBody.insertBefore(div, promptRow);
-    termBody.scrollTop = termBody.scrollHeight;
+    if (!currentLogEntry) {
+      lb.appendChild(div);
+    } else {
+      currentLogEntry.appendChild(div);
+    }
+    lb.scrollTop = lb.scrollHeight;
   }
 
   function printSeparator() { printLine('─'.repeat(52), 'dim'); }
@@ -912,8 +1094,15 @@
   }
 
   function cmdClear() {
+    // Limpa aba Terminal (ecos de comandos)
     const rows = termBody.querySelectorAll('.t-line, .t-line-block');
     rows.forEach(r => r.remove());
+    // Limpa aba Logs
+    const lb = document.getElementById('logsBody');
+    lb.innerHTML = '<div class="log-empty">// Logs limpos.</div>';
+    logsUnread = 0;
+    const badge = document.getElementById('logsBadge');
+    badge.classList.remove('show');
   }
 
   function cmdMatrix() {
@@ -923,21 +1112,23 @@
   function cmdThemeUnlock() {
     const isActive = document.body.classList.contains('matrix');
     if (isActive) {
-      // Desativar matrix → volta ao dark
-      document.body.classList.remove('matrix');
-      document.body.classList.add('dark');
-      document.getElementById('themeBtn').textContent = '[ light ]';
+      document.body.classList.remove('matrix', 'dark');
       localStorage.setItem('matrixActive', 'false');
-      printLine('// Matrix mode DESATIVADO. Voltando ao dark.', 'yellow');
+      localStorage.setItem('theme', 'light');
+      updateThemeBtn();
+      printLine('// Matrix mode DESATIVADO → Light mode', 'yellow');
     } else {
-      // Ativar matrix
       document.body.classList.remove('dark');
       document.body.classList.add('matrix');
-      document.getElementById('themeBtn').textContent = '[ light ]';
       localStorage.setItem('matrixUnlocked', 'true');
       localStorage.setItem('matrixActive', 'true');
-      printLine('// Matrix mode DESBLOQUEADO. 🟩 Entrando na matrix...', 'green');
-      printLine('// Para sair: digite "theme" novamente ou clique em [ light ]', 'dim');
+      localStorage.setItem('theme', 'matrix');
+      updateThemeBtn();
+      printLine('// ██ MATRIX MODE ATIVADO ██', 'green bold');
+      printLine('// Tema hacker desbloqueado. Bem-vindo, Neo.', 'green');
+      printLine('// Para sair: "theme" novamente ou clique no botão.', 'dim');
+      // Auto-switch para logs para ver a mensagem
+      switchTab('logs');
     }
   }
 
@@ -1123,8 +1314,17 @@
       const raw = input.value.trim();
       if (!raw) return;
 
-      // Print the command line
-      printLine(`pedro@portfolio:~$ ${raw}`, 'cmd');
+      // Eco do comando na aba Terminal (sem remover, fica no histórico visual)
+      const echoDiv = document.createElement('div');
+      echoDiv.className = 't-line cmd';
+      echoDiv.textContent = `pedro@portfolio:~$ ${raw}`;
+      const promptRow = termBody.querySelector('.t-prompt-row');
+      termBody.insertBefore(echoDiv, promptRow);
+      termBody.scrollTop = termBody.scrollHeight;
+
+      // Inicia entrada de log na aba Logs
+      startLogEntry(raw);
+      currentLogEntry = document.querySelector('#logsBody .log-entry:last-child');
 
       // History
       cmdHistory.unshift(raw);
@@ -1139,8 +1339,10 @@
       if (COMMANDS[cmd]) {
         COMMANDS[cmd](args);
       } else {
-        printLine(`bash: ${cmd}: command not found  (type 'help' for commands)`, 'red');
+        printLine(`bash: ${cmd}: command not found  (type 'help')`, 'red');
       }
+
+      currentLogEntry = null;
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       if (historyIdx < cmdHistory.length - 1) {
@@ -1232,9 +1434,15 @@
     document.getElementById('languageSelect').value = savedLang;
     changeLanguage(savedLang);
 
-    // Theme — always start in light mode
-    document.body.classList.remove('dark');
-    document.getElementById('themeBtn').textContent = '[ matrix ]';
+    // Theme — restaura o tema salvo (light por padrão)
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.body.classList.remove('dark', 'matrix');
+    if (savedTheme === 'matrix' && localStorage.getItem('matrixActive') === 'true') {
+      document.body.classList.add('matrix');
+    } else if (savedTheme === 'dark') {
+      document.body.classList.add('dark');
+    }
+    updateThemeBtn();
 
     // Typing description
     typeText('typingDesc', 'Focused on building meaningful digital solutions that solve real problems using data, design and logic.', 18);
@@ -1244,13 +1452,22 @@
     animateCount('projects', 60);
     animateCount('opensource', 12);
 
-    // Boot sequence in terminal
-    const boot = [
-      { text: '// P2FU2 Portfolio Terminal v2.0', cls: 'green' },
-      { text: '// Type "help" to see all commands.', cls: 'dim' },
-      { text: '// 💡 Try: story · whoami · neofetch · hack · theme', cls: 'dim' },
+    // Boot sequence no terminal (eco visual)
+    const bootMsgs = [
+      '// P2FU2 Portfolio Terminal v2.0',
+      '// Type "help" to see all commands.',
+      '// 💡 Try: story · whoami · neofetch · hack · theme',
     ];
-    boot.forEach((l, i) => setTimeout(() => printLine(l.text, l.cls), i * 120));
+    bootMsgs.forEach((msg, i) => {
+      setTimeout(() => {
+        const div = document.createElement('div');
+        div.className = 't-line dim';
+        div.textContent = msg;
+        const pr = termBody.querySelector('.t-prompt-row');
+        termBody.insertBefore(div, pr);
+        termBody.scrollTop = termBody.scrollHeight;
+      }, i * 120);
+    });
 
     // GitHub data
     fetchGitHubProfile();

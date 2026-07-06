@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="../translations.js"></script>
     <style>
-        /* ── VARS ─────────────────────────────────────────── */
+        /* ── TEMA LIGHT (azul + branco) ──────────────────── */
         :root {
             --primary: #1a237e;
             --accent: #1976d2;
@@ -20,7 +20,19 @@
             --border: rgba(26,35,126,0.18);
             --glow: none;
         }
-        body.dark, body.matrix {
+        /* ── TEMA DARK (azul escuro) ───────────────────────── */
+        body.dark {
+            --primary: #58a6ff;
+            --accent: #79c0ff;
+            --text: #c9d1d9;
+            --muted: #8b949e;
+            --bg: #0d1117;
+            --panel: #161b22;
+            --border: rgba(48,54,61,0.9);
+            --glow: none;
+        }
+        /* ── TEMA MATRIX/HACKER (verde néon) ──────────────── */
+        body.matrix {
             --primary: #00ff88;
             --accent: #4fffcd;
             --text: #e0ffe0;
@@ -67,7 +79,7 @@
             color: var(--primary); text-decoration: none; letter-spacing: 0.02em;
             font-weight: 700;
         }
-        body.dark .topbar-brand, body.matrix .topbar-brand { text-shadow: var(--glow); }
+        body.matrix .topbar-brand { text-shadow: var(--glow); }
         .topbar-nav { display: flex; gap: 0.25rem; }
         .topbar-nav a {
             font-family: 'Fira Code', monospace; font-size: 0.82rem;
@@ -609,14 +621,26 @@
     initMatrix();
 
     // ── THEME ─────────────────────────────────────────────────────────
+    function updateThemeBtn() {
+        const btn = document.getElementById('themeBtn');
+        if (!btn) return;
+        if (document.body.classList.contains('matrix')) btn.textContent = '[ matrix ]';
+        else if (document.body.classList.contains('dark')) btn.textContent = '[ light ]';
+        else btn.textContent = '[ dark ]';
+    }
     function toggleTheme() {
         if (document.body.classList.contains('matrix')) {
             document.body.classList.remove('matrix', 'dark');
-            document.getElementById('themeBtn').textContent = '[ Dark ]';
-            return;
+            localStorage.setItem('theme', 'light');
+            localStorage.setItem('matrixActive', 'false');
+        } else if (document.body.classList.contains('dark')) {
+            document.body.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
         }
-        const isDark = document.body.classList.toggle('dark');
-        document.getElementById('themeBtn').textContent = isDark ? '[ Light ]' : '[ Dark ]';
+        updateThemeBtn();
     }
 
     // ── LANGUAGE ──────────────────────────────────────────────────────
@@ -762,11 +786,15 @@
         const savedLang = localStorage.getItem('preferredLanguage') || 'pt';
         document.getElementById('languageSelect').value = savedLang;
 
-        // Restaurar matrix se desbloqueado via terminal
-        if (localStorage.getItem('matrixUnlocked') === 'true' && localStorage.getItem('matrixActive') === 'true') {
+        // Restaurar tema salvo
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.classList.remove('dark', 'matrix');
+        if (savedTheme === 'matrix' && localStorage.getItem('matrixActive') === 'true') {
             document.body.classList.add('matrix');
-            document.getElementById('themeBtn').textContent = '[ Light ]';
+        } else if (savedTheme === 'dark') {
+            document.body.classList.add('dark');
         }
+        updateThemeBtn();
 
         fetchProfile();
         fetchRepos();

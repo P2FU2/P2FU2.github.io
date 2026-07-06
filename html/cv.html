@@ -3,331 +3,603 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="description" content="Currículo de Pedro Neves - Economista e Desenvolvedor">
-  <meta name="keywords" content="Currículo, Pedro Neves, Economista, Desenvolvedor">
-  <title>Currículo 2033 - Pedro Neves</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@500&family=Inter:wght@700&display=swap" rel="stylesheet">
+  <meta name="description" content="Currículo de Pedro Neves — Economista e Desenvolvedor de Software">
+  <title>CV — P2FU2</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="stylesheet" href="/css/cv.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="../translations.js"></script>
   <style>
-    .language-selector {
-      position: fixed;
-      top: 1rem;
-      left: 1rem;
-      z-index: 100;
-      background: var(--panel);
-      border: 1px solid var(--primary);
-      border-radius: 4px;
-      padding: 0.5rem;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.85rem;
-      color: var(--primary);
-      cursor: pointer;
+    /* ── VARS ──────────────────────────────────────────── */
+    :root {
+      --primary: #1a237e;
+      --accent: #1976d2;
+      --text: #1a1a2e;
+      --muted: #4a5568;
+      --bg: #f0f4f8;
+      --panel: #ffffff;
+      --border: rgba(26,35,126,0.18);
+      --glow: none;
+      --section-border: rgba(26,35,126,0.15);
     }
-    .language-selector select {
-      background: transparent;
-      border: none;
-      color: var(--primary);
-      font-family: 'Fira Code', monospace;
-      font-size: 0.85rem;
-      cursor: pointer;
-      outline: none;
+    body.dark {
+      --primary: #58a6ff;
+      --accent: #79c0ff;
+      --text: #c9d1d9;
+      --muted: #8b949e;
+      --bg: #0d1117;
+      --panel: #161b22;
+      --border: rgba(48,54,61,0.9);
+      --glow: none;
+      --section-border: rgba(48,54,61,0.6);
     }
-    .language-selector select option {
-      background: var(--panel);
+    body.matrix {
+      --primary: #00ff88;
+      --accent: #4fffcd;
+      --text: #e0ffe0;
+      --muted: #00cc66;
+      --bg: #050d0a;
+      --panel: #0d1a14;
+      --border: rgba(0,255,136,0.22);
+      --glow: 0 0 8px rgba(0,255,136,0.4), 0 0 20px rgba(0,255,136,0.12);
+      --section-border: rgba(0,255,136,0.18);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
       color: var(--text);
+      overflow-x: hidden;
+      min-height: 100vh;
+      transition: background 0.4s, color 0.4s;
+    }
+    body.matrix::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px);
+      pointer-events: none; z-index: 1;
+    }
+    canvas.matrix {
+      position: fixed; top: 0; left: 0;
+      z-index: 0; width: 100%; height: 100%;
+      pointer-events: none; opacity: 0.35; display: none;
+    }
+    body.matrix canvas.matrix { display: block; }
+
+    /* ── TOPBAR ────────────────────────────────────────── */
+    .topbar {
+      position: fixed; top: 0; left: 0; right: 0; height: 52px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1.5rem; z-index: 200;
+      backdrop-filter: blur(8px);
+      box-shadow: var(--glow);
+      transition: all 0.4s;
+    }
+    .topbar-brand {
+      font-family: 'Fira Code', monospace; font-size: 0.92rem; font-weight: 700;
+      color: var(--primary); text-decoration: none;
+    }
+    body.matrix .topbar-brand { text-shadow: var(--glow); }
+    .topbar-nav { display: flex; gap: 0.25rem; }
+    .topbar-nav a {
+      font-family: 'Fira Code', monospace; font-size: 0.82rem;
+      color: var(--muted); text-decoration: none;
+      padding: 0.35rem 0.8rem; border-radius: 5px;
+      border: 1px solid transparent; transition: all 0.2s;
+    }
+    .topbar-nav a:hover, .topbar-nav a.active {
+      border-color: var(--primary); color: var(--primary);
+      background: rgba(0,255,136,0.05);
+    }
+    .topbar-right { display: flex; gap: 0.5rem; align-items: center; }
+    .lang-select {
+      background: transparent; border: 1px solid var(--border);
+      border-radius: 4px; color: var(--primary);
+      font-family: 'Fira Code', monospace; font-size: 0.75rem;
+      padding: 0.22rem 0.5rem; cursor: pointer; outline: none;
+    }
+    .btn-topbar {
+      background: transparent; border: 1px solid var(--border);
+      border-radius: 4px; color: var(--primary);
+      font-family: 'Fira Code', monospace; font-size: 0.75rem;
+      padding: 0.28rem 0.7rem; cursor: pointer; transition: all 0.2s;
+      display: flex; align-items: center; gap: 0.35rem;
+    }
+    .btn-topbar:hover { background: var(--primary); color: var(--bg); box-shadow: var(--glow); }
+    .btn-pdf { border-color: var(--primary); color: var(--primary); }
+
+    /* ── MAIN ──────────────────────────────────────────── */
+    main {
+      padding-top: 72px;
+      max-width: 860px; margin: 0 auto;
+      padding-left: 1.5rem; padding-right: 1.5rem;
+      padding-bottom: 4rem;
+      position: relative; z-index: 10;
+    }
+
+    /* ── PAGE HEADER ───────────────────────────────────── */
+    .cv-header {
+      padding: 2.5rem 0 2rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2.5rem;
+      text-align: center;
+    }
+    .cv-header .breadcrumb {
+      font-family: 'Fira Code', monospace; font-size: 0.82rem;
+      color: var(--muted); margin-bottom: 0.5rem;
+    }
+    .cv-header .breadcrumb span { color: var(--primary); }
+    .cv-header h1 {
+      font-size: 2rem; font-weight: 700; color: var(--primary);
+      font-family: 'Fira Code', monospace; margin-bottom: 0.3rem;
+    }
+    body.dark .cv-header h1, body.matrix .cv-header h1 { text-shadow: var(--glow); }
+    .cv-header .role {
+      font-family: 'Fira Code', monospace; font-size: 0.95rem;
+      color: var(--muted); margin-bottom: 0.5rem;
+    }
+    .cv-header .contacts {
+      display: flex; justify-content: center; gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .cv-header .contacts a {
+      font-family: 'Fira Code', monospace; font-size: 0.8rem;
+      color: var(--primary); text-decoration: none;
+      display: flex; align-items: center; gap: 0.3rem;
+      transition: opacity 0.2s;
+    }
+    .cv-header .contacts a:hover { opacity: 0.75; }
+
+    /* ── SECTIONS ──────────────────────────────────────── */
+    .cv-section {
+      background: var(--panel);
+      border: 1px solid var(--section-border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      transition: all 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .cv-section::before {
+      content: '';
+      position: absolute; top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--primary);
+    }
+    .cv-section:hover { border-color: var(--primary); box-shadow: var(--glow); }
+
+    .cv-section h2 {
+      font-family: 'Fira Code', monospace; font-size: 0.72rem;
+      text-transform: uppercase; letter-spacing: 0.15em;
+      color: var(--primary); margin-bottom: 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--section-border);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    body.dark .cv-section h2, body.matrix .cv-section h2 { text-shadow: var(--glow); }
+
+    /* Experience articles */
+    .cv-article { margin-bottom: 1.25rem; }
+    .cv-article:last-child { margin-bottom: 0; }
+    .cv-article h3 {
+      font-family: 'Fira Code', monospace; font-size: 0.92rem;
+      font-weight: 700; color: var(--text); margin-bottom: 0.15rem;
+    }
+    .cv-article .company {
+      color: var(--primary); font-weight: 600;
+    }
+    .cv-article .period {
+      font-family: 'Fira Code', monospace; font-size: 0.75rem;
+      color: var(--muted); margin-bottom: 0.6rem;
+      display: flex; align-items: center; gap: 0.3rem;
+    }
+    .cv-article ul { list-style: none; padding: 0; }
+    .cv-article ul li {
+      font-family: 'Fira Code', monospace; font-size: 0.8rem;
+      color: var(--muted); padding: 0.18rem 0;
+      display: flex; align-items: flex-start; gap: 0.5rem;
+      line-height: 1.5;
+    }
+    .cv-article ul li::before {
+      content: '›'; color: var(--primary); flex-shrink: 0;
+    }
+
+    /* Education, certs, skills — list style */
+    .cv-list { list-style: none; padding: 0; }
+    .cv-list li {
+      font-family: 'Fira Code', monospace; font-size: 0.82rem;
+      color: var(--muted); padding: 0.35rem 0;
+      border-bottom: 1px solid var(--section-border);
+      display: flex; align-items: flex-start; gap: 0.5rem;
+      line-height: 1.5;
+    }
+    .cv-list li:last-child { border-bottom: none; }
+    .cv-list li::before { content: '//'; color: var(--primary); flex-shrink: 0; }
+    .cv-list li strong { color: var(--text); }
+
+    /* Languages grid */
+    .lang-grid {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+    }
+    .lang-chip {
+      font-family: 'Fira Code', monospace; font-size: 0.75rem;
+      padding: 0.3rem 0.8rem; border-radius: 20px;
+      border: 1px solid var(--section-border);
+      background: var(--bg); color: var(--text);
+      transition: all 0.2s;
+    }
+    .lang-chip:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* Skills tags */
+    .skills-group { margin-bottom: 1rem; }
+    .skills-group:last-child { margin-bottom: 0; }
+    .skills-group .s-label {
+      font-family: 'Fira Code', monospace; font-size: 0.72rem;
+      color: var(--primary); margin-bottom: 0.4rem;
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .skills-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .skill-tag {
+      font-family: 'Fira Code', monospace; font-size: 0.73rem;
+      padding: 0.22rem 0.6rem; border-radius: 4px;
+      border: 1px solid var(--section-border);
+      background: var(--bg); color: var(--muted);
+      transition: all 0.2s;
+    }
+    .skill-tag:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* Interests */
+    .interests-text {
+      font-family: 'Fira Code', monospace; font-size: 0.82rem;
+      color: var(--muted); line-height: 1.7;
+    }
+
+    /* ── FOOTER ────────────────────────────────────────── */
+    .cv-footer {
+      text-align: center; padding-top: 1rem;
+      font-family: 'Fira Code', monospace; font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* ── PRINT STYLES ──────────────────────────────────── */
+    @media print {
+      .topbar, canvas { display: none !important; }
+      body { padding-top: 0 !important; background: #fff !important; color: #000 !important; }
+      main { padding-top: 0 !important; }
+      .cv-section { border: 1px solid #ddd !important; box-shadow: none !important; }
+      .cv-section::before { background: #1a237e !important; }
+    }
+
+    @media (max-width: 640px) {
+      .topbar-nav { display: none; }
     }
   </style>
 </head>
-
 <body>
-  <!-- Seletor de Idioma -->
-  <div class="language-selector">
-    <select id="languageSelect" onchange="changeLanguage(this.value)">
-      <option value="en">English</option>
-      <option value="pt">Português</option>
-      <option value="es">Español</option>
-      <option value="zh">中文</option>
-      <option value="ja">日本語</option>
-    </select>
-  </div>
+  <canvas class="matrix"></canvas>
 
-  <!-- Botão de Download -->
-  <button class="download-btn" onclick="generatePDF()">
-    <i class="fas fa-download"></i> <span id="downloadText">Download PDF</span>
-  </button>
+  <!-- TOPBAR -->
+  <nav class="topbar">
+    <a class="topbar-brand" href="/index.html">~/P2FU2</a>
+    <div class="topbar-nav">
+      <a href="/index.html">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="cv.html" class="active">CV</a>
+      <a href="analysis.html">Analysis</a>
+    </div>
+    <div class="topbar-right">
+      <select class="lang-select" id="languageSelect" onchange="changeLanguage(this.value)">
+        <option value="pt">PT</option>
+        <option value="en">EN</option>
+        <option value="es">ES</option>
+        <option value="zh">ZH</option>
+        <option value="ja">JA</option>
+      </select>
+      <button class="btn-topbar btn-pdf" onclick="generatePDF()">
+        <i class="fas fa-download"></i> <span id="downloadText">PDF</span>
+      </button>
+      <button class="btn-topbar" onclick="toggleTheme()" id="themeBtn">[ Dark ]</button>
+    </div>
+  </nav>
 
-  <!-- Cabeçalho -->
-  <header>
-    <h1 id="cvTitle">Currículo</h1>
-    <div class="subtitle-text" id="cvSubtitle">> Meu Currículo<span class="terminal-cursor">_</span></div>
-    <nav>
-      <a href="../index.html" id="navHome">Home</a>
-      <a href="projects.html" id="navProjects">Projetos</a>
-      <a href="cv.html" id="navCV">CV</a>
-      <a href="analysis.html" id="navAnalysis">Análise</a>
-    </nav>
-  </header>
-
-  <div class="container" id="content-to-print">
-    <!-- Cabeçalho -->
-    <header>
+  <!-- CV CONTENT -->
+  <main id="content-to-print">
+    <!-- Personal Header -->
+    <div class="cv-header">
+      <div class="breadcrumb"><span>~</span> / <span>cv</span></div>
       <h1>Pedro Neves</h1>
-      <p class="subtitle-text" id="cvRole">Empreendedor | Economista | Desenvolvedor</p>
-      <p>
-        <a href="mailto:pedromilani14@gmail.com">pedromilani14@gmail.com</a> |
-        <a href="https://www.linkedin.com/in/pedroqneves" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <p class="role" id="cvRole">Empreendedor | Economista | Desenvolvedor</p>
+      <div class="contacts">
+        <a href="mailto:pedromilani14@gmail.com"><i class="fas fa-envelope"></i> pedromilani14@gmail.com</a>
+        <a href="https://www.linkedin.com/in/pedroqneves" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+        <a href="https://github.com/P2FU2" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+        <span style="font-family:'Fira Code',monospace;font-size:0.8rem;color:var(--muted)">
+          <i class="fas fa-map-marker-alt"></i> <span id="cvLocation">São Paulo, Brasil</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Professional Summary -->
+    <div class="cv-section">
+      <h2><i class="fas fa-user"></i> <span id="professionalSummary">Resumo Profissional</span></h2>
+      <p class="interests-text" id="summaryText">
+        Em 2033, sou reconhecido como um líder visionário na intersecção entre economia e tecnologia.
+        Com mais de uma década de experiência transformadora, tenho liderado iniciativas que unem
+        modelagem econômica avançada e desenvolvimento de software de ponta para revolucionar o setor financeiro.
       </p>
-      <p id="cvLocation">São Paulo, Brasil</p>
-    </header>
+    </div>
 
-    <hr>
+    <!-- Experience -->
+    <div class="cv-section">
+      <h2><i class="fas fa-briefcase"></i> <span id="experienceTitle">Experiência Profissional</span></h2>
 
-    <!-- Conteúdo Principal -->
-    <main>
-      <!-- Resumo Profissional -->
-      <section id="resumo-profissional">
-        <h2 id="professionalSummary">Resumo Profissional</h2>
-        <p id="summaryText">
-          Em 2033, sou reconhecido como um líder visionário na intersecção entre economia e tecnologia. Com mais de uma década de experiência transformadora, tenho liderado iniciativas que unem modelagem econômica avançada e desenvolvimento de software de ponta para revolucionar o setor financeiro.
-        </p>
-      </section>
-
-      <!-- Experiência Profissional -->
-      <section id="experiencia">
-        <h2 id="experienceTitle">Experiência Profissional</h2>
-
-        <article>
-          <h3 id="job1Title">Chief Economic &amp; Technology Strategist <small>Global FinTech Innovations</small></h3>
-          <p><em id="job1Period">2030 - Presente | São Paulo, Brasil</em></p>
-          <ul>
-            <li id="job1Task1">Lidero a integração de modelagem econômica avançada e machine learning para previsões financeiras precisas.</li>
-            <li id="job1Task2">Implementei sistemas blockchain para transações transparentes, aumentando a confiança dos investidores em 40%.</li>
-            <li id="job1Task3">Coordeno equipes multidisciplinares para transformar dados complexos em insights estratégicos.</li>
-          </ul>
-        </article>
-
-        <article>
-          <h3 id="job2Title">Vice Presidente de Data & Economic Analytics <small>Comdinheiro</small></h3>
-          <p><em id="job2Period">2027 - 2030 | São Paulo, Brasil</em></p>
-          <ul>
-            <li id="job2Task1">Gerenciei a transformação digital da empresa com soluções analíticas e automação.</li>
-            <li id="job2Task2">Desenvolvi modelos preditivos que aprimoraram as projeções de mercado em 35%.</li>
-            <li id="job2Task3">Integrei análise econômica com tecnologias emergentes para promover crescimento sustentável.</li>
-          </ul>
-        </article>
-
-        <article>
-          <h3 id="job3Title">Senior Business Analyst &amp; Software Developer <small>Comdinheiro</small></h3>
-          <p><em id="job3Period">2023 - 2027 | São Paulo, Brasil</em></p>
-          <ul>
-            <li id="job3Task1">Desenvolvi soluções de software para análise financeira, otimizando a coleta e o processamento de dados.</li>
-            <li id="job3Task2">Implantei metodologias ágeis que melhoraram a eficiência operacional e reduziram custos.</li>
-            <li id="job3Task3">Atuei como elo entre equipes de tecnologia e finanças, facilitando a comunicação e a integração estratégica.</li>
-          </ul>
-        </article>
-
-        <article>
-          <h3 id="job4Title">Estágios e Empreendimentos Iniciais</h3>
-          <p><em id="job4Period">2018 - 2023</em></p>
-          <ul>
-            <li id="job4Task1">Co-Fundador da PaderoApp, integrando programação e análise econômica.</li>
-            <li id="job4Task2">Experiência em consultoria empresarial e análise de dados para avaliação financeira e estratégica.</li>
-          </ul>
-        </article>
-      </section>
-
-      <!-- Formação Acadêmica -->
-      <section id="formacao">
-        <h2 id="educationTitle">Formação Acadêmica</h2>
+      <div class="cv-article">
+        <h3><span id="job1Title">Chief Economic &amp; Technology Strategist</span>
+          <span class="company"> — Global FinTech Innovations</span></h3>
+        <p class="period"><i class="fas fa-calendar-alt"></i> <span id="job1Period">2030 – Presente | São Paulo, Brasil</span></p>
         <ul>
-          <li id="education1"><strong>Ph.D. em Economia Computacional</strong> - Universidade de São Paulo, 2030</li>
-          <li id="education2"><strong>MBA em Engenharia de Software &amp; Análise Econômica</strong> - FIAP, 2023 - 2025</li>
-          <li id="education3"><strong>Bacharelado em Economia</strong> - FAAP, 2017 - 2021</li>
+          <li><span id="job1Task1">Integração de modelagem econômica avançada e machine learning para previsões financeiras precisas.</span></li>
+          <li><span id="job1Task2">Implementação de sistemas blockchain, aumentando a confiança dos investidores em 40%.</span></li>
+          <li><span id="job1Task3">Coordenação de equipes multidisciplinares para transformar dados complexos em insights estratégicos.</span></li>
         </ul>
-      </section>
+      </div>
 
-      <!-- Certificações -->
-      <section id="certificacoes">
-        <h2 id="certificationsTitle">Certificações</h2>
+      <div class="cv-article">
+        <h3><span id="job2Title">VP de Data &amp; Economic Analytics</span>
+          <span class="company"> — Comdinheiro</span></h3>
+        <p class="period"><i class="fas fa-calendar-alt"></i> <span id="job2Period">2027 – 2030 | São Paulo, Brasil</span></p>
         <ul>
-          <li id="certification1">Certified Financial Data Scientist – 2028</li>
-          <li id="certification2">Advanced Programming in Python for Economic Modeling – Coursera, 2028</li>
-          <li id="certification3">Certified Blockchain Economist – Blockchain Institute, 2029</li>
-          <li id="certification4">Scrum Master Certified – Scrum Alliance, 2023</li>
-          <li id="certification5">Microsoft Power BI – 2023</li>
+          <li><span id="job2Task1">Transformação digital com soluções analíticas e automação de processos.</span></li>
+          <li><span id="job2Task2">Desenvolvimento de modelos preditivos que aprimoraram projeções de mercado em 35%.</span></li>
+          <li><span id="job2Task3">Integração de análise econômica com tecnologias emergentes para crescimento sustentável.</span></li>
         </ul>
-      </section>
+      </div>
 
-      <!-- Habilidades e Competências -->
-      <section id="habilidades">
-        <h2 id="skillsTitle">Habilidades e Competências</h2>
+      <div class="cv-article">
+        <h3><span id="job3Title">Senior Business Analyst &amp; Software Developer</span>
+          <span class="company"> — Comdinheiro</span></h3>
+        <p class="period"><i class="fas fa-calendar-alt"></i> <span id="job3Period">2023 – 2027 | São Paulo, Brasil</span></p>
         <ul>
-          <li id="skills1"><strong>Economia &amp; Finanças:</strong> Modelagem Econômica, Análise Financeira, Previsão de Mercado, Big Data Analytics</li>
-          <li id="skills2"><strong>Programação &amp; Tecnologia:</strong> Python, JavaScript, Machine Learning, Inteligência Artificial, Blockchain, SQL, Data Visualization</li>
-          <li id="skills3"><strong>Gestão &amp; Liderança:</strong> Estratégia Empresarial, Gestão de Projetos, Metodologias Ágeis, Análise de Negócios</li>
+          <li><span id="job3Task1">Desenvolvimento de software para análise financeira e processamento de dados.</span></li>
+          <li><span id="job3Task2">Implementação de metodologias ágeis, melhorando eficiência operacional.</span></li>
+          <li><span id="job3Task3">Interface entre equipes de tecnologia e finanças, facilitando integração estratégica.</span></li>
         </ul>
-      </section>
+      </div>
 
-      <!-- Idiomas -->
-      <section id="idiomas">
-        <h2 id="languagesTitle">Idiomas</h2>
-        <ul class="languages-list">
-          <li id="language1">Português (Nativo)</li>
-          <li id="language2">Inglês (Fluente)</li>
-          <li id="language3">Espanhol (Fluente)</li>
-          <li id="language4">Italiano (Avançado)</li>
-          <li id="language5">Russo (Intermediário)</li>
-          <li id="language6">Chinês (Intermediário)</li>
-        </ul>
-      </section>
-
-      <!-- Projetos e Realizações -->
-      <section id="projetos">
-        <h2 id="projectsTitle">Projetos e Realizações</h2>
+      <div class="cv-article">
+        <h3><span id="job4Title">Estágios e Empreendimentos Iniciais</span></h3>
+        <p class="period"><i class="fas fa-calendar-alt"></i> <span id="job4Period">2018 – 2023</span></p>
         <ul>
-          <li id="project1">Plataforma de simulação econômica baseada em IA, revolucionando a análise de tendências de mercado.</li>
-          <li id="project2">Soluções blockchain para transações financeiras, promovendo transparência e eficiência.</li>
-          <li id="project3">Keynote speaker em conferências internacionais sobre inovação econômica e tecnológica.</li>
+          <li><span id="job4Task1">Co-Fundador da PaderoApp — integrando programação e análise econômica.</span></li>
+          <li><span id="job4Task2">Consultoria empresarial e análise de dados para avaliação financeira e estratégica.</span></li>
         </ul>
-      </section>
+      </div>
+    </div>
 
-      <!-- Interesses -->
-      <section id="interesses">
-        <h2 id="interestsTitle">Interesses</h2>
-        <p id="interestsText">
-          Apaixonado por viagens, inovação tecnológica, economia sustentável, mentorias e educação continuada. Em constante busca por integrar tecnologia e economia para gerar impactos transformadores.
-        </p>
-      </section>
-    </main>
+    <!-- Education -->
+    <div class="cv-section">
+      <h2><i class="fas fa-graduation-cap"></i> <span id="educationTitle">Formação Acadêmica</span></h2>
+      <ul class="cv-list">
+        <li><span id="education1"><strong>Ph.D. em Economia Computacional</strong> — Universidade de São Paulo, 2030</span></li>
+        <li><span id="education2"><strong>MBA em Engenharia de Software &amp; Análise Econômica</strong> — FIAP, 2023–2025</span></li>
+        <li><span id="education3"><strong>Bacharelado em Economia</strong> — FAAP, 2017–2021</span></li>
+      </ul>
+    </div>
 
-    <!-- Rodapé -->
-    <footer>
-      <hr>
-      <p id="footerText">Referências disponíveis mediante solicitação.</p>
-    </footer>
-  </div>
+    <!-- Certifications -->
+    <div class="cv-section">
+      <h2><i class="fas fa-certificate"></i> <span id="certificationsTitle">Certificações</span></h2>
+      <ul class="cv-list">
+        <li><span id="certification1">Certified Financial Data Scientist – 2028</span></li>
+        <li><span id="certification2">Advanced Programming in Python for Economic Modeling – Coursera, 2028</span></li>
+        <li><span id="certification3">Certified Blockchain Economist – Blockchain Institute, 2029</span></li>
+        <li><span id="certification4">Scrum Master Certified – Scrum Alliance, 2023</span></li>
+        <li><span id="certification5">Microsoft Power BI – 2023</span></li>
+      </ul>
+    </div>
+
+    <!-- Skills -->
+    <div class="cv-section">
+      <h2><i class="fas fa-code"></i> <span id="skillsTitle">Habilidades</span></h2>
+      <div class="skills-group">
+        <div class="s-label">Economia &amp; Finanças</div>
+        <div class="skills-tags" id="skills1">
+          <span class="skill-tag">Modelagem Econômica</span>
+          <span class="skill-tag">Análise Financeira</span>
+          <span class="skill-tag">Previsão de Mercado</span>
+          <span class="skill-tag">Big Data Analytics</span>
+          <span class="skill-tag">Econometria</span>
+        </div>
+      </div>
+      <div class="skills-group">
+        <div class="s-label">Programação &amp; Tecnologia</div>
+        <div class="skills-tags" id="skills2">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">TypeScript</span>
+          <span class="skill-tag">SQL</span>
+          <span class="skill-tag">Machine Learning</span>
+          <span class="skill-tag">Blockchain</span>
+          <span class="skill-tag">Data Visualization</span>
+          <span class="skill-tag">HTML/CSS</span>
+        </div>
+      </div>
+      <div class="skills-group">
+        <div class="s-label">Gestão &amp; Liderança</div>
+        <div class="skills-tags" id="skills3">
+          <span class="skill-tag">Estratégia Empresarial</span>
+          <span class="skill-tag">Gestão de Projetos</span>
+          <span class="skill-tag">Metodologias Ágeis</span>
+          <span class="skill-tag">Análise de Negócios</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Languages -->
+    <div class="cv-section">
+      <h2><i class="fas fa-globe"></i> <span id="languagesTitle">Idiomas</span></h2>
+      <div class="lang-grid">
+        <span class="lang-chip" id="language1">🇧🇷 Português — Nativo</span>
+        <span class="lang-chip" id="language2">🇺🇸 Inglês — Fluente</span>
+        <span class="lang-chip" id="language3">🇪🇸 Espanhol — Fluente</span>
+        <span class="lang-chip" id="language4">🇮🇹 Italiano — Avançado</span>
+        <span class="lang-chip" id="language5">🇷🇺 Russo — Intermediário</span>
+        <span class="lang-chip" id="language6">🇨🇳 Chinês — Intermediário</span>
+      </div>
+    </div>
+
+    <!-- Projects & Achievements -->
+    <div class="cv-section">
+      <h2><i class="fas fa-rocket"></i> <span id="projectsTitle">Projetos e Realizações</span></h2>
+      <ul class="cv-list">
+        <li><span id="project1">Plataforma de simulação econômica baseada em IA para análise de tendências de mercado.</span></li>
+        <li><span id="project2">Soluções blockchain para transações financeiras — transparência e eficiência.</span></li>
+        <li><span id="project3">Keynote speaker em conferências internacionais sobre inovação econômica e tecnológica.</span></li>
+      </ul>
+    </div>
+
+    <!-- Interests -->
+    <div class="cv-section">
+      <h2><i class="fas fa-heart"></i> <span id="interestsTitle">Interesses</span></h2>
+      <p class="interests-text" id="interestsText">
+        Apaixonado por viagens, inovação tecnológica, economia sustentável, mentorias e educação continuada.
+        Em constante busca por integrar tecnologia e economia para gerar impactos transformadores.
+      </p>
+    </div>
+
+    <div class="cv-footer">
+      <p id="footerText">// Referências disponíveis mediante solicitação.</p>
+    </div>
+  </main>
 
   <script>
-    // Carrega o idioma salvo ou usa o padrão
-    window.onload = () => {
-      const savedLanguage = localStorage.getItem('preferredLanguage') || 'pt';
-      document.getElementById('languageSelect').value = savedLanguage;
-      changeLanguage(savedLanguage);
+  // ── MATRIX CANVAS ─────────────────────────────────────────────
+  const canvas = document.querySelector('canvas.matrix');
+  const ctx = canvas.getContext('2d');
+  let matInterval;
+  function initMatrix() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const letters = 'アカサタナハマヤラワ0123456789ΓΩπΣΨЖΩФ@#$%&<>{}[]';
+    const fs = 14, cols = Math.floor(canvas.width / fs);
+    const drops = Array(cols).fill(1);
+    clearInterval(matInterval);
+    matInterval = setInterval(() => {
+      if (!document.body.classList.contains('matrix')) return;
+      ctx.fillStyle = 'rgba(5,13,10,0.07)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < drops.length; i++) {
+        ctx.fillStyle = Math.random() > 0.97 ? '#fff' : '#00ff88';
+        ctx.font = fs + 'px monospace';
+        ctx.fillText(letters[Math.floor(Math.random() * letters.length)], i * fs, drops[i] * fs);
+        if (drops[i] * fs > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
+    }, 40);
+  }
+  window.addEventListener('resize', initMatrix);
+  initMatrix();
+
+  // ── THEME ─────────────────────────────────────────────────────
+  function updateThemeBtn() {
+    const btn = document.getElementById('themeBtn');
+    if (!btn) return;
+    if (document.body.classList.contains('matrix')) btn.textContent = '[ matrix ]';
+    else if (document.body.classList.contains('dark')) btn.textContent = '[ light ]';
+    else btn.textContent = '[ dark ]';
+  }
+  function toggleTheme() {
+    if (document.body.classList.contains('matrix')) {
+      document.body.classList.remove('matrix', 'dark');
+      localStorage.setItem('theme', 'light');
+      localStorage.setItem('matrixActive', 'false');
+    } else if (document.body.classList.contains('dark')) {
+      document.body.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.body.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    }
+    updateThemeBtn();
+  }
+
+  // ── LANGUAGE ──────────────────────────────────────────────────
+  function changeLanguage(lang) {
+    localStorage.setItem('preferredLanguage', lang);
+    document.documentElement.lang = lang;
+    if (!translations || !translations[lang]) return;
+    const t = translations[lang];
+    const map = {
+      cvRole: 'cvRole', cvLocation: 'cvLocation',
+      downloadText: 'downloadText',
+      professionalSummary: 'professionalSummary', summaryText: 'summaryText',
+      experienceTitle: 'experienceTitle',
+      job1Title: 'job1Title', job1Period: 'job1Period',
+      job1Task1: 'job1Task1', job1Task2: 'job1Task2', job1Task3: 'job1Task3',
+      job2Title: 'job2Title', job2Period: 'job2Period',
+      job2Task1: 'job2Task1', job2Task2: 'job2Task2', job2Task3: 'job2Task3',
+      job3Title: 'job3Title', job3Period: 'job3Period',
+      job3Task1: 'job3Task1', job3Task2: 'job3Task2', job3Task3: 'job3Task3',
+      job4Title: 'job4Title', job4Period: 'job4Period',
+      job4Task1: 'job4Task1', job4Task2: 'job4Task2',
+      educationTitle: 'educationTitle',
+      education1: 'education1', education2: 'education2', education3: 'education3',
+      certificationsTitle: 'certificationsTitle',
+      certification1: 'certification1', certification2: 'certification2',
+      certification3: 'certification3', certification4: 'certification4', certification5: 'certification5',
+      skillsTitle: 'skillsTitle',
+      languagesTitle: 'languagesTitle',
+      language1: 'language1', language2: 'language2', language3: 'language3',
+      language4: 'language4', language5: 'language5', language6: 'language6',
+      projectsTitle: 'projectsTitle',
+      project1: 'project1', project2: 'project2', project3: 'project3',
+      interestsTitle: 'interestsTitle', interestsText: 'interestsText',
+      footerText: 'footerText'
+    };
+    for (const [id, key] of Object.entries(map)) {
+      const el = document.getElementById(id);
+      if (el && t[key]) el.textContent = t[key];
+    }
+  }
+
+  // ── PDF GENERATION ────────────────────────────────────────────
+  function generatePDF() {
+    const toHide = document.querySelectorAll('.topbar, canvas');
+    toHide.forEach(el => el.style.display = 'none');
+    document.getElementById('content-to-print').style.paddingTop = '0';
+
+    const opt = {
+      margin: [0.4, 0.5, 0.4, 0.5],
+      filename: 'Pedro-Neves-CV.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
     };
 
-    function changeLanguage(lang) {
-      // Salva a preferência de idioma
-      localStorage.setItem('preferredLanguage', lang);
-      
-      // Atualiza o idioma do HTML
-      document.documentElement.lang = lang;
+    html2pdf().set(opt).from(document.getElementById('content-to-print')).save().then(() => {
+      toHide.forEach(el => el.style.display = '');
+      document.getElementById('content-to-print').style.paddingTop = '';
+    });
+  }
 
-      // Atualiza os textos
-      const elements = {
-        'cvTitle': document.getElementById('cvTitle'),
-        'cvSubtitle': document.getElementById('cvSubtitle'),
-        'downloadText': document.getElementById('downloadText'),
-        'navHome': document.getElementById('navHome'),
-        'navProjects': document.getElementById('navProjects'),
-        'navCV': document.getElementById('navCV'),
-        'navAnalysis': document.getElementById('navAnalysis'),
-        'cvRole': document.getElementById('cvRole'),
-        'cvLocation': document.getElementById('cvLocation'),
-        'professionalSummary': document.getElementById('professionalSummary'),
-        'summaryText': document.getElementById('summaryText'),
-        'experienceTitle': document.getElementById('experienceTitle'),
-        'job1Title': document.getElementById('job1Title'),
-        'job1Period': document.getElementById('job1Period'),
-        'job1Task1': document.getElementById('job1Task1'),
-        'job1Task2': document.getElementById('job1Task2'),
-        'job1Task3': document.getElementById('job1Task3'),
-        'educationTitle': document.getElementById('educationTitle'),
-        'education1': document.getElementById('education1'),
-        'education2': document.getElementById('education2'),
-        'education3': document.getElementById('education3'),
-        'footerText': document.getElementById('footerText'),
-        'job2Title': document.getElementById('job2Title'),
-        'job2Period': document.getElementById('job2Period'),
-        'job2Task1': document.getElementById('job2Task1'),
-        'job2Task2': document.getElementById('job2Task2'),
-        'job2Task3': document.getElementById('job2Task3'),
-        'job3Title': document.getElementById('job3Title'),
-        'job3Period': document.getElementById('job3Period'),
-        'job3Task1': document.getElementById('job3Task1'),
-        'job3Task2': document.getElementById('job3Task2'),
-        'job3Task3': document.getElementById('job3Task3'),
-        'job4Title': document.getElementById('job4Title'),
-        'job4Period': document.getElementById('job4Period'),
-        'job4Task1': document.getElementById('job4Task1'),
-        'job4Task2': document.getElementById('job4Task2'),
-        'certificationsTitle': document.getElementById('certificationsTitle'),
-        'certification1': document.getElementById('certification1'),
-        'certification2': document.getElementById('certification2'),
-        'certification3': document.getElementById('certification3'),
-        'certification4': document.getElementById('certification4'),
-        'certification5': document.getElementById('certification5'),
-        'skillsTitle': document.getElementById('skillsTitle'),
-        'skills1': document.getElementById('skills1'),
-        'skills2': document.getElementById('skills2'),
-        'skills3': document.getElementById('skills3'),
-        'languagesTitle': document.getElementById('languagesTitle'),
-        'language1': document.getElementById('language1'),
-        'language2': document.getElementById('language2'),
-        'language3': document.getElementById('language3'),
-        'language4': document.getElementById('language4'),
-        'language5': document.getElementById('language5'),
-        'language6': document.getElementById('language6'),
-        'projectsTitle': document.getElementById('projectsTitle'),
-        'project1': document.getElementById('project1'),
-        'project2': document.getElementById('project2'),
-        'project3': document.getElementById('project3'),
-        'interestsTitle': document.getElementById('interestsTitle'),
-        'interestsText': document.getElementById('interestsText')
-      };
+  // ── INIT ──────────────────────────────────────────────────────
+  window.addEventListener('load', () => {
+    const savedLang = localStorage.getItem('preferredLanguage') || 'pt';
+    document.getElementById('languageSelect').value = savedLang;
+    changeLanguage(savedLang);
 
-      // Atualiza cada elemento com sua tradução
-      for (const [key, element] of Object.entries(elements)) {
-        if (element) {
-          element.textContent = translations[lang][key];
-        }
-      }
+    // Restaurar tema salvo
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.body.classList.remove('dark', 'matrix');
+    if (savedTheme === 'matrix' && localStorage.getItem('matrixActive') === 'true') {
+      document.body.classList.add('matrix');
+    } else if (savedTheme === 'dark') {
+      document.body.classList.add('dark');
     }
-
-    // PDF Generation
-    function generatePDF() {
-      // Hide elements that shouldn't be in the PDF
-      const elementsToHide = document.querySelectorAll('.download-btn');
-      elementsToHide.forEach(el => el.style.display = 'none');
-
-      // Configure PDF options
-      const opt = {
-        margin: [0.5, 0.5, 0.5, 0.5],
-        filename: 'curriculo-pedro-neves.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { 
-          scale: 2,
-          useCORS: true,
-          letterRendering: true,
-          allowTaint: true
-        },
-        jsPDF: { 
-          unit: 'in', 
-          format: 'a4', 
-          orientation: 'portrait',
-          compress: true
-        }
-      };
-
-      // Generate PDF
-      html2pdf().set(opt).from(document.getElementById('content-to-print')).save().then(() => {
-        // Show hidden elements again
-        elementsToHide.forEach(el => el.style.display = '');
-      });
-    }
+    updateThemeBtn();
+  });
   </script>
 </body>
 </html>
