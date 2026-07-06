@@ -422,33 +422,11 @@
     .tb-dot.red    { background: #ff5f57; }
     .tb-dot.yellow { background: #febc2e; }
     .tb-dot.green  { background: #28c840; }
-
-    /* TERMINAL TABS */
-    .term-tabs {
-      flex: 1; display: flex; align-items: center;
-      justify-content: center; gap: 0.25rem;
-    }
-    .term-tab {
-      background: transparent; border: none; cursor: pointer;
+    .tb-title {
+      flex: 1; text-align: center;
       font-family: 'Fira Code', monospace; font-size: 0.72rem;
       color: var(--terminal-dim);
-      padding: 0.2rem 0.75rem; border-radius: 4px;
-      transition: all 0.2s; position: relative;
     }
-    .term-tab:hover { color: var(--terminal-prompt); background: rgba(255,255,255,0.05); }
-    .term-tab.active {
-      color: var(--terminal-prompt);
-      border-bottom: 2px solid var(--terminal-prompt);
-    }
-    .term-tab .badge {
-      position: absolute; top: -2px; right: -2px;
-      background: #ff4444; color: #fff;
-      font-size: 0.55rem; border-radius: 50%;
-      width: 14px; height: 14px;
-      display: none; align-items: center; justify-content: center;
-    }
-    .term-tab .badge.show { display: flex; }
-
     .tb-expand {
       background: transparent; border: none; cursor: pointer;
       color: var(--terminal-dim); font-size: 0.95rem;
@@ -474,39 +452,6 @@
     .terminal-body::-webkit-scrollbar { width: 4px; }
     .terminal-body::-webkit-scrollbar-track { background: transparent; }
     .terminal-body::-webkit-scrollbar-thumb { background: var(--terminal-prompt); border-radius: 2px; }
-
-    /* Tab panes */
-    .tab-pane { display: none; }
-    .tab-pane.active { display: block; }
-
-    /* Logs pane */
-    .logs-body {
-      padding: 1rem 1.5rem;
-      min-height: 240px; max-height: 400px;
-      overflow-y: auto;
-      font-family: 'Fira Code', monospace; font-size: 0.83rem;
-      color: var(--terminal-text);
-      scroll-behavior: smooth;
-      text-align: left;
-    }
-    .logs-body::-webkit-scrollbar { width: 4px; }
-    .logs-body::-webkit-scrollbar-thumb { background: var(--terminal-prompt); border-radius: 2px; }
-    .terminal-wrap.expanded .logs-body { max-height: calc(100vh - 8rem); }
-
-    .log-entry {
-      padding: 0.15rem 0; border-bottom: 1px solid rgba(255,255,255,0.04);
-      line-height: 1.6; white-space: pre-wrap; word-break: break-word;
-    }
-    .log-entry:last-child { border-bottom: none; }
-    .log-entry .log-cmd {
-      color: var(--terminal-prompt); font-weight: 700;
-      margin-bottom: 0.15rem; display: block;
-      font-size: 0.75rem; opacity: 0.7;
-    }
-    .log-empty {
-      color: var(--terminal-dim); font-size: 0.8rem;
-      padding: 1.2rem 0; text-align: left;
-    }
 
     /* Terminal lines — light/dark/matrix */
     .t-line { line-height: 1.6; white-space: pre-wrap; word-break: break-word; margin-bottom: 0.1rem; }
@@ -683,7 +628,7 @@
           <span class="tb-dot red" onclick="collapseTerminal()" title="Minimizar" style="cursor:pointer"></span>
           <span class="tb-dot yellow"></span>
           <span class="tb-dot green"></span>
-          <span class="tb-title">pedro@portfolio — terminal</span>
+          <span class="tb-title">Terminal</span>
           <button class="tb-expand" id="expandBtn" onclick="toggleExpand()" title="Expandir">⤢</button>
         </div>
 
@@ -984,8 +929,6 @@
     reboot: () => { printLine('Rebooting...', 'red'); setTimeout(() => location.reload(), 1200); },
   };
 
-  // ─── currentLogEntry: agrupa as linhas de um mesmo comando ───────
-  let currentLogEntry = null;
 
   function printLine(text, cls = 'out', animate = false) {
     const promptRow = termBody.querySelector('.t-prompt-row');
@@ -1229,11 +1172,9 @@
       localStorage.setItem('matrixActive', 'true');
       localStorage.setItem('theme', 'matrix');
       updateThemeBtn();
-      printLine('// ██ MATRIX MODE ATIVADO ██', 'green bold');
+      printLine('// Matrix mode ATIVADO', 'green bold');
       printLine('// Tema hacker desbloqueado. Bem-vindo, Neo.', 'green');
-      printLine('// Para sair: "theme" novamente ou clique no botão.', 'dim');
-      // Auto-switch para logs para ver a mensagem
-      switchTab('logs');
+      printLine('// Para sair: "theme" novamente ou clique no botao.', 'dim');
     }
   }
 
