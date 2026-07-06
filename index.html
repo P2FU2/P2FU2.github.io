@@ -30,8 +30,26 @@
       --panel: #0d1a14;
       --border: rgba(0,255,136,0.25);
       --glow: 0 0 10px rgba(0,255,136,0.45), 0 0 30px rgba(0,255,136,0.15);
-      --terminal-bg: #020f07;
+      /* terminal dark */
+      --terminal-bg: #0d1117;
+      --terminal-bar: #161b22;
+      --terminal-text: #c9d1d9;
+      --terminal-prompt: #00ff88;
+      --terminal-out: #8b949e;
+      --terminal-green: #00ff88;
+      --terminal-dim: #4a5568;
+      --terminal-border: rgba(0,255,136,0.3);
+    }
+    body.matrix {
+      /* terminal matrix: mais hacker */
+      --terminal-bg: #000;
+      --terminal-bar: #001100;
       --terminal-text: #00ff88;
+      --terminal-prompt: #00ff88;
+      --terminal-out: #00802b;
+      --terminal-green: #39ff14;
+      --terminal-dim: #006622;
+      --terminal-border: rgba(0,255,136,0.5);
     }
 
     /* ── RESET ────────────────────────────────────────────────────── */
@@ -261,84 +279,129 @@
     }
 
     /* ── TERMINAL ────────────────────────────────────────────────── */
+    /* Vars para light mode (padrão) */
+    :root {
+      --terminal-bg: #f6f8fa;
+      --terminal-bar: #e8ecf0;
+      --terminal-text: #24292f;
+      --terminal-prompt: #1a237e;
+      --terminal-out: #57606a;
+      --terminal-green: #1a7a4a;
+      --terminal-dim: #8c959f;
+      --terminal-border: rgba(26,35,126,0.2);
+    }
+
     .terminal-wrap {
       width: 100%; max-width: 860px;
       background: var(--terminal-bg);
       border-radius: 10px; overflow: hidden;
-      border: 1px solid var(--border);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      transition: all 0.4s;
+      border: 1px solid var(--terminal-border);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+      transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
       margin-bottom: 4rem;
+      position: relative;
     }
-    body.dark .terminal-wrap {
-      border-color: rgba(0,255,136,0.3);
-      box-shadow: 0 0 40px rgba(0,255,136,0.1), 0 20px 60px rgba(0,0,0,0.5);
+    body.dark .terminal-wrap, body.matrix .terminal-wrap {
+      box-shadow: 0 0 40px rgba(0,255,136,0.08), 0 20px 60px rgba(0,0,0,0.5);
+      border-color: var(--terminal-border);
     }
+
+    /* Expanded popup */
+    .terminal-wrap.expanded {
+      position: fixed;
+      inset: 1.5rem;
+      max-width: none;
+      width: auto;
+      z-index: 500;
+      margin-bottom: 0;
+      border-radius: 12px;
+      box-shadow: 0 0 0 100vmax rgba(0,0,0,0.6), 0 0 60px rgba(0,255,136,0.2);
+    }
+    .terminal-wrap.expanded .terminal-body {
+      max-height: calc(100vh - 8rem);
+    }
+    .terminal-backdrop {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 499;
+      backdrop-filter: blur(4px);
+    }
+    .terminal-backdrop.show { display: block; }
 
     /* Terminal title bar */
     .terminal-titlebar {
-      background: #1a1a1a;
-      padding: 0.6rem 1rem;
+      background: var(--terminal-bar);
+      padding: 0.55rem 1rem;
       display: flex; align-items: center; gap: 0.5rem;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid var(--terminal-border);
+      transition: background 0.4s;
     }
-    body.dark .terminal-titlebar { background: #0a1a0f; border-bottom-color: rgba(0,255,136,0.1); }
-    .tb-dot {
-      width: 12px; height: 12px; border-radius: 50%;
-    }
-    .tb-dot.red   { background: #ff5f57; }
-    .tb-dot.yellow{ background: #febc2e; }
-    .tb-dot.green { background: #28c840; }
+    .tb-dot { width: 12px; height: 12px; border-radius: 50%; }
+    .tb-dot.red    { background: #ff5f57; }
+    .tb-dot.yellow { background: #febc2e; }
+    .tb-dot.green  { background: #28c840; }
     .tb-title {
       flex: 1; text-align: center;
       font-family: 'Fira Code', monospace; font-size: 0.72rem;
-      color: #666;
+      color: var(--terminal-dim);
     }
-    body.dark .tb-title { color: rgba(0,255,136,0.4); }
+    .tb-expand {
+      background: transparent; border: none; cursor: pointer;
+      color: var(--terminal-dim); font-size: 0.95rem;
+      padding: 0 0.2rem; transition: color 0.2s;
+      line-height: 1;
+    }
+    .tb-expand:hover { color: var(--terminal-prompt); }
 
     /* Terminal body */
     .terminal-body {
-      padding: 1.25rem 1.5rem;
-      min-height: 260px; max-height: 480px;
+      padding: 1.2rem 1.5rem;
+      min-height: 240px; max-height: 400px;
       overflow-y: auto;
       font-family: 'Fira Code', monospace;
       font-size: 0.88rem;
       color: var(--terminal-text);
       display: flex; flex-direction: column; gap: 0;
       scroll-behavior: smooth;
+      transition: background 0.4s, color 0.4s;
     }
     .terminal-body::-webkit-scrollbar { width: 4px; }
     .terminal-body::-webkit-scrollbar-track { background: transparent; }
-    .terminal-body::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 2px; }
+    .terminal-body::-webkit-scrollbar-thumb { background: var(--terminal-prompt); border-radius: 2px; }
 
-    .t-line {
-      line-height: 1.6; white-space: pre-wrap; word-break: break-word;
-      margin-bottom: 0.1rem;
-    }
-    .t-line.cmd   { color: #c9d1d9; }
-    .t-line.out   { color: #8b949e; }
-    .t-line.green { color: #00ff88; }
-    .t-line.cyan  { color: #4fffcd; }
-    .t-line.red   { color: #ff4444; }
-    .t-line.yellow{ color: #ffcc00; }
-    .t-line.dim   { color: #444; }
-    .t-line.bold  { font-weight: 700; }
+    /* Terminal lines — light/dark/matrix */
+    .t-line { line-height: 1.6; white-space: pre-wrap; word-break: break-word; margin-bottom: 0.1rem; }
+    .t-line.cmd    { color: var(--terminal-text); opacity: 0.8; }
+    .t-line.out    { color: var(--terminal-out); }
+    .t-line.green  { color: var(--terminal-green); }
+    .t-line.cyan   { color: #0969da; }
+    body.dark  .t-line.cyan  { color: #4fffcd; }
+    body.matrix .t-line.cyan { color: #00ffff; }
+    .t-line.red    { color: #cf222e; }
+    body.dark  .t-line.red  { color: #ff4444; }
+    body.matrix .t-line.red { color: #ff0040; }
+    .t-line.yellow { color: #9a6700; }
+    body.dark  .t-line.yellow  { color: #ffcc00; }
+    body.matrix .t-line.yellow { color: #ffff00; }
+    .t-line.dim    { color: var(--terminal-dim); }
+    .t-line.bold   { font-weight: 700; }
 
     .t-prompt-row {
       display: flex; align-items: center; gap: 0.3rem; margin-top: 0.2rem;
     }
     .t-prompt {
-      color: #00ff88; white-space: nowrap;
+      color: var(--terminal-prompt); white-space: nowrap;
       font-family: 'Fira Code', monospace; font-size: 0.88rem;
+      font-weight: 700;
     }
-    body:not(.dark) .t-prompt { color: var(--primary); }
     .t-input {
       background: transparent; border: none; outline: none;
-      color: var(--terminal-text); caret-color: #00ff88;
+      color: var(--terminal-text);
+      caret-color: var(--terminal-prompt);
       font-family: 'Fira Code', monospace; font-size: 0.88rem;
       flex: 1; min-width: 0;
     }
-    body:not(.dark) .t-input { caret-color: var(--primary); }
 
     /* ── GITHUB ACTIVITY STRIP ─────────────────────────────────── */
     .gh-strip {
@@ -425,10 +488,10 @@
   <nav class="topbar">
     <a class="topbar-brand" href="index.html">~/P2FU2</a>
     <div class="topbar-nav">
-      <a href="index.html" class="active">home</a>
-      <a href="/html/projects.html">projects</a>
-      <a href="/html/cv.html">cv</a>
-      <a href="/html/analysis.html">analysis</a>
+      <a href="/index.html" class="active">Home</a>
+      <a href="/html/projects.html">Projects</a>
+      <a href="/html/cv.html">CV</a>
+      <a href="/html/analysis.html">Analysis</a>
     </div>
     <div class="topbar-right">
       <select class="lang-select" id="languageSelect" onchange="changeLanguage(this.value)">
@@ -476,12 +539,14 @@
       </div>
 
       <!-- TERMINAL -->
-      <div class="terminal-wrap">
+      <div id="terminalBackdrop" class="terminal-backdrop" onclick="collapseTerminal()"></div>
+      <div class="terminal-wrap" id="termWrap">
         <div class="terminal-titlebar">
-          <span class="tb-dot red"></span>
+          <span class="tb-dot red" onclick="collapseTerminal()" title="Fechar/minimizar" style="cursor:pointer"></span>
           <span class="tb-dot yellow"></span>
           <span class="tb-dot green"></span>
-          <span class="tb-title">pedro@portfolio:~$</span>
+          <span class="tb-title">pedro@portfolio — terminal</span>
+          <button class="tb-expand" id="expandBtn" onclick="toggleExpand()" title="Expandir terminal">⤢</button>
         </div>
         <div class="terminal-body" id="terminalBody">
           <!-- Lines added by JS -->
@@ -683,6 +748,9 @@
     uname: () => printLine('GitHub-Pages/static JavaScript/ES2022 Vanilla', 'out'),
     cat: (args) => cmdCat(args),
     stack: cmdStack,
+    story: cmdStory,
+    historia: cmdStory,
+    about: cmdStory,
     sudo: () => printLine('Nice try. 😄  Permission denied.', 'red'),
     exit: () => printLine('// There\'s no exit — you\'re already inside the matrix.', 'yellow'),
     npm: (args) => printLine('npm: command found in /usr/bin/npm  // but this is a static site 🤷', 'out'),
@@ -736,6 +804,7 @@
     printSeparator();
     const cmds = [
       ['help / h / ?',   'show this help'],
+      ['story / about',  '📖 the P2FU2 story — read this first!'],
       ['whoami',         'display info about me'],
       ['neofetch',       'system info (hacker style)'],
       ['skills',         'list tech skills'],
@@ -931,6 +1000,122 @@
     }
   }
 
+  // ── STORY / HISTORY COMMAND ──────────────────────────────────────
+  function cmdStory() {
+    // Auto-expand o terminal para melhor leitura
+    if (!isExpanded) expandTerminal();
+
+    const STORY = [
+      { t: 'green bold', v: '' },
+      { t: 'green bold', v: ' ██████╗ ██████╗ ███████╗██╗   ██╗██████╗ ' },
+      { t: 'green bold', v: ' ██╔══██╗╚════██╗██╔════╝██║   ██║╚════██╗' },
+      { t: 'green bold', v: ' ██████╔╝ █████╔╝█████╗  ██║   ██║ █████╔╝' },
+      { t: 'green bold', v: ' ██╔═══╝ ██╔═══╝ ██╔══╝  ██║   ██║ ╚═══██╗' },
+      { t: 'green bold', v: ' ██║     ███████╗██║     ╚██████╔╝██████╔╝' },
+      { t: 'green bold', v: ' ╚═╝     ╚══════╝╚═╝      ╚═════╝ ╚═════╝ ' },
+      { t: 'dim',        v: '' },
+      { t: 'cyan bold',  v: '         A HISTÓRIA DE P2FU2' },
+      { t: 'dim',        v: '    Economista → Engenheiro de Software' },
+      { t: 'dim',        v: '════════════════════════════════════════════' },
+      { t: '',           v: '' },
+      { t: 'yellow bold',v: 'CAPÍTULO I  —  A ORIGEM' },
+      { t: 'dim',        v: '────────────────────────────────────────────' },
+      { t: 'out',        v: 'Em algum lugar do Brasil, um jovem descobriu' },
+      { t: 'out',        v: 'que economia e tecnologia eram, na essência,' },
+      { t: 'out',        v: 'a mesma coisa: sistemas.' },
+      { t: '',           v: '' },
+      { t: 'out',        v: 'Sistemas de incentivos. Sistemas de dados.' },
+      { t: 'out',        v: 'Sistemas de código.' },
+      { t: '',           v: '' },
+      { t: 'cyan',       v: '  "All models are wrong, but some are useful."' },
+      { t: 'dim',        v: '                                 — George Box' },
+      { t: '',           v: '' },
+      { t: 'out',        v: 'Pedro começou com planilhas. Depois Python.' },
+      { t: 'out',        v: 'Depois o terminal nunca mais fechou.' },
+      { t: '',           v: '' },
+      { t: 'yellow bold',v: 'CAPÍTULO II  —  O DESPERTAR' },
+      { t: 'dim',        v: '────────────────────────────────────────────' },
+      { t: 'cyan',       v: '  "The Matrix is everywhere. It is all around' },
+      { t: 'cyan',       v: '  us, even now in this very room. You can feel' },
+      { t: 'cyan',       v: '  it when you go to work, when you go to church."' },
+      { t: 'dim',        v: '                    — Morpheus  (The Matrix, 1999)' },
+      { t: '',           v: '' },
+      { t: 'out',        v: 'O momento em que o código faz sentido é como' },
+      { t: 'out',        v: 'acordar de um sonho.' },
+      { t: '',           v: '' },
+      { t: 'out',        v: 'Primeiro: análise estatística econométrica.' },
+      { t: 'out',        v: 'Depois: um dashboard interativo.' },
+      { t: 'out',        v: 'Depois: um site completo.' },
+      { t: 'green',      v: 'Depois: um terminal dentro de um site. 👈 aqui.' },
+      { t: '',           v: '' },
+      { t: 'yellow bold',v: 'CAPÍTULO III  —  O STACK' },
+      { t: 'dim',        v: '────────────────────────────────────────────' },
+      { t: 'green',      v: '  Python      ████████████████░░░  88%' },
+      { t: 'green',      v: '  JavaScript  ██████████████░░░░░  76%' },
+      { t: 'cyan',       v: '  Data Sci    █████████████░░░░░░  72%' },
+      { t: 'cyan',       v: '  Economics   ████████████████░░░  87%' },
+      { t: 'cyan',       v: '  Finance     █████████████░░░░░░  74%' },
+      { t: 'out',        v: '  TypeScript  ████████░░░░░░░░░░░  45%' },
+      { t: '',           v: '' },
+      { t: 'cyan',       v: '  "Stay hungry. Stay foolish."' },
+      { t: 'dim',        v: '                 — Steve Jobs, Stanford 2005' },
+      { t: '',           v: '' },
+      { t: 'yellow bold',v: 'CAPÍTULO IV  —  AS REFERÊNCIAS' },
+      { t: 'dim',        v: '────────────────────────────────────────────' },
+      { t: 'out',        v: '  📚 LIVROS QUE MOLDARAM O CAMINHO:' },
+      { t: 'green',      v: '  ├── "Python for Data Analysis"  — Wes McKinney' },
+      { t: 'green',      v: '  ├── "Thinking, Fast and Slow"   — Daniel Kahneman' },
+      { t: 'green',      v: '  ├── "The Pragmatic Programmer"  — Hunt & Thomas' },
+      { t: 'green',      v: '  ├── "Clean Code"                — Robert C. Martin' },
+      { t: 'green',      v: '  ├── "SICP"  — Abelson & Sussman' },
+      { t: 'green',      v: '  └── "The Wealth of Nations"     — Adam Smith' },
+      { t: '',           v: '' },
+      { t: 'out',        v: '  🎬 FILMES / SÉRIES QUE INSPIRARAM:' },
+      { t: 'cyan',       v: '  ├── The Matrix (1999)     — questionar tudo' },
+      { t: 'cyan',       v: '  ├── Moneyball (2011)      — dados vs intuição' },
+      { t: 'cyan',       v: '  ├── The Social Network     — construir do zero' },
+      { t: 'cyan',       v: '  ├── Ex Machina (2014)     — ética e IA' },
+      { t: 'cyan',       v: '  ├── Mr. Robot (série)     — hacker como artista' },
+      { t: 'cyan',       v: '  └── WarGames (1983)       — o computador que jogou' },
+      { t: '',           v: '' },
+      { t: 'yellow bold',v: 'CAPÍTULO V  —  OS PROJETOS' },
+      { t: 'dim',        v: '────────────────────────────────────────────' },
+      { t: 'green',      v: '  ├── /projects/terminal       → Terminal Web' },
+      { t: 'green',      v: '  ├── /projects/StudyDashboard → Pomodoro + Tasks' },
+      { t: 'green',      v: '  ├── /projects/MindCanvas     → Drawing Canvas' },
+      { t: 'out',        v: '  └── ... próximo capítulo em construção' },
+      { t: '',           v: '' },
+      { t: 'cyan',       v: '  "Programs must be written for people to read,' },
+      { t: 'cyan',       v: '  and only incidentally for machines to execute."' },
+      { t: 'dim',        v: '                — Harold Abelson, SICP' },
+      { t: '',           v: '' },
+      { t: 'yellow bold',v: 'EPÍLOGO  —  O PRÓXIMO CAPÍTULO' },
+      { t: 'dim',        v: '────────────────────────────────────────────' },
+      { t: 'out',        v: '  16 repositórios públicos.' },
+      { t: 'out',        v: '  1 portfólio ao vivo em p2fu2.github.io.' },
+      { t: 'green',      v: '  ∞ possibilidades.' },
+      { t: '',           v: '' },
+      { t: 'out',        v: '  O próximo capítulo está sendo escrito agora.' },
+      { t: 'cyan',       v: '  → github.com/P2FU2' },
+      { t: '',           v: '' },
+      { t: 'dim',        v: '════════════════════════════════════════════' },
+      { t: 'green bold', v: '  "The best way to predict the future is to' },
+      { t: 'green bold', v: '   invent it."    — Alan Kay' },
+      { t: 'dim',        v: '════════════════════════════════════════════' },
+      { t: '',           v: '' },
+      { t: 'dim',        v: '  // type "projects" or "github" to continue the story' },
+    ];
+
+    let i = 0;
+    function printNext() {
+      if (i >= STORY.length) return;
+      const { t, v } = STORY[i++];
+      printLine(v, t);
+      setTimeout(printNext, 18);
+    }
+    printNext();
+  }
+
   // ── KEY HANDLER ──────────────────────────────────────────────────
   function handleKey(e) {
     const input = termInput;
@@ -989,6 +1174,29 @@
     }
   }
 
+  // ── TERMINAL EXPAND ───────────────────────────────────────────────
+  let isExpanded = false;
+  function toggleExpand() {
+    isExpanded ? collapseTerminal() : expandTerminal();
+  }
+  function expandTerminal() {
+    isExpanded = true;
+    document.getElementById('termWrap').classList.add('expanded');
+    document.getElementById('terminalBackdrop').classList.add('show');
+    document.getElementById('expandBtn').textContent = '⤡';
+    document.getElementById('expandBtn').title = 'Minimizar terminal';
+    termInput.focus();
+  }
+  function collapseTerminal() {
+    isExpanded = false;
+    document.getElementById('termWrap').classList.remove('expanded');
+    document.getElementById('terminalBackdrop').classList.remove('show');
+    document.getElementById('expandBtn').textContent = '⤢';
+    document.getElementById('expandBtn').title = 'Expandir terminal';
+  }
+  // ESC fecha o expand
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && isExpanded) collapseTerminal(); });
+
   // Click anywhere on terminal → focus input
   document.querySelector('.terminal-body').addEventListener('click', () => termInput.focus());
 
@@ -1040,7 +1248,7 @@
     const boot = [
       { text: '// P2FU2 Portfolio Terminal v2.0', cls: 'green' },
       { text: '// Type "help" to see all commands.', cls: 'dim' },
-      { text: '// 💡 Dica: digite "theme" para desbloquear o Matrix mode', cls: 'dim' },
+      { text: '// 💡 Try: story · whoami · neofetch · hack · theme', cls: 'dim' },
     ];
     boot.forEach((l, i) => setTimeout(() => printLine(l.text, l.cls), i * 120));
 

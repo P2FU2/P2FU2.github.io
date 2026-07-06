@@ -317,10 +317,10 @@
   <nav class="topbar">
     <a class="topbar-brand" href="../index.html">~/P2FU2</a>
     <div class="topbar-nav">
-      <a href="../index.html">home</a>
-      <a href="projects.html">projects</a>
-      <a href="cv.html">cv</a>
-      <a href="analysis.html" class="active">analysis</a>
+      <a href="/index.html">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="cv.html">CV</a>
+      <a href="analysis.html" class="active">Analysis</a>
     </div>
     <div class="topbar-right">
       <select class="lang-select" id="languageSelect" onchange="changeLanguage()">
@@ -330,7 +330,7 @@
         <option value="zh">ZH</option>
         <option value="ja">JA</option>
       </select>
-      <button class="btn-theme" onclick="toggleTheme()" id="themeBtn">[ matrix ]</button>
+      <button class="btn-theme" onclick="toggleTheme()" id="themeBtn">[ Dark ]</button>
     </div>
   </nav>
 
@@ -416,10 +416,13 @@
 
   // ── THEME (light ↔ dark apenas; matrix = só via terminal no home) ──
   function toggleTheme() {
+    if (document.body.classList.contains('matrix')) {
+      document.body.classList.remove('matrix', 'dark');
+      document.getElementById('themeBtn').textContent = '[ Dark ]';
+      return;
+    }
     const isNowDark = document.body.classList.toggle('dark');
-    // Se estava em matrix, limpa também
-    document.body.classList.remove('matrix');
-    document.getElementById('themeBtn').textContent = isNowDark ? '[ light ]' : '[ dark ]';
+    document.getElementById('themeBtn').textContent = isNowDark ? '[ Light ]' : '[ Dark ]';
   }
 
   // ── LANGUAGE ─────────────────────────────────────────────────────
@@ -609,9 +612,9 @@
     // Restaurar matrix se foi desbloqueado via terminal
     if (localStorage.getItem('matrixUnlocked') === 'true' && localStorage.getItem('matrixActive') === 'true') {
       document.body.classList.add('matrix');
-      document.getElementById('themeBtn').textContent = '[ light ]';
+      document.getElementById('themeBtn').textContent = '[ Light ]';
     } else {
-      document.getElementById('themeBtn').textContent = '[ dark ]';
+      document.getElementById('themeBtn').textContent = '[ Dark ]';
     }
 
     fetchPosts();

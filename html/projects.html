@@ -3,24 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="Repositórios públicos de Pedro Neves no GitHub">
-    <meta name="keywords" content="GitHub, Projetos, Pedro Neves, Open Source">
-    <title>~/projects — P2FU2</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@700&display=swap" rel="stylesheet">
+    <meta name="description" content="Projetos de Pedro Neves — desenvolvedor e economista">
+    <title>Projects — P2FU2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="../translations.js"></script>
     <style>
+        /* ── VARS ─────────────────────────────────────────── */
         :root {
-            --primary: #27408B;
-            --accent: #4169E1;
-            --text: #1F1F1F;
-            --muted: #555;
-            --bg: #F0F2F5;
-            --panel: #FFFFFF;
-            --border: rgba(65,105,225,0.3);
+            --primary: #1a237e;
+            --accent: #1976d2;
+            --text: #1a1a2e;
+            --muted: #4a5568;
+            --bg: #f0f4f8;
+            --panel: #ffffff;
+            --border: rgba(26,35,126,0.18);
             --glow: none;
-            --scanline: none;
         }
         body.dark, body.matrix {
             --primary: #00ff88;
@@ -29,21 +27,13 @@
             --muted: #00cc66;
             --bg: #050d0a;
             --panel: #0d1a14;
-            --border: rgba(0,255,136,0.35);
-            --glow: 0 0 8px rgba(0,255,136,0.5), 0 0 20px rgba(0,255,136,0.2);
-            --scanline: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 2px,
-                rgba(0,0,0,0.08) 2px,
-                rgba(0,0,0,0.08) 4px
-            );
+            --border: rgba(0,255,136,0.22);
+            --glow: 0 0 8px rgba(0,255,136,0.4), 0 0 20px rgba(0,255,136,0.15);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
+            background: var(--bg);
             color: var(--text);
             overflow-x: hidden;
             min-height: 100vh;
@@ -51,492 +41,247 @@
         }
         body.matrix::before {
             content: '';
-            position: fixed;
-            inset: 0;
-            background: var(--scanline);
-            pointer-events: none;
-            z-index: 1;
+            position: fixed; inset: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px);
+            pointer-events: none; z-index: 1;
         }
-
         canvas.matrix {
             position: fixed; top: 0; left: 0;
             z-index: 0; width: 100%; height: 100%;
             pointer-events: none; opacity: 0.35;
         }
 
-        /* ── NAV ── */
+        /* ── TOPBAR ───────────────────────────────────────── */
         .topbar {
-            position: fixed; top: 0; left: 0; right: 0;
-            height: 52px;
+            position: fixed; top: 0; left: 0; right: 0; height: 52px;
             background: var(--panel);
             border-bottom: 1px solid var(--border);
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0 1.5rem;
-            z-index: 200;
+            padding: 0 1.5rem; z-index: 200;
             backdrop-filter: blur(8px);
             box-shadow: var(--glow);
+            transition: all 0.4s;
         }
         .topbar-brand {
-            font-family: 'Fira Code', monospace;
-            font-size: 1rem;
-            color: var(--primary);
-            text-decoration: none;
-            letter-spacing: 0.05em;
+            font-family: 'Fira Code', monospace; font-size: 0.92rem;
+            color: var(--primary); text-decoration: none; letter-spacing: 0.02em;
+            font-weight: 700;
         }
-        body.matrix .topbar-brand { text-shadow: var(--glow); }
-        .topbar-nav { display: flex; gap: 0.5rem; align-items: center; }
+        body.dark .topbar-brand, body.matrix .topbar-brand { text-shadow: var(--glow); }
+        .topbar-nav { display: flex; gap: 0.25rem; }
         .topbar-nav a {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.8rem;
-            color: var(--muted);
-            text-decoration: none;
-            padding: 0.35rem 0.75rem;
-            border-radius: 4px;
-            border: 1px solid transparent;
-            transition: all 0.2s;
+            font-family: 'Fira Code', monospace; font-size: 0.82rem;
+            color: var(--muted); text-decoration: none;
+            padding: 0.35rem 0.8rem; border-radius: 5px;
+            border: 1px solid transparent; transition: all 0.2s;
         }
         .topbar-nav a:hover, .topbar-nav a.active {
-            border-color: var(--primary);
-            color: var(--primary);
+            border-color: var(--primary); color: var(--primary);
             background: rgba(0,255,136,0.05);
         }
         .topbar-right { display: flex; gap: 0.5rem; align-items: center; }
         .lang-select {
-            background: transparent;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            color: var(--primary);
-            font-family: 'Fira Code', monospace;
-            font-size: 0.78rem;
-            padding: 0.25rem 0.5rem;
-            cursor: pointer;
-            outline: none;
+            background: transparent; border: 1px solid var(--border);
+            border-radius: 4px; color: var(--primary);
+            font-family: 'Fira Code', monospace; font-size: 0.75rem;
+            padding: 0.22rem 0.5rem; cursor: pointer; outline: none;
         }
         .btn-theme {
-            background: transparent;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            color: var(--primary);
-            font-family: 'Fira Code', monospace;
-            font-size: 0.78rem;
-            padding: 0.3rem 0.7rem;
-            cursor: pointer;
-            transition: all 0.2s;
+            background: transparent; border: 1px solid var(--border);
+            border-radius: 4px; color: var(--primary);
+            font-family: 'Fira Code', monospace; font-size: 0.75rem;
+            padding: 0.28rem 0.7rem; cursor: pointer; transition: all 0.2s;
         }
         .btn-theme:hover { background: var(--primary); color: var(--bg); box-shadow: var(--glow); }
 
-        /* ── MAIN LAYOUT ── */
+        /* ── MAIN ─────────────────────────────────────────── */
         main {
             padding-top: 72px;
-            max-width: 1280px;
-            margin: 0 auto;
-            padding-left: 1.5rem;
-            padding-right: 1.5rem;
-            position: relative;
-            z-index: 10;
+            max-width: 1100px; margin: 0 auto;
+            padding-left: 1.5rem; padding-right: 1.5rem;
+            position: relative; z-index: 10;
         }
 
-        /* ── PAGE HEADER ── */
+        /* ── PAGE HEADER ──────────────────────────────────── */
         .page-header {
-            padding: 3rem 0 2rem;
+            padding: 3rem 0 2.5rem;
             border-bottom: 1px solid var(--border);
-            margin-bottom: 2.5rem;
+            margin-bottom: 3rem;
         }
+        .breadcrumb {
+            font-family: 'Fira Code', monospace; font-size: 0.82rem;
+            color: var(--muted); margin-bottom: 0.5rem;
+        }
+        .breadcrumb span { color: var(--primary); }
         .page-header h1 {
-            font-family: 'Fira Code', monospace;
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
+            font-family: 'Fira Code', monospace; font-size: 2.2rem;
+            color: var(--primary); margin-bottom: 0.5rem;
         }
+        body.dark .page-header h1,
         body.matrix .page-header h1 { text-shadow: var(--glow); }
-        .page-header .breadcrumb {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.85rem;
-            color: var(--muted);
-        }
-        .page-header .breadcrumb span { color: var(--primary); }
-
-        /* ── GITHUB PROFILE BANNER ── */
-        .github-banner {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-bottom: 2.5rem;
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            box-shadow: var(--glow);
-            transition: all 0.4s;
-        }
-        .github-banner:hover { border-color: var(--primary); }
-        .gh-avatar {
-            width: 72px; height: 72px;
-            border-radius: 50%;
-            border: 2px solid var(--primary);
-            object-fit: cover;
-        }
-        body.matrix .gh-avatar { box-shadow: var(--glow); }
-        .gh-info { flex: 1; }
-        .gh-info h2 {
-            font-family: 'Fira Code', monospace;
-            font-size: 1.2rem;
-            color: var(--primary);
-            margin-bottom: 0.3rem;
-        }
-        .gh-info p { font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--muted); }
-        .gh-stats {
-            display: flex; gap: 1.5rem; flex-wrap: wrap;
-        }
-        .gh-stat {
-            text-align: center;
-            font-family: 'Fira Code', monospace;
-        }
-        .gh-stat .val {
-            font-size: 1.4rem; font-weight: 700; color: var(--primary);
-            display: block;
-        }
-        body.matrix .gh-stat .val { text-shadow: var(--glow); }
-        .gh-stat .lbl { font-size: 0.72rem; color: var(--muted); }
-        .gh-link {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.82rem;
-            color: var(--primary);
-            text-decoration: none;
-            border: 1px solid var(--primary);
-            padding: 0.4rem 1rem;
-            border-radius: 4px;
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
-        .gh-link:hover { background: var(--primary); color: var(--bg); box-shadow: var(--glow); }
-
-        /* ── SECTION LABELS ── */
-        .section-label {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.75rem;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            margin-bottom: 1rem;
-            display: flex; align-items: center; gap: 0.75rem;
-        }
-        .section-label::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border);
+        .page-header p {
+            font-family: 'Fira Code', monospace; font-size: 0.85rem;
+            color: var(--muted); line-height: 1.6;
         }
 
-        /* ── FILTERS ── */
-        .filters {
-            display: flex; gap: 0.5rem; flex-wrap: wrap;
-            margin-bottom: 2rem; align-items: center;
-        }
-        .filter-btn {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.75rem;
-            padding: 0.3rem 0.75rem;
-            border-radius: 20px;
-            border: 1px solid var(--border);
-            background: transparent;
-            color: var(--muted);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .filter-btn:hover, .filter-btn.active {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: rgba(0,255,136,0.07);
-        }
-        .search-box {
-            margin-left: auto;
-            display: flex; align-items: center;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            overflow: hidden;
-            background: var(--panel);
-        }
-        .search-box input {
-            background: transparent;
-            border: none;
-            outline: none;
-            color: var(--text);
-            font-family: 'Fira Code', monospace;
-            font-size: 0.82rem;
-            padding: 0.4rem 0.75rem;
-            width: 200px;
-        }
-        .search-box input::placeholder { color: var(--muted); }
-        .search-box span {
-            padding: 0 0.75rem;
-            color: var(--muted);
-            font-size: 0.8rem;
-        }
-
-        /* ── REPO GRID ── */
-        .repos-grid {
+        /* ── PROJECT CARDS ────────────────────────────────── */
+        .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 1.25rem;
-            margin-bottom: 3rem;
+            gap: 2rem;
+            margin-bottom: 4rem;
         }
-        .repo-card {
+
+        .project-card {
             background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1.25rem;
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
             display: flex; flex-direction: column;
-            transition: all 0.25s ease;
-            position: relative;
-            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative; overflow: hidden;
         }
-        .repo-card::before {
+        .project-card::after {
             content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 2px;
-            background: var(--primary);
-            transform: scaleX(0);
-            transition: transform 0.3s;
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transform: scaleX(0); transform-origin: left;
+            transition: transform 0.35s ease;
         }
-        .repo-card:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: var(--glow); }
-        .repo-card:hover::before { transform: scaleX(1); }
+        .project-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12), var(--glow);
+        }
+        .project-card:hover::after { transform: scaleX(1); }
+        body.dark .project-card,
+        body.matrix .project-card { box-shadow: 0 2px 12px rgba(0,255,136,0.05); }
+        body.dark .project-card:hover,
+        body.matrix .project-card:hover { box-shadow: 0 12px 40px rgba(0,255,136,0.15); }
 
-        body.matrix .repo-card { border-color: rgba(0,255,136,0.2); }
-        body.matrix .repo-card:hover { border-color: var(--primary); box-shadow: 0 0 16px rgba(0,255,136,0.3); }
+        /* Card number badge */
+        .card-num {
+            position: absolute; top: 1.25rem; right: 1.25rem;
+            font-family: 'Fira Code', monospace; font-size: 0.68rem;
+            color: var(--muted); border: 1px solid var(--border);
+            padding: 0.12rem 0.45rem; border-radius: 20px;
+        }
 
-        .repo-header { display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.6rem; }
-        .repo-icon { color: var(--muted); font-size: 0.9rem; margin-top: 0.1rem; }
-        .repo-name {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.95rem;
-            font-weight: 700;
+        .card-icon {
+            font-size: 1.8rem; margin-bottom: 1rem; display: block;
             color: var(--primary);
-            text-decoration: none;
-            flex: 1;
-            word-break: break-all;
         }
-        .repo-name:hover { text-decoration: underline; }
-        body.matrix .repo-name { text-shadow: 0 0 6px rgba(0,255,136,0.4); }
-        .repo-badge {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.68rem;
-            padding: 0.15rem 0.5rem;
-            border-radius: 20px;
-            border: 1px solid var(--border);
-            color: var(--muted);
-            white-space: nowrap;
-        }
-        .badge-fork { border-color: rgba(255,165,0,0.4); color: orange; }
-        .badge-source { border-color: rgba(0,255,136,0.3); color: var(--primary); }
+        body.dark .card-icon,
+        body.matrix .card-icon { text-shadow: var(--glow); }
 
-        .repo-desc {
+        .card-title {
             font-family: 'Fira Code', monospace;
-            font-size: 0.8rem;
-            color: var(--muted);
-            line-height: 1.5;
-            flex: 1;
-            margin-bottom: 1rem;
-        }
-        .repo-topics {
-            display: flex; flex-wrap: wrap; gap: 0.4rem;
-            margin-bottom: 1rem;
-        }
-        .topic-tag {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.68rem;
-            padding: 0.15rem 0.5rem;
-            border-radius: 20px;
-            background: rgba(0,255,136,0.08);
-            color: var(--accent);
-            border: 1px solid rgba(0,255,136,0.2);
-        }
-        .repo-footer {
-            display: flex; align-items: center; gap: 1rem;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.75rem;
-            color: var(--muted);
-            flex-wrap: wrap;
-        }
-        .repo-footer .lang-dot {
-            width: 10px; height: 10px;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 4px;
-        }
-        .repo-footer a {
-            color: var(--muted);
-            text-decoration: none;
-            margin-left: auto;
-            border: 1px solid var(--border);
-            padding: 0.25rem 0.65rem;
-            border-radius: 4px;
-            transition: all 0.2s;
-            font-size: 0.72rem;
-        }
-        .repo-footer a:hover { color: var(--primary); border-color: var(--primary); }
-
-        /* ── FEATURED ── */
-        .featured-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-        .featured-card {
-            background: var(--panel);
-            border: 2px solid var(--primary);
-            border-radius: 10px;
-            padding: 1.5rem;
-            display: flex; flex-direction: column;
-            transition: all 0.25s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .featured-card::after {
-            content: 'FEATURED';
-            position: absolute; top: 0.8rem; right: 0.8rem;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.6rem;
-            color: var(--primary);
-            border: 1px solid var(--primary);
-            padding: 0.1rem 0.4rem;
-            border-radius: 20px;
-            letter-spacing: 0.1em;
-        }
-        .featured-card:hover { transform: translateY(-4px); box-shadow: var(--glow); }
-        body.matrix .featured-card { box-shadow: 0 0 10px rgba(0,255,136,0.15); }
-        body.matrix .featured-card:hover { box-shadow: 0 0 20px rgba(0,255,136,0.4); }
-
-        .featured-title {
-            font-family: 'Fira Code', monospace;
-            font-size: 1.1rem; font-weight: 700;
+            font-size: 1.2rem; font-weight: 700;
             color: var(--primary); margin-bottom: 0.6rem;
             text-decoration: none; display: block;
         }
-        body.matrix .featured-title { text-shadow: var(--glow); }
-        .featured-desc {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.82rem; color: var(--muted);
-            line-height: 1.5; flex: 1; margin-bottom: 1rem;
+        .card-title:hover { text-decoration: underline; }
+
+        .card-desc {
+            font-size: 0.88rem; color: var(--muted);
+            line-height: 1.65; flex: 1; margin-bottom: 1.25rem;
         }
-        .featured-tech { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+
+        .card-features {
+            list-style: none; margin-bottom: 1.5rem;
+        }
+        .card-features li {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.78rem; color: var(--muted);
+            padding: 0.2rem 0;
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .card-features li::before {
+            content: '›'; color: var(--primary); font-size: 1rem;
+        }
+
+        .card-tech {
+            display: flex; flex-wrap: wrap; gap: 0.4rem;
+            margin-bottom: 1.5rem;
+        }
         .tech-tag {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.72rem;
-            padding: 0.2rem 0.6rem;
-            border-radius: 4px;
-            background: rgba(65,105,225,0.1);
+            font-family: 'Fira Code', monospace; font-size: 0.7rem;
+            padding: 0.2rem 0.6rem; border-radius: 4px;
+            background: rgba(26,35,126,0.07);
             color: var(--accent);
-            border: 1px solid rgba(65,105,225,0.25);
+            border: 1px solid rgba(26,35,126,0.15);
         }
-        body.matrix .tech-tag {
-            background: rgba(0,255,136,0.07);
+        body.dark .tech-tag, body.matrix .tech-tag {
+            background: rgba(0,255,136,0.06);
             color: var(--primary);
-            border-color: rgba(0,255,136,0.2);
+            border-color: rgba(0,255,136,0.18);
         }
-        .featured-links { display: flex; gap: 0.75rem; }
-        .featured-links a {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.78rem;
-            text-decoration: none;
-            padding: 0.4rem 0.9rem;
-            border-radius: 4px;
-            transition: all 0.2s;
+
+        .card-links { display: flex; gap: 0.75rem; }
+        .card-links a {
+            font-family: 'Fira Code', monospace; font-size: 0.8rem;
+            text-decoration: none; padding: 0.5rem 1.1rem;
+            border-radius: 6px; transition: all 0.22s;
             display: flex; align-items: center; gap: 0.4rem;
         }
-        .btn-demo {
-            background: var(--primary);
-            color: var(--bg);
-            border: 1px solid var(--primary);
+        .btn-primary {
+            background: var(--primary); color: var(--bg);
+            border: 1.5px solid var(--primary);
         }
-        .btn-demo:hover { opacity: 0.85; box-shadow: var(--glow); }
-        .btn-src {
-            color: var(--primary);
-            border: 1px solid var(--primary);
+        .btn-primary:hover { opacity: 0.85; box-shadow: var(--glow); transform: translateY(-1px); }
+        .btn-outline {
+            color: var(--primary); border: 1.5px solid var(--primary);
             background: transparent;
         }
-        .btn-src:hover { background: var(--primary); color: var(--bg); box-shadow: var(--glow); }
+        .btn-outline:hover { background: var(--primary); color: var(--bg); box-shadow: var(--glow); transform: translateY(-1px); }
 
-        /* ── LOADING / ERROR ── */
-        .loading-state, .error-state {
-            text-align: center;
-            padding: 3rem 1rem;
-            font-family: 'Fira Code', monospace;
+        /* ── GITHUB LINK BAR ──────────────────────────────── */
+        .github-bar {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 10px; padding: 1.25rem 1.5rem;
+            display: flex; align-items: center; gap: 1rem;
+            margin-bottom: 3rem; flex-wrap: wrap;
+            transition: all 0.3s;
         }
-        .loading-state { color: var(--muted); }
-        .loading-dots::after {
-            content: '...';
-            animation: dots 1.2s steps(3, end) infinite;
+        .github-bar:hover { border-color: var(--primary); box-shadow: var(--glow); }
+        .github-bar p {
+            flex: 1; font-family: 'Fira Code', monospace;
+            font-size: 0.82rem; color: var(--muted);
         }
-        @keyframes dots {
-            0%,20% { content: '.'; }
-            40% { content: '..'; }
-            60%,100% { content: '...'; }
+        .github-bar a {
+            font-family: 'Fira Code', monospace; font-size: 0.82rem;
+            color: var(--primary); text-decoration: none;
+            border: 1px solid var(--primary); padding: 0.4rem 1rem;
+            border-radius: 4px; transition: all 0.2s;
+            display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;
         }
-        .error-state { color: #ff4444; }
-        .error-state .err-code {
-            font-size: 2rem; font-weight: 700;
-            margin-bottom: 0.5rem; display: block;
-        }
-        .error-state a { color: var(--primary); }
+        .github-bar a:hover { background: var(--primary); color: var(--bg); box-shadow: var(--glow); }
 
-        /* ── FOOTER ── */
+        /* ── FOOTER ───────────────────────────────────────── */
         footer {
             position: relative; z-index: 10;
             padding: 2rem 0; text-align: center;
-            border-top: 1px solid var(--border);
-            margin-top: 2rem;
+            border-top: 1px solid var(--border); margin-top: 1rem;
         }
         .social-links {
-            list-style: none;
-            display: flex; justify-content: center; gap: 1rem;
-            margin-bottom: 1rem; flex-wrap: wrap;
+            list-style: none; display: flex;
+            justify-content: center; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;
         }
         .social-links a {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.82rem;
-            color: var(--muted);
-            text-decoration: none;
-            padding: 0.4rem 0.9rem;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            transition: all 0.2s;
+            font-family: 'Fira Code', monospace; font-size: 0.8rem;
+            color: var(--muted); text-decoration: none;
+            padding: 0.38rem 0.85rem; border: 1px solid var(--border);
+            border-radius: 4px; transition: all 0.2s;
             display: flex; align-items: center; gap: 0.4rem;
         }
         .social-links a:hover { border-color: var(--primary); color: var(--primary); box-shadow: var(--glow); }
-        .copyrights { font-family: 'Fira Code', monospace; font-size: 0.78rem; color: var(--muted); }
+        .copyrights { font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--muted); }
 
-        /* ── GLITCH ── */
-        @keyframes glitch {
-            0%,100% { clip-path: inset(0 0 100% 0); transform: translate(0); }
-            20% { clip-path: inset(30% 0 60% 0); transform: translate(-4px, 2px); }
-            40% { clip-path: inset(60% 0 20% 0); transform: translate(4px, -2px); }
-            60% { clip-path: inset(10% 0 80% 0); transform: translate(-2px, 1px); }
-            80% { clip-path: inset(80% 0 5% 0); transform: translate(2px, -1px); }
-        }
-        body.matrix h1:hover {
-            position: relative;
-        }
-        body.matrix h1:hover::before,
-        body.matrix h1:hover::after {
-            content: attr(data-text);
-            position: absolute; left: 0; top: 0;
-            width: 100%; color: var(--primary);
-            animation: glitch 0.4s steps(2) infinite;
-        }
-        body.matrix h1:hover::before { color: #ff0040; animation-delay: 0s; }
-        body.matrix h1:hover::after { color: #00ffff; animation-delay: 0.1s; }
-
-        /* ── RESPONSIVE ── */
-        @media (max-width: 600px) {
+        @media (max-width: 640px) {
             .topbar-nav { display: none; }
-            .repos-grid, .featured-grid { grid-template-columns: 1fr; }
-            .filters { gap: 0.3rem; }
-            .search-box input { width: 130px; }
-            .gh-stats { gap: 1rem; }
+            .projects-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -545,12 +290,12 @@
 
     <!-- TOPBAR -->
     <nav class="topbar">
-        <a class="topbar-brand" href="../index.html">~/P2FU2</a>
+        <a class="topbar-brand" href="/index.html">~/P2FU2</a>
         <div class="topbar-nav">
-            <a href="../index.html">home</a>
-            <a href="projects.html" class="active">projects</a>
-            <a href="cv.html">cv</a>
-            <a href="analysis.html">analysis</a>
+            <a href="/index.html">Home</a>
+            <a href="projects.html" class="active">Projects</a>
+            <a href="cv.html">CV</a>
+            <a href="analysis.html">Analysis</a>
         </div>
         <div class="topbar-right">
             <select class="lang-select" id="languageSelect" onchange="changeLanguage()">
@@ -560,353 +305,190 @@
                 <option value="zh">ZH</option>
                 <option value="ja">JA</option>
             </select>
-            <button class="btn-theme" onclick="toggleTheme()" id="themeBtn">[ matrix ]</button>
+            <button class="btn-theme" onclick="toggleTheme()" id="themeBtn">[ Dark ]</button>
         </div>
     </nav>
 
     <main>
-        <!-- PAGE HEADER -->
         <div class="page-header">
             <div class="breadcrumb"><span>~</span> / <span>projects</span></div>
-            <h1 data-text="Repositórios GitHub">Repositórios GitHub</h1>
+            <h1>Projects</h1>
+            <p>// Aplicações web desenvolvidas do zero — design, lógica e dados.</p>
         </div>
 
-        <!-- GITHUB PROFILE BANNER -->
-        <div class="github-banner" id="githubBanner">
-            <img class="gh-avatar" id="ghAvatar" src="https://github.com/P2FU2.png" alt="P2FU2 avatar" onerror="this.src='https://avatars.githubusercontent.com/u/P2FU2'">
-            <div class="gh-info">
-                <h2 id="ghName">P2FU2</h2>
-                <p id="ghBio">Carregando perfil...</p>
+        <div class="projects-grid">
+
+            <!-- 1. Terminal -->
+            <div class="project-card">
+                <span class="card-num">01</span>
+                <span class="card-icon"><i class="fas fa-terminal"></i></span>
+                <a class="card-title" href="../projects/terminal/index.html">Terminal Web</a>
+                <p class="card-desc">
+                    Terminal interativo executado no browser com comandos customizados,
+                    histórico de sessão, modo hacker e efeito matrix.
+                </p>
+                <ul class="card-features">
+                    <li>20+ comandos integrados</li>
+                    <li>Histórico com ↑/↓ e tab-complete</li>
+                    <li>Efeito matrix com canvas</li>
+                    <li>Modo hacker com sequências animadas</li>
+                </ul>
+                <div class="card-tech">
+                    <span class="tech-tag">HTML5</span>
+                    <span class="tech-tag">CSS3</span>
+                    <span class="tech-tag">JavaScript</span>
+                    <span class="tech-tag">Canvas API</span>
+                </div>
+                <div class="card-links">
+                    <a class="btn-primary" href="../projects/terminal/index.html">
+                        <i class="fas fa-play"></i> Live Demo
+                    </a>
+                    <a class="btn-outline" href="https://github.com/P2FU2/P2FU2.github.io/tree/main/projects/terminal" target="_blank">
+                        <i class="fab fa-github"></i> Source
+                    </a>
+                </div>
             </div>
-            <div class="gh-stats">
-                <div class="gh-stat"><span class="val" id="ghRepos">—</span><span class="lbl">repos</span></div>
-                <div class="gh-stat"><span class="val" id="ghFollowers">—</span><span class="lbl">followers</span></div>
-                <div class="gh-stat"><span class="val" id="ghFollowing">—</span><span class="lbl">following</span></div>
-                <div class="gh-stat"><span class="val" id="ghStars">—</span><span class="lbl">stars</span></div>
+
+            <!-- 2. Study Dashboard -->
+            <div class="project-card">
+                <span class="card-num">02</span>
+                <span class="card-icon"><i class="fas fa-chart-bar"></i></span>
+                <a class="card-title" href="../projects/StudyDashboard/index.html">Study Dashboard</a>
+                <p class="card-desc">
+                    Dashboard pessoal de produtividade com timer Pomodoro,
+                    gerenciamento de tarefas e notas coloridas persistidas localmente.
+                </p>
+                <ul class="card-features">
+                    <li>Timer Pomodoro 25/5/15 min</li>
+                    <li>To-do list com exportação .txt</li>
+                    <li>Notas coloridas com expand/collapse</li>
+                    <li>Persistência via LocalStorage</li>
+                </ul>
+                <div class="card-tech">
+                    <span class="tech-tag">HTML5</span>
+                    <span class="tech-tag">CSS3</span>
+                    <span class="tech-tag">JavaScript</span>
+                    <span class="tech-tag">LocalStorage</span>
+                </div>
+                <div class="card-links">
+                    <a class="btn-primary" href="../projects/StudyDashboard/index.html">
+                        <i class="fas fa-play"></i> Live Demo
+                    </a>
+                    <a class="btn-outline" href="https://github.com/P2FU2/P2FU2.github.io/tree/main/projects/StudyDashboard" target="_blank">
+                        <i class="fab fa-github"></i> Source
+                    </a>
+                </div>
             </div>
-            <a class="gh-link" href="https://github.com/P2FU2" target="_blank">
-                <i class="fab fa-github"></i> Ver no GitHub
+
+            <!-- 3. Mind Canvas -->
+            <div class="project-card">
+                <span class="card-num">03</span>
+                <span class="card-icon"><i class="fas fa-paint-brush"></i></span>
+                <a class="card-title" href="../projects/MindCanvas/index.html">Mind Canvas</a>
+                <p class="card-desc">
+                    Aplicação de canvas interativo com múltiplas abas, ferramentas de
+                    desenho, formas, emojis e auto-save automático.
+                </p>
+                <ul class="card-features">
+                    <li>Múltiplos canvas em abas</li>
+                    <li>Desenho livre, formas e texto</li>
+                    <li>Galeria de emojis integrada</li>
+                    <li>Auto-save a cada 30s</li>
+                </ul>
+                <div class="card-tech">
+                    <span class="tech-tag">HTML5</span>
+                    <span class="tech-tag">CSS3</span>
+                    <span class="tech-tag">Canvas API</span>
+                    <span class="tech-tag">LocalStorage</span>
+                </div>
+                <div class="card-links">
+                    <a class="btn-primary" href="../projects/MindCanvas/index.html">
+                        <i class="fas fa-play"></i> Live Demo
+                    </a>
+                    <a class="btn-outline" href="https://github.com/P2FU2/P2FU2.github.io/tree/main/projects/MindCanvas" target="_blank">
+                        <i class="fab fa-github"></i> Source
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- GitHub bar -->
+        <div class="github-bar">
+            <p>// Mais repositórios públicos disponíveis no GitHub — incluindo análises de dados, scripts Python e experimentos.</p>
+            <a href="https://github.com/P2FU2?tab=repositories" target="_blank">
+                <i class="fab fa-github"></i> Ver todos no GitHub
             </a>
         </div>
-
-        <!-- FEATURED PROJECTS -->
-        <div class="section-label">projetos em destaque</div>
-        <div class="featured-grid">
-            <div class="featured-card">
-                <a class="featured-title" href="../projects/terminal/index.html">
-                    <i class="fas fa-terminal"></i> Terminal Web
-                </a>
-                <p class="featured-desc">Terminal interativo no browser com comandos customizados, histórico, modo hacker e muito mais.</p>
-                <div class="featured-tech">
-                    <span class="tech-tag">HTML</span>
-                    <span class="tech-tag">CSS</span>
-                    <span class="tech-tag">JavaScript</span>
-                    <span class="tech-tag">Canvas API</span>
-                </div>
-                <div class="featured-links">
-                    <a class="btn-demo" href="../projects/terminal/index.html"><i class="fas fa-play"></i> Demo</a>
-                    <a class="btn-src" href="https://github.com/P2FU2/P2FU2.github.io/tree/main/projects/terminal" target="_blank"><i class="fab fa-github"></i> Source</a>
-                </div>
-            </div>
-            <div class="featured-card">
-                <a class="featured-title" href="../projects/StudyDashboard/index.html">
-                    <i class="fas fa-chart-bar"></i> Study Dashboard
-                </a>
-                <p class="featured-desc">Dashboard pessoal com Pomodoro, gerenciamento de tarefas, notas coloridas e exportação de dados.</p>
-                <div class="featured-tech">
-                    <span class="tech-tag">HTML</span>
-                    <span class="tech-tag">CSS</span>
-                    <span class="tech-tag">JavaScript</span>
-                    <span class="tech-tag">LocalStorage</span>
-                </div>
-                <div class="featured-links">
-                    <a class="btn-demo" href="../projects/StudyDashboard/index.html"><i class="fas fa-play"></i> Demo</a>
-                    <a class="btn-src" href="https://github.com/P2FU2/P2FU2.github.io/tree/main/projects/StudyDashboard" target="_blank"><i class="fab fa-github"></i> Source</a>
-                </div>
-            </div>
-            <div class="featured-card">
-                <a class="featured-title" href="../projects/MindCanvas/index.html">
-                    <i class="fas fa-paint-brush"></i> Mind Canvas
-                </a>
-                <p class="featured-desc">Canvas interativo com múltiplas abas, ferramentas de desenho, emojis, formas e auto-save.</p>
-                <div class="featured-tech">
-                    <span class="tech-tag">HTML</span>
-                    <span class="tech-tag">CSS</span>
-                    <span class="tech-tag">Canvas API</span>
-                    <span class="tech-tag">LocalStorage</span>
-                </div>
-                <div class="featured-links">
-                    <a class="btn-demo" href="../projects/MindCanvas/index.html"><i class="fas fa-play"></i> Demo</a>
-                    <a class="btn-src" href="https://github.com/P2FU2/P2FU2.github.io/tree/main/projects/MindCanvas" target="_blank"><i class="fab fa-github"></i> Source</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- ALL GITHUB REPOS -->
-        <div class="section-label">todos os repositórios públicos</div>
-
-        <!-- FILTERS -->
-        <div class="filters" id="filterBar">
-            <button class="filter-btn active" data-lang="all">Todos</button>
-            <div class="search-box">
-                <span><i class="fas fa-search"></i></span>
-                <input type="text" id="searchInput" placeholder="buscar repo..." oninput="filterRepos()">
-            </div>
-        </div>
-
-        <!-- REPOS GRID -->
-        <div class="repos-grid" id="reposGrid">
-            <div class="loading-state">
-                <div><i class="fab fa-github" style="font-size:2rem;color:var(--primary);margin-bottom:1rem;display:block;"></i></div>
-                <span class="loading-dots">Buscando repositórios</span>
-            </div>
-        </div>
-
-        <!-- FOOTER -->
-        <footer>
-            <ul class="social-links">
-                <li><a href="https://github.com/P2FU2" target="_blank"><i class="fab fa-github"></i> GitHub</a></li>
-                <li><a href="https://www.linkedin.com/in/pedroqneves/" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
-                <li><a href="mailto:pedromilani14@gmail.com"><i class="fas fa-envelope"></i> Email</a></li>
-                <li><a href="https://twitter.com/qpedroneves" target="_blank"><i class="fab fa-twitter"></i> Twitter</a></li>
-            </ul>
-            <p class="copyrights">// Copyright &copy; <span id="year"></span> P2FU2 — hosted on GitHub Pages</p>
-        </footer>
     </main>
 
-    <script>
-    // ── LANGUAGE ──────────────────────────────────────────────────
-    const GITHUB_USER = 'P2FU2';
-    let allRepos = [];
-    let activeLang = 'all';
+    <footer>
+        <ul class="social-links">
+            <li><a href="https://github.com/P2FU2" target="_blank"><i class="fab fa-github"></i> GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/pedroqneves/" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
+            <li><a href="mailto:pedromilani14@gmail.com"><i class="fas fa-envelope"></i> Email</a></li>
+            <li><a href="https://twitter.com/qpedroneves" target="_blank"><i class="fab fa-twitter"></i> Twitter</a></li>
+        </ul>
+        <p class="copyrights">// Copyright &copy; <span id="year"></span> Pedro Neves</p>
+    </footer>
 
+    <script>
+    // ── MATRIX ───────────────────────────────────────────────────────
+    const canvas = document.querySelector('canvas.matrix');
+    const ctx = canvas.getContext('2d');
+    let matrixInterval;
+    function initMatrix() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const letters = 'アカサタナハマヤラワ0123456789ΓΩπΣΨЖΩФ@#$%&<>{}[]';
+        const fs = 14, cols = Math.floor(canvas.width / fs);
+        const drops = Array(cols).fill(1);
+        clearInterval(matrixInterval);
+        matrixInterval = setInterval(() => {
+            if (!document.body.classList.contains('matrix')) return;
+            ctx.fillStyle = 'rgba(5,13,10,0.07)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < drops.length; i++) {
+                ctx.fillStyle = Math.random() > 0.97 ? '#fff' : '#00ff88';
+                ctx.font = fs + 'px monospace';
+                ctx.fillText(letters[Math.floor(Math.random() * letters.length)], i * fs, drops[i] * fs);
+                if (drops[i] * fs > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }, 40);
+    }
+    window.addEventListener('resize', initMatrix);
+    initMatrix();
+
+    // ── THEME ─────────────────────────────────────────────────────────
+    function toggleTheme() {
+        if (document.body.classList.contains('matrix')) {
+            document.body.classList.remove('matrix', 'dark');
+            document.getElementById('themeBtn').textContent = '[ Dark ]';
+            return;
+        }
+        const isDark = document.body.classList.toggle('dark');
+        document.getElementById('themeBtn').textContent = isDark ? '[ Light ]' : '[ Dark ]';
+    }
+
+    // ── LANGUAGE ──────────────────────────────────────────────────────
     function changeLanguage() {
         const lang = document.getElementById('languageSelect').value;
         localStorage.setItem('preferredLanguage', lang);
         document.documentElement.lang = lang;
     }
 
-    // ── THEME ─────────────────────────────────────────────────────
-    function toggleTheme() {
-        const isNowDark = document.body.classList.toggle('dark');
-        document.body.classList.remove('matrix');
-        document.getElementById('themeBtn').textContent = isNowDark ? '[ light ]' : '[ dark ]';
-    }
-
-    // ── MATRIX CANVAS ─────────────────────────────────────────────
-    const canvas = document.querySelector('canvas.matrix');
-    const ctx = canvas.getContext('2d');
-    let matrixInterval;
-
-    function initMatrix() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        const letters = 'アカサタナハマヤラワ0123456789ΓΩπΣΨЖΩФ@#$%&<>{}[]';
-        const fontSize = 14;
-        const columns = Math.floor(canvas.width / fontSize);
-        const drops = Array(columns).fill(1);
-
-        function draw() {
-            if (!document.body.classList.contains('matrix')) { return; }
-            ctx.fillStyle = 'rgba(5,13,10,0.07)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#00ff88';
-            ctx.font = fontSize + 'px monospace';
-            for (let i = 0; i < drops.length; i++) {
-                const char = letters[Math.floor(Math.random() * letters.length)];
-                // Occasionally brighten a char
-                if (Math.random() > 0.98) ctx.fillStyle = '#ffffff';
-                else ctx.fillStyle = '#00ff88';
-                ctx.fillText(char, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
-            }
-        }
-        clearInterval(matrixInterval);
-        matrixInterval = setInterval(draw, 40);
-    }
-
-    window.addEventListener('resize', initMatrix);
-    initMatrix();
-
-    // ── LANGUAGE COLORS ───────────────────────────────────────────
-    const LANG_COLORS = {
-        JavaScript: '#f1e05a', TypeScript: '#2b7489', Python: '#3572A5',
-        HTML: '#e34c26', CSS: '#563d7c', Java: '#b07219', 'C++': '#f34b7d',
-        C: '#555555', 'C#': '#178600', Ruby: '#701516', Go: '#00ADD8',
-        Rust: '#dea584', PHP: '#4F5D95', Swift: '#F05138', Kotlin: '#A97BFF',
-        Shell: '#89e051', Vue: '#2c3e50', Svelte: '#ff3e00', Dart: '#00B4AB',
-        Jupyter: '#DA5B0B', R: '#198CE7', SCSS: '#c6538c', default: '#8892B0'
-    };
-
-    function getLangColor(lang) {
-        return LANG_COLORS[lang] || LANG_COLORS.default;
-    }
-
-    // ── FORMAT DATE ────────────────────────────────────────────────
-    function relativeTime(dateStr) {
-        const d = new Date(dateStr);
-        const now = new Date();
-        const diff = (now - d) / 1000;
-        if (diff < 60) return 'agora';
-        if (diff < 3600) return Math.floor(diff/60) + 'min atrás';
-        if (diff < 86400) return Math.floor(diff/3600) + 'h atrás';
-        if (diff < 2592000) return Math.floor(diff/86400) + 'd atrás';
-        if (diff < 31536000) return Math.floor(diff/2592000) + 'mo atrás';
-        return Math.floor(diff/31536000) + 'a atrás';
-    }
-
-    // ── FETCH GITHUB PROFILE ───────────────────────────────────────
-    async function fetchProfile() {
-        try {
-            const res = await fetch(`https://api.github.com/users/${GITHUB_USER}`);
-            if (!res.ok) throw new Error('Profile fetch failed');
-            const u = await res.json();
-            document.getElementById('ghAvatar').src = u.avatar_url;
-            document.getElementById('ghName').textContent = u.name || u.login;
-            document.getElementById('ghBio').textContent = u.bio || '@' + u.login + ' • ' + (u.location || '') ;
-            document.getElementById('ghRepos').textContent = u.public_repos;
-            document.getElementById('ghFollowers').textContent = u.followers;
-            document.getElementById('ghFollowing').textContent = u.following;
-        } catch(e) {
-            document.getElementById('ghBio').textContent = '@' + GITHUB_USER;
-        }
-    }
-
-    // ── FETCH REPOS ────────────────────────────────────────────────
-    async function fetchRepos() {
-        try {
-            // Fetch up to 100 repos, sorted by update date
-            const res = await fetch(`https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=updated&type=public`);
-            if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
-            const repos = await res.json();
-            allRepos = repos;
-
-            // Count total stars
-            const totalStars = repos.reduce((s, r) => s + r.stargazers_count, 0);
-            document.getElementById('ghStars').textContent = totalStars;
-
-            // Build language filter buttons
-            buildFilterButtons(repos);
-
-            renderRepos(repos);
-        } catch(e) {
-            document.getElementById('reposGrid').innerHTML = `
-                <div class="error-state" style="grid-column:1/-1">
-                    <span class="err-code">ERR_FETCH</span>
-                    <p>Não foi possível buscar os repositórios.</p>
-                    <p style="margin-top:0.5rem;font-size:0.8rem;color:var(--muted)">${e.message}</p>
-                    <p style="margin-top:1rem"><a href="https://github.com/${GITHUB_USER}?tab=repositories" target="_blank">Ver diretamente no GitHub →</a></p>
-                </div>`;
-        }
-    }
-
-    // ── BUILD FILTER BUTTONS ───────────────────────────────────────
-    function buildFilterButtons(repos) {
-        const langs = [...new Set(repos.map(r => r.language).filter(Boolean))].sort();
-        const bar = document.getElementById('filterBar');
-        const searchBox = bar.querySelector('.search-box');
-
-        langs.forEach(lang => {
-            const btn = document.createElement('button');
-            btn.className = 'filter-btn';
-            btn.dataset.lang = lang;
-            btn.innerHTML = `<span class="lang-dot" style="background:${getLangColor(lang)};width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px"></span>${lang}`;
-            btn.onclick = () => setLanguageFilter(lang, btn);
-            bar.insertBefore(btn, searchBox);
-        });
-    }
-
-    function setLanguageFilter(lang, btn) {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        activeLang = lang;
-        filterRepos();
-    }
-
-    // ── FILTER ─────────────────────────────────────────────────────
-    function filterRepos() {
-        const query = document.getElementById('searchInput').value.toLowerCase();
-        let filtered = allRepos;
-        if (activeLang !== 'all') filtered = filtered.filter(r => r.language === activeLang);
-        if (query) filtered = filtered.filter(r =>
-            r.name.toLowerCase().includes(query) ||
-            (r.description || '').toLowerCase().includes(query) ||
-            (r.topics || []).some(t => t.includes(query))
-        );
-        renderRepos(filtered);
-    }
-
-    // Reset filter to "all" when search used
-    document.getElementById('filterBar').querySelectorAll('.filter-btn').forEach(b => {
-        if (b.dataset.lang === 'all') {
-            b.onclick = () => {
-                document.querySelectorAll('.filter-btn').forEach(x => x.classList.remove('active'));
-                b.classList.add('active');
-                activeLang = 'all';
-                filterRepos();
-            };
-        }
-    });
-
-    // ── RENDER REPOS ───────────────────────────────────────────────
-    function renderRepos(repos) {
-        const grid = document.getElementById('reposGrid');
-        if (repos.length === 0) {
-            grid.innerHTML = `<div class="loading-state" style="grid-column:1/-1">Nenhum repositório encontrado.</div>`;
-            return;
-        }
-
-        grid.innerHTML = repos.map(r => {
-            const lang = r.language || '';
-            const dot = lang ? `<span class="lang-dot" style="background:${getLangColor(lang)}"></span>${lang}` : '';
-            const badge = r.fork
-                ? `<span class="repo-badge badge-fork">fork</span>`
-                : `<span class="repo-badge badge-source">public</span>`;
-            const topics = (r.topics || []).slice(0,5).map(t =>
-                `<span class="topic-tag">${t}</span>`).join('');
-            const desc = r.description
-                ? r.description.substring(0, 120) + (r.description.length > 120 ? '…' : '')
-                : '<em style="opacity:0.5">sem descrição</em>';
-
-            return `
-            <div class="repo-card">
-                <div class="repo-header">
-                    <i class="fas fa-book-open repo-icon"></i>
-                    <a class="repo-name" href="${r.html_url}" target="_blank">${r.name}</a>
-                    ${badge}
-                </div>
-                <p class="repo-desc">${desc}</p>
-                ${topics ? `<div class="repo-topics">${topics}</div>` : ''}
-                <div class="repo-footer">
-                    ${dot ? `<span>${dot}</span>` : ''}
-                    ${r.stargazers_count ? `<span><i class="fas fa-star" style="color:#f1e05a;font-size:0.7rem"></i> ${r.stargazers_count}</span>` : ''}
-                    ${r.forks_count ? `<span><i class="fas fa-code-branch" style="font-size:0.7rem"></i> ${r.forks_count}</span>` : ''}
-                    <span style="opacity:0.5">${relativeTime(r.updated_at)}</span>
-                    <a href="${r.html_url}" target="_blank"><i class="fab fa-github"></i></a>
-                </div>
-            </div>`;
-        }).join('');
-    }
-
-    // ── INIT ────────────────────────────────────────────────────────
+    // ── INIT ──────────────────────────────────────────────────────────
     window.addEventListener('load', () => {
         document.getElementById('year').textContent = new Date().getFullYear();
-
         const savedLang = localStorage.getItem('preferredLanguage') || 'pt';
         document.getElementById('languageSelect').value = savedLang;
-        document.documentElement.lang = savedLang;
 
         // Restaurar matrix se desbloqueado via terminal
         if (localStorage.getItem('matrixUnlocked') === 'true' && localStorage.getItem('matrixActive') === 'true') {
             document.body.classList.add('matrix');
-            document.getElementById('themeBtn').textContent = '[ light ]';
-        } else {
-            document.getElementById('themeBtn').textContent = '[ dark ]';
+            document.getElementById('themeBtn').textContent = '[ Light ]';
         }
-
-        fetchProfile();
-        fetchRepos();
     });
     </script>
 </body>
