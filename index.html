@@ -164,95 +164,149 @@
       max-width: 900px; width: 100%;
     }
 
-    /* Profile Image */
+    /* ══ PROFILE IMAGE ══════════════════════════════════════════════ */
     .profile-img-wrap {
-      width: 160px; height: 160px;
-      margin: 0 auto 1.5rem;
+      width: 220px; height: 220px;
+      margin: 0 auto 2rem;
       position: relative;
-      transition: all 0.4s ease;
+      transition: all 0.5s cubic-bezier(0.4,0,0.2,1);
+      flex-shrink: 0;
     }
     .profile-img {
       width: 100%; height: 100%;
       object-fit: cover;
       border: 3px solid var(--primary);
       box-shadow: var(--glow);
-      transition: all 0.45s cubic-bezier(.4,0,.2,1);
+      transition: all 0.5s cubic-bezier(0.4,0,0.2,1);
       display: block;
       border-radius: 50%;
     }
 
-    /* Shape variants — applied to the <img> */
-    .shape-circle  .profile-img { border-radius: 50%; }
-    .shape-square  .profile-img { border-radius: 10px; }
-    .shape-rect    .profile-img { border-radius: 14px; object-position: top center; }
-    .shape-monitor .profile-img {
-      clip-path: polygon(0 0, 100% 0, 100% 82%, 62% 82%, 58% 100%, 42% 100%, 38% 82%, 0 82%);
-      border-radius: 6px;
-      border-color: transparent;
+    /* ── SHAPE: CIRCLE (padrão) – pulso de brilho ──────────────── */
+    .shape-circle .profile-img {
+      border-radius: 50%;
+      animation: pulsGlow 3s ease-in-out infinite;
+    }
+    @keyframes pulsGlow {
+      0%,100% { box-shadow: 0 0 0 3px var(--primary), 0 0 15px rgba(0,0,0,0.1); }
+      50%      { box-shadow: 0 0 0 6px var(--primary), 0 0 30px rgba(0,0,0,0.15); }
     }
 
-    /* wrap size adjustments */
-    .shape-rect  { height: 118px; }
+    /* ── SHAPE: HEXAGON – rotação lenta do brilho ──────────────── */
+    .shape-hexagon .profile-img {
+      clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+      border-radius: 0;
+      border-color: transparent;
+      animation: hexSpin 8s linear infinite;
+    }
+    .shape-hexagon::before {
+      content: '';
+      position: absolute; inset: -4px;
+      clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+      background: conic-gradient(var(--primary), var(--accent), var(--primary));
+      animation: hexSpin 4s linear infinite;
+      z-index: -1;
+    }
+    @keyframes hexSpin {
+      to { filter: hue-rotate(360deg); }
+    }
+
+    /* ── SHAPE: DIAMOND – rhombo com shimmer ──────────────────── */
+    .shape-diamond {
+      transform: rotate(45deg);
+    }
+    .shape-diamond .profile-img {
+      border-radius: 12px;
+      transform: rotate(-45deg) scale(0.82);
+      transform-origin: center;
+      animation: diamondShimmer 2.5s ease-in-out infinite;
+    }
+    @keyframes diamondShimmer {
+      0%,100% { border-color: var(--primary); box-shadow: 0 0 10px var(--primary); }
+      50%      { border-color: var(--accent);  box-shadow: 0 0 25px var(--accent); }
+    }
+
+    /* ── SHAPE: SQUARE – scan-line animado ────────────────────── */
+    .shape-square .profile-img {
+      border-radius: 16px;
+    }
+    .shape-square::after {
+      content: '';
+      position: absolute; left: 0; width: 100%; height: 3px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+      animation: scanLine 2s linear infinite;
+      pointer-events: none; z-index: 2;
+    }
+    @keyframes scanLine {
+      0%   { top: -4px; opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { top: calc(100% + 4px); opacity: 0; }
+    }
+
+    /* ── SHAPE: MONITOR – ecrã retro ─────────────────────────── */
+    .shape-monitor .profile-img {
+      clip-path: polygon(4% 0, 96% 0, 100% 4%, 100% 80%, 62% 80%, 58% 100%, 42% 100%, 38% 80%, 0 80%, 0 4%);
+      border-radius: 4px;
+      border-color: transparent;
+      animation: monitorFlicker 6s ease-in-out infinite;
+    }
+    @keyframes monitorFlicker {
+      0%,95%,100% { opacity: 1; filter: brightness(1); }
+      97%  { opacity: 0.7; filter: brightness(1.4) saturate(0.5); }
+      98%  { opacity: 1; }
+    }
     .shape-monitor { overflow: visible; }
 
-    /* Hover zoom on profile */
+    /* Hover lift em todos */
     .profile-img-wrap:hover .profile-img {
-      transform: scale(1.04);
-      box-shadow: 0 0 0 4px var(--primary), var(--glow);
+      transform: scale(1.05);
+      filter: brightness(1.08);
     }
-    /* MATRIX MODE: foto com filtro hacker verde */
+    .shape-diamond:hover .profile-img {
+      transform: rotate(-45deg) scale(0.87);
+    }
+
+    /* ── MATRIX MODE: filtro hacker verde em qualquer shape ────── */
     body.matrix .profile-img {
-      filter: grayscale(0.2) sepia(0.6) hue-rotate(95deg) saturate(2.5) brightness(0.75) contrast(1.1);
-      border-color: #00ff88;
-      box-shadow: 0 0 0 3px #00ff88, 0 0 25px rgba(0,255,136,0.5), 0 0 60px rgba(0,255,136,0.2);
+      filter: grayscale(0.1) sepia(0.5) hue-rotate(95deg) saturate(2.8) brightness(0.72) contrast(1.15) !important;
+      border-color: #00ff88 !important;
+      box-shadow: 0 0 0 3px #00ff88, 0 0 25px rgba(0,255,136,0.55), 0 0 60px rgba(0,255,136,0.2) !important;
     }
-    body.matrix .profile-img-wrap:hover .profile-img {
-      filter: grayscale(0) sepia(0.4) hue-rotate(95deg) saturate(3) brightness(0.85);
-      box-shadow: 0 0 0 4px #00ff88, 0 0 40px rgba(0,255,136,0.7);
+    @keyframes pulsGlow {
+      0%,100% { box-shadow: 0 0 0 3px #00ff88, 0 0 20px rgba(0,255,136,0.4); }
+      50%      { box-shadow: 0 0 0 6px #00ff88, 0 0 45px rgba(0,255,136,0.7); }
     }
 
-    /* Name */
+    /* ══ NOME / H1 ════════════════════════════════════════════════ */
+    .glitch-wrap { display: inline-block; }
     h1 {
-      font-size: 3rem; font-weight: 700;
-      background: linear-gradient(90deg, var(--primary), var(--accent));
+      font-size: 3.2rem; font-weight: 800;
+      background: linear-gradient(100deg, var(--primary) 0%, var(--accent) 50%, var(--primary) 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
       background-size: 200% auto;
-      transition: background-position 0.5s;
-      margin-bottom: 0.3rem;
+      animation: nameShine 4s linear infinite;
+      margin-bottom: 0.4rem;
     }
-    h1:hover { background-position: right center; }
+    @keyframes nameShine {
+      0%   { background-position: 200% center; }
+      100% { background-position: -200% center; }
+    }
 
-    /* Glitch effect — só no matrix mode (não no dark simples) */
+    /* ── MATRIX mode: glitch é um skew/translate na própria tag ── */
+    /* Sem pseudo-elementos que sobrepõem e escondem o texto       */
     body.matrix h1 {
-      position: relative; display: inline-block;
+      animation: nameShine 4s linear infinite, matrixGlitch 5s step-end infinite;
+      text-shadow: 0 0 12px rgba(0,255,136,0.4);
     }
-    .glitch-wrap { position: relative; display: inline-block; }
-    body.matrix .glitch-wrap::before,
-    body.matrix .glitch-wrap::after {
-      content: attr(data-text);
-      position: absolute; top: 0; left: 0; width: 100%;
-      background: linear-gradient(90deg, var(--primary), var(--accent));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    }
-    body.matrix .glitch-wrap::before {
-      animation: glitch1 3s infinite; clip-path: polygon(0 0,100% 0,100% 33%,0 33%);
-      transform: translate(-2px,0); color: #ff0040;
-    }
-    body.matrix .glitch-wrap::after {
-      animation: glitch2 3s infinite; clip-path: polygon(0 67%,100% 67%,100% 100%,0 100%);
-      transform: translate(2px,0); color: #00ffff;
-    }
-    @keyframes glitch1 {
-      0%,90%,100% { transform: translate(0); opacity: 0; }
-      92% { transform: translate(-3px,1px); opacity: 0.7; }
-      94% { transform: translate(3px,-1px); opacity: 0.7; }
-      96% { transform: translate(0); opacity: 0; }
-    }
-    @keyframes glitch2 {
-      0%,90%,100% { transform: translate(0); opacity: 0; }
-      93% { transform: translate(3px,-1px); opacity: 0.7; }
-      95% { transform: translate(-3px,1px); opacity: 0.7; }
-      97% { transform: translate(0); opacity: 0; }
+    @keyframes matrixGlitch {
+      0%,88%,100% { transform: none; filter: none; }
+      89%  { transform: skewX(-8deg) translateX(-4px); filter: brightness(1.5) hue-rotate(20deg); }
+      90%  { transform: skewX(6deg)  translateX(3px);  filter: brightness(1.2) hue-rotate(-20deg); }
+      91%  { transform: none; filter: none; }
+      93%  { transform: translateX(-2px) skewX(-3deg); filter: hue-rotate(30deg); }
+      94%  { transform: none; filter: none; }
     }
 
     .subtitle {
@@ -787,8 +841,8 @@
   // ════════════════════════════════════════════════════════════════
   //  PROFILE SHAPE
   // ════════════════════════════════════════════════════════════════
-  const shapes = ['shape-circle', 'shape-square', 'shape-rect', 'shape-monitor'];
-  const shapeLabels = ['circle', 'square', 'rect', 'monitor'];
+  const shapes = ['shape-circle', 'shape-hexagon', 'shape-diamond', 'shape-square', 'shape-monitor'];
+  const shapeLabels = ['circle', 'hexagon', 'diamond', 'square', 'monitor'];
   let shapeIdx = 0;
   function cycleShape() {
     const wrap = document.getElementById('profileWrap');
