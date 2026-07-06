@@ -472,9 +472,10 @@
       display: flex; flex-direction: column; gap: 0;
       scroll-behavior: smooth;
       transition: background 0.4s, color 0.4s;
-      text-align: left;
+      text-align: left !important;
     }
-    .terminal-wrap { text-align: left; }
+    .terminal-wrap,
+    .terminal-wrap * { text-align: left !important; }
     .terminal-body::-webkit-scrollbar { width: 4px; }
     .terminal-body::-webkit-scrollbar-track { background: transparent; }
     .terminal-body::-webkit-scrollbar-thumb { background: var(--terminal-prompt); border-radius: 2px; }
@@ -949,9 +950,9 @@
     story: cmdStory,
     historia: cmdStory,
     about: cmdStory,
-    sudo: () => printLine('Nice try. 😄  Permission denied.', 'red'),
+    sudo: () => printLine('Permission denied.', 'red'),
     exit: () => printLine('// There\'s no exit — you\'re already inside the matrix.', 'yellow'),
-    npm: (args) => printLine('npm: command found in /usr/bin/npm  // but this is a static site 🤷', 'out'),
+    npm: (args) => printLine('npm: found in /usr/bin/npm  // static site, no node runtime', 'out'),
     git: (args) => {
       if (!args || args[0] === 'status') printLine('On branch main. Nothing to commit, working tree clean.', 'green');
       else if (args[0] === 'log') printLine('commit a3f7b1... (HEAD) feat: hacker UI overhaul', 'out');
@@ -962,26 +963,21 @@
   // ─── currentLogEntry: agrupa as linhas de um mesmo comando ───────
   let currentLogEntry = null;
 
-  function startLogEntry(cmdText) {
+  // startLogEntry: cria nova entrada de log (usada internamente pelo cmdStory e boot)
+  function startLogEntry(label) {
     const lb = document.getElementById('logsBody');
-    // Remove placeholder
     const empty = lb.querySelector('.log-empty');
     if (empty) empty.remove();
-    // Nova entrada de log
     currentLogEntry = document.createElement('div');
     currentLogEntry.className = 'log-entry';
-    const cmdSpan = document.createElement('span');
-    cmdSpan.className = 'log-cmd';
-    cmdSpan.textContent = '$ ' + cmdText;
-    currentLogEntry.appendChild(cmdSpan);
-    lb.appendChild(currentLogEntry);
-    // Badge no Logs tab se não estiver ativo
-    if (activeTab !== 'logs') {
-      logsUnread++;
-      const badge = document.getElementById('logsBadge');
-      badge.textContent = logsUnread > 9 ? '9+' : logsUnread;
-      badge.classList.add('show');
+    if (label) {
+      const sep = document.createElement('div');
+      sep.className = 't-line dim';
+      sep.style.cssText = 'padding:0; border:none; font-family:inherit; font-size:inherit;';
+      sep.textContent = label;
+      currentLogEntry.appendChild(sep);
     }
+    lb.appendChild(currentLogEntry);
     lb.scrollTop = lb.scrollHeight;
   }
 
@@ -1151,12 +1147,9 @@
   }
 
   function cmdClear() {
-    // Limpa aba Terminal (ecos de comandos)
-    const rows = termBody.querySelectorAll('.t-line, .t-line-block');
-    rows.forEach(r => r.remove());
-    // Limpa aba Logs
+    // Limpa aba Logs (é onde tudo aparece)
     const lb = document.getElementById('logsBody');
-    lb.innerHTML = '<div class="log-empty">// Logs limpos.</div>';
+    lb.innerHTML = '<div class="log-empty">// Logs limpos. Terminal pronto.</div>';
     logsUnread = 0;
     const badge = document.getElementById('logsBadge');
     badge.classList.remove('show');
@@ -1371,17 +1364,30 @@
       const raw = input.value.trim();
       if (!raw) return;
 
-      // Eco do comando na aba Terminal (sem remover, fica no histórico visual)
+      // Tudo vai para a aba Logs (eco + saída juntos, como terminal real)
+      const lb = document.getElementById('logsBody');
+      const empty = lb.querySelector('.log-empty');
+      if (empty) empty.remove();
+
+      currentLogEntry = document.createElement('div');
+      currentLogEntry.className = 'log-entry';
+      lb.appendChild(currentLogEntry);
+
+      // Eco completo do comando no Logs
       const echoDiv = document.createElement('div');
       echoDiv.className = 't-line cmd';
-      echoDiv.textContent = `pedro@portfolio:~$ ${raw}`;
-      const promptRow = termBody.querySelector('.t-prompt-row');
-      termBody.insertBefore(echoDiv, promptRow);
-      termBody.scrollTop = termBody.scrollHeight;
+      echoDiv.style.cssText = 'padding:0; border:none; font-family:inherit; font-size:inherit;';
+      echoDiv.textContent = 'pedro@portfolio:~$ ' + raw;
+      currentLogEntry.appendChild(echoDiv);
+      lb.scrollTop = lb.scrollHeight;
 
-      // Inicia entrada de log na aba Logs
-      startLogEntry(raw);
-      currentLogEntry = document.querySelector('#logsBody .log-entry:last-child');
+      // Badge
+      if (activeTab !== 'logs') {
+        logsUnread++;
+        const badge = document.getElementById('logsBadge');
+        badge.textContent = logsUnread > 9 ? '9+' : logsUnread;
+        badge.classList.add('show');
+      }
 
       // History
       cmdHistory.unshift(raw);
@@ -1509,22 +1515,17 @@
     animateCount('projects', 60);
     animateCount('opensource', 12);
 
-    // Boot sequence no terminal (eco visual)
+    // Boot sequence vai para a aba Logs (terminal tab fica limpo)
     const bootMsgs = [
-      '// P2FU2 Portfolio Terminal v2.0',
-      '// Type "help" to see all commands.',
-      '// Try: story · whoami · neofetch · hack · theme',
+      { text: '// P2FU2 Portfolio Terminal v2.0', cls: 'green' },
+      { text: '// Type "help" to see all commands.', cls: 'dim' },
+      { text: '// Try: story · whoami · neofetch · hack · theme', cls: 'dim' },
     ];
-    bootMsgs.forEach((msg, i) => {
-      setTimeout(() => {
-        const div = document.createElement('div');
-        div.className = 't-line dim';
-        div.textContent = msg;
-        const pr = termBody.querySelector('.t-prompt-row');
-        termBody.insertBefore(div, pr);
-        termBody.scrollTop = termBody.scrollHeight;
-      }, i * 120);
+    startLogEntry(null);
+    bootMsgs.forEach((m, i) => {
+      setTimeout(() => printLine(m.text, m.cls), i * 100);
     });
+    setTimeout(() => { currentLogEntry = null; }, bootMsgs.length * 100 + 50);
 
     // GitHub data
     fetchGitHubProfile();
