@@ -175,21 +175,20 @@
     .profile-img {
       width: 100%; height: 100%;
       object-fit: cover;
-      border: 3px solid var(--primary);
-      box-shadow: var(--glow);
+      border: 2px solid rgba(26,35,126,0.35);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.12);
       transition: all 0.5s cubic-bezier(0.4,0,0.2,1);
       display: block;
       border-radius: 50%;
     }
+    body.dark .profile-img {
+      border-color: rgba(88,166,255,0.4);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+    }
 
-    /* ── SHAPE: CIRCLE (padrão) – pulso de brilho ──────────────── */
+    /* ── SHAPE: CIRCLE (padrão) – borda sutil sem pulso exagerado ─ */
     .shape-circle .profile-img {
       border-radius: 50%;
-      animation: pulsGlow 3s ease-in-out infinite;
-    }
-    @keyframes pulsGlow {
-      0%,100% { box-shadow: 0 0 0 3px var(--primary), 0 0 15px rgba(0,0,0,0.1); }
-      50%      { box-shadow: 0 0 0 6px var(--primary), 0 0 30px rgba(0,0,0,0.15); }
     }
 
     /* ── SHAPE: HEXAGON – rotação lenta do brilho ──────────────── */
@@ -271,11 +270,7 @@
     body.matrix .profile-img {
       filter: grayscale(0.1) sepia(0.5) hue-rotate(95deg) saturate(2.8) brightness(0.72) contrast(1.15) !important;
       border-color: #00ff88 !important;
-      box-shadow: 0 0 0 3px #00ff88, 0 0 25px rgba(0,255,136,0.55), 0 0 60px rgba(0,255,136,0.2) !important;
-    }
-    @keyframes pulsGlow {
-      0%,100% { box-shadow: 0 0 0 3px #00ff88, 0 0 20px rgba(0,255,136,0.4); }
-      50%      { box-shadow: 0 0 0 6px #00ff88, 0 0 45px rgba(0,255,136,0.7); }
+      box-shadow: 0 0 0 2px #00ff88, 0 0 14px rgba(0,255,136,0.35) !important;
     }
 
     /* ══ NOME / H1 ════════════════════════════════════════════════ */
@@ -688,32 +683,17 @@
           <span class="tb-dot red" onclick="collapseTerminal()" title="Minimizar" style="cursor:pointer"></span>
           <span class="tb-dot yellow"></span>
           <span class="tb-dot green"></span>
-          <div class="term-tabs">
-            <button class="term-tab active" id="tabBtnTerminal" onclick="switchTab('terminal')">Terminal</button>
-            <button class="term-tab" id="tabBtnLogs" onclick="switchTab('logs')">
-              Logs <span class="badge" id="logsBadge">0</span>
-            </button>
-          </div>
+          <span class="tb-title">pedro@portfolio — terminal</span>
           <button class="tb-expand" id="expandBtn" onclick="toggleExpand()" title="Expandir">⤢</button>
         </div>
 
-        <!-- ABA: Terminal (só input + eco do comando) -->
-        <div class="tab-pane active" id="paneTerminal">
-          <div class="terminal-body" id="terminalBody">
-            <div class="t-prompt-row">
-              <span class="t-prompt">pedro@portfolio:~$</span>
-              <input class="t-input" id="termInput" type="text"
-                placeholder="type 'help' for commands"
-                autocomplete="off" spellcheck="false"
-                onkeydown="handleKey(event)" />
-            </div>
-          </div>
-        </div>
-
-        <!-- ABA: Logs (saída de todos os comandos) -->
-        <div class="tab-pane" id="paneLogs">
-          <div class="logs-body" id="logsBody">
-            <div class="log-empty">// Nenhum comando executado ainda.<br>Execute um comando na aba Terminal.</div>
+        <div class="terminal-body" id="terminalBody">
+          <div class="t-prompt-row">
+            <span class="t-prompt">pedro@portfolio:~$</span>
+            <input class="t-input" id="termInput" type="text"
+              placeholder="type 'help' for commands"
+              autocomplete="off" spellcheck="false"
+              onkeydown="handleKey(event)" />
           </div>
         </div>
       </div>
@@ -817,30 +797,7 @@
     updateThemeBtn();
   }
 
-  // ════════════════════════════════════════════════════════════════
-  //  TERMINAL TABS
-  // ════════════════════════════════════════════════════════════════
-  let logsUnread = 0;
-  let activeTab = 'terminal';
-
-  function switchTab(tab) {
-    activeTab = tab;
-    document.getElementById('paneTerminal').classList.toggle('active', tab === 'terminal');
-    document.getElementById('paneLogs').classList.toggle('active', tab === 'logs');
-    document.getElementById('tabBtnTerminal').classList.toggle('active', tab === 'terminal');
-    document.getElementById('tabBtnLogs').classList.toggle('active', tab === 'logs');
-    if (tab === 'logs') {
-      logsUnread = 0;
-      const badge = document.getElementById('logsBadge');
-      badge.classList.remove('show');
-      // scroll to bottom
-      const lb = document.getElementById('logsBody');
-      lb.scrollTop = lb.scrollHeight;
-    }
-    if (tab === 'terminal') {
-      setTimeout(() => document.getElementById('termInput').focus(), 50);
-    }
-  }
+  // (tabs removidos — terminal único)
 
   // ════════════════════════════════════════════════════════════════
   //  PROFILE SHAPE
@@ -951,78 +908,112 @@
     historia: cmdStory,
     about: cmdStory,
     sudo: () => printLine('Permission denied.', 'red'),
-    exit: () => printLine('// There\'s no exit — you\'re already inside the matrix.', 'yellow'),
-    npm: (args) => printLine('npm: found in /usr/bin/npm  // static site, no node runtime', 'out'),
+    exit: () => printLine("// There's no exit — you're already inside the matrix.", 'yellow'),
+    npm: () => printLine('npm: found in /usr/bin/npm  // static site, no node runtime', 'out'),
     git: (args) => {
       if (!args || args[0] === 'status') printLine('On branch main. Nothing to commit, working tree clean.', 'green');
       else if (args[0] === 'log') printLine('commit a3f7b1... (HEAD) feat: hacker UI overhaul', 'out');
       else printLine(`git: ${args.join(' ')} (simulated)`, 'out');
     },
+    // ── NETWORK / SYSTEM ─────────────────────────────────────────
+    netstat: cmdNetstat,
+    ifconfig: cmdIfconfig,
+    ipconfig: cmdIfconfig,
+    ps: cmdPs,
+    top: cmdTop,
+    curl: (args) => {
+      const url = args[0] || 'https://api.github.com/users/P2FU2';
+      printLine(`> GET ${url}`, 'cyan');
+      printLine('> HTTP/2 200  content-type: application/json', 'dim');
+      printLine('> {"login":"P2FU2","public_repos":16,"followers":12}', 'green');
+    },
+    ssh: (args) => {
+      const host = args[0] || 'p2fu2.github.io';
+      printLine(`ssh: connect to host ${host} port 22: Connection refused`, 'red');
+      printLine('// Hint: this is a static site. No SSH here.', 'dim');
+    },
+    chmod: (args) => printLine(`chmod: ${args.join(' ')}: permission changed (simulated)`, 'out'),
+    grep: (args) => printLine(`grep: ${args.join(' ')}: pattern matched 0 results`, 'out'),
+    find: (args) => {
+      printLine('./index.html', 'out');
+      printLine('./html/projects.html', 'out');
+      printLine('./html/cv.html', 'out');
+      printLine('./html/analysis.html', 'out');
+    },
+    nmap: (args) => {
+      const host = args[0] || 'p2fu2.github.io';
+      printLine(`Starting Nmap 7.94 ( https://nmap.org )`, 'dim');
+      printLine(`Nmap scan report for ${host}`, 'out');
+      printLine('PORT    STATE  SERVICE', 'green');
+      printLine('80/tcp  open   http', 'out');
+      printLine('443/tcp open   https', 'out');
+      printLine('Nmap done: 1 IP address (1 host up)', 'dim');
+    },
+    traceroute: (args) => {
+      const host = args[0] || 'p2fu2.github.io';
+      printLine(`traceroute to ${host} (185.199.108.153), 30 hops max`, 'dim');
+      printLine(' 1  router.local (192.168.1.1)  1.2 ms', 'out');
+      printLine(' 2  isp.gateway  (10.0.0.1)     8.4 ms', 'out');
+      printLine(' 3  github-cdn   (185.199.108.153)  24.7 ms', 'green');
+    },
+    df: () => {
+      printLine('Filesystem       Size  Used  Avail  Use%  Mounted on', 'dim');
+      printLine('/dev/sda1        50G   12G   38G    24%   /', 'out');
+      printLine('github-pages     2G    180M  1.8G   9%    /site', 'green');
+    },
+    env: () => {
+      printLine('USER=pedro', 'out');
+      printLine('HOME=/home/pedro', 'out');
+      printLine('SHELL=/bin/zsh', 'out');
+      printLine('EDITOR=neovim', 'out');
+      printLine('TERM=xterm-256color', 'out');
+      printLine('LANG=pt_BR.UTF-8', 'out');
+    },
+    history: (args) => {
+      if (cmdHistory.length === 0) { printLine('// No command history yet.', 'dim'); return; }
+      cmdHistory.slice().reverse().forEach((c, i) => printLine(`  ${i + 1}  ${c}`, 'out'));
+    },
+    man: (args) => {
+      if (!args[0]) { printLine('What manual page do you want?', 'yellow'); return; }
+      printLine(`No manual entry for ${args[0]} — try "help" instead.`, 'dim');
+    },
+    python: () => printLine('Python 3.11.4 (simulated) — type exit() to quit', 'green'),
+    node: () => printLine('Node.js v20.5.0 (simulated) — Welcome to the REPL', 'green'),
+    vim: () => printLine(':q  // You cannot escape vim. Just kidding — type :q! to exit.', 'yellow'),
+    nano: () => printLine('GNU nano — press ^X to exit', 'dim'),
+    reboot: () => { printLine('Rebooting...', 'red'); setTimeout(() => location.reload(), 1200); },
   };
 
   // ─── currentLogEntry: agrupa as linhas de um mesmo comando ───────
   let currentLogEntry = null;
 
-  // startLogEntry: cria nova entrada de log (usada internamente pelo cmdStory e boot)
-  function startLogEntry(label) {
-    const lb = document.getElementById('logsBody');
-    const empty = lb.querySelector('.log-empty');
-    if (empty) empty.remove();
-    currentLogEntry = document.createElement('div');
-    currentLogEntry.className = 'log-entry';
-    if (label) {
-      const sep = document.createElement('div');
-      sep.className = 't-line dim';
-      sep.style.cssText = 'padding:0; border:none; font-family:inherit; font-size:inherit;';
-      sep.textContent = label;
-      currentLogEntry.appendChild(sep);
-    }
-    lb.appendChild(currentLogEntry);
-    lb.scrollTop = lb.scrollHeight;
-  }
-
   function printLine(text, cls = 'out', animate = false) {
-    const lb = document.getElementById('logsBody');
+    const promptRow = termBody.querySelector('.t-prompt-row');
     const div = document.createElement('div');
     div.className = 't-line ' + cls;
-    div.style.cssText = 'padding:0; border:none; white-space:pre-wrap; word-break:break-word; font-family:inherit; font-size:inherit;';
-    if (!currentLogEntry) {
-      lb.appendChild(div);
-    } else {
-      currentLogEntry.appendChild(div);
-    }
     if (animate) {
       div.textContent = '';
+      termBody.insertBefore(div, promptRow);
       let i = 0;
       const iv = setInterval(() => {
         div.textContent += text[i++];
-        lb.scrollTop = lb.scrollHeight;
+        termBody.scrollTop = termBody.scrollHeight;
         if (i >= text.length) clearInterval(iv);
       }, 5);
     } else {
       div.textContent = text;
+      termBody.insertBefore(div, promptRow);
     }
-    lb.scrollTop = lb.scrollHeight;
-    if (activeTab !== 'logs') {
-      logsUnread++;
-      const badge = document.getElementById('logsBadge');
-      badge.textContent = logsUnread > 9 ? '9+' : logsUnread;
-      badge.classList.add('show');
-    }
+    termBody.scrollTop = termBody.scrollHeight;
   }
 
   function printHTML(html, cls = 'out') {
-    const lb = document.getElementById('logsBody');
+    const promptRow = termBody.querySelector('.t-prompt-row');
     const div = document.createElement('div');
     div.className = 't-line ' + cls;
-    div.style.cssText = 'padding:0; border:none;';
     div.innerHTML = html;
-    if (!currentLogEntry) {
-      lb.appendChild(div);
-    } else {
-      currentLogEntry.appendChild(div);
-    }
-    lb.scrollTop = lb.scrollHeight;
+    termBody.insertBefore(div, promptRow);
+    termBody.scrollTop = termBody.scrollHeight;
   }
 
   function printSeparator() { printLine('─'.repeat(52), 'dim'); }
@@ -1035,39 +1026,60 @@
   // ── COMMANDS ──────────────────────────────────────────────────────
   function cmdHelp() {
     printSeparator();
-    printLine(' P2FU2 Terminal — v2.0  [type any command + Enter]', 'green bold');
+    printLine(' P2FU2 Terminal — v2.0', 'green bold');
     printSeparator();
-    const cmds = [
-      ['help / h / ?',   'show this help'],
-      ['story / about',  'the P2FU2 story — read this first!'],
-      ['whoami',         'display info about me'],
-      ['neofetch',       'system info (hacker style)'],
-      ['skills',         'list tech skills'],
-      ['stack',          'current tech stack'],
-      ['ls',             'list available pages'],
-      ['pwd',            'print working directory'],
-      ['─────────────',  '─────────────────────'],
-      ['resume / cv',    'go to CV page'],
-      ['projects',       'go to projects page'],
-      ['analysis',       'go to analysis page'],
-      ['github',         'open GitHub profile'],
-      ['linkedin',       'open LinkedIn'],
-      ['medium',         'open Medium blog'],
-      ['contact',        'show contact info'],
-      ['─────────────',  '─────────────────────'],
-      ['matrix',         'toggle Matrix mode'],
-      ['theme',          'toggle dark/light'],
-      ['hack',           'execute hack sequence 💀'],
-      ['ping',           'ping the server'],
-      ['date',           'show current date'],
-      ['uname',          'show environment info'],
-      ['git [args]',     'simulated git commands'],
-      ['echo [text]',    'print text'],
-      ['clear / cls',    'clear terminal'],
-      ['sudo [cmd]',     'nice try 😄'],
+    const sections = [
+      { label: 'INFO', cmds: [
+        ['whoami',          'info about me'],
+        ['story / about',   'P2FU2 story with ASCII art'],
+        ['neofetch',        'system info, hacker style'],
+        ['skills',          'tech skills list'],
+        ['stack',           'current tech stack'],
+        ['contact',         'contact info'],
+      ]},
+      { label: 'NAVIGATION', cmds: [
+        ['ls',              'list pages'],
+        ['resume / cv',     'open CV'],
+        ['projects',        'open projects'],
+        ['analysis',        'open analysis'],
+        ['github',          'open GitHub profile'],
+        ['linkedin',        'open LinkedIn'],
+      ]},
+      { label: 'NETWORK / SYSTEM', cmds: [
+        ['netstat',         'show connections'],
+        ['ifconfig',        'network interfaces'],
+        ['ping [host]',     'ping a host'],
+        ['nmap [host]',     'port scan'],
+        ['traceroute [h]',  'trace route'],
+        ['curl [url]',      'HTTP request'],
+        ['ssh [host]',      'SSH connection'],
+        ['df',              'disk usage'],
+        ['ps',              'running processes'],
+        ['top',             'process monitor'],
+        ['env',             'environment vars'],
+        ['find',            'find files'],
+        ['grep [p]',        'search pattern'],
+        ['chmod [args]',    'change permissions'],
+      ]},
+      { label: 'TERMINAL', cmds: [
+        ['theme',           'toggle hacker matrix mode'],
+        ['hack',            'execute hack sequence'],
+        ['date',            'current date/time'],
+        ['uname',           'environment info'],
+        ['history',         'command history'],
+        ['git [args]',      'simulated git'],
+        ['echo [text]',     'print text'],
+        ['man [cmd]',       'manual page'],
+        ['clear / cls',     'clear terminal'],
+        ['reboot',          'reload page'],
+      ]},
     ];
-    cmds.forEach(([c, d]) => {
-      printHTML(`<span style="color:var(--primary);display:inline-block;width:200px">${c}</span><span style="color:#666">${d}</span>`);
+    sections.forEach(({ label, cmds }) => {
+      printLine('  ' + label, 'cyan bold');
+      cmds.forEach(([c, d]) => {
+        printHTML(`<span style="color:var(--primary);display:inline-block;min-width:190px;padding-left:4px">${c}</span><span style="color:var(--terminal-dim)">${d}</span>`);
+      });
+      printLine('', 'out');
     });
     printSeparator();
   }
@@ -1146,13 +1158,56 @@
     printHTML(`<span style="color:var(--primary)">drwxr-xr-x</span>  /projects/MindCanvas  <span style="color:#666">drawing canvas app</span>`);
   }
 
+  function cmdNetstat() {
+    printLine('Active Internet connections', 'green');
+    printLine('Proto  Local Address           Foreign Address         State', 'dim');
+    printLine('tcp    0.0.0.0:443             185.199.108.153:https   ESTABLISHED', 'out');
+    printLine('tcp    0.0.0.0:80              185.199.108.153:http    TIME_WAIT', 'out');
+    printLine('tcp    127.0.0.1:3000          127.0.0.1:54321         LISTEN', 'dim');
+    printSeparator();
+    printLine('// 3 active connections — all clear', 'green');
+  }
+
+  function cmdIfconfig() {
+    printLine('eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500', 'green');
+    printLine('      inet 192.168.1.42  netmask 255.255.255.0  broadcast 192.168.1.255', 'out');
+    printLine('      inet6 fe80::1  prefixlen 64  scopeid 0x20<link>', 'out');
+    printLine('      ether 00:1A:2B:3C:4D:5E  txqueuelen 1000  (Ethernet)', 'dim');
+    printLine('      RX packets 142857  bytes 215MB', 'dim');
+    printLine('      TX packets 98432   bytes 87MB', 'dim');
+    printLine('', 'out');
+    printLine('lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536', 'cyan');
+    printLine('    inet 127.0.0.1  netmask 255.0.0.0', 'out');
+  }
+
+  function cmdPs() {
+    printLine('  PID  TTY   TIME     CMD', 'dim');
+    printLine('    1  ?     00:00:01 systemd', 'out');
+    printLine('  512  pts/0 00:00:00 zsh', 'green');
+    printLine(' 1024  pts/0 00:00:03 node server.js', 'out');
+    printLine(' 2048  pts/0 00:00:01 python3 analytics.py', 'cyan');
+    printLine(' 3141  pts/0 00:00:00 p2fu2-terminal', 'green');
+    printLine(' 3142  pts/0 00:00:00 ps', 'dim');
+  }
+
+  function cmdTop() {
+    printLine('top - ' + new Date().toLocaleTimeString('pt-BR') + '  load average: 0.42, 0.38, 0.31', 'green');
+    printLine('Tasks: 6 total,  1 running,  5 sleeping', 'dim');
+    printLine('Cpu(s):  3.2% us,  1.1% sy,  0.0% ni, 95.4% id', 'out');
+    printLine('MiB Mem:   8192.0 total,   4201.8 free,   2890.4 used', 'out');
+    printLine('', 'out');
+    printLine('  PID  USER     %CPU  %MEM  COMMAND', 'dim');
+    printLine(' 3141  pedro     1.2   0.4  p2fu2-terminal', 'green');
+    printLine(' 2048  pedro     0.8   1.2  python3', 'cyan');
+    printLine(' 1024  pedro     0.4   2.1  node', 'out');
+    printLine(' 512   pedro     0.1   0.2  zsh', 'dim');
+    printLine('', 'out');
+    printLine('// press q to quit (type clear to reset)', 'dim');
+  }
+
   function cmdClear() {
-    // Limpa aba Logs (é onde tudo aparece)
-    const lb = document.getElementById('logsBody');
-    lb.innerHTML = '<div class="log-empty">// Logs limpos. Terminal pronto.</div>';
-    logsUnread = 0;
-    const badge = document.getElementById('logsBadge');
-    badge.classList.remove('show');
+    const rows = termBody.querySelectorAll('.t-line, .t-line-block');
+    rows.forEach(r => r.remove());
   }
 
   function cmdMatrix() {
@@ -1364,30 +1419,13 @@
       const raw = input.value.trim();
       if (!raw) return;
 
-      // Tudo vai para a aba Logs (eco + saída juntos, como terminal real)
-      const lb = document.getElementById('logsBody');
-      const empty = lb.querySelector('.log-empty');
-      if (empty) empty.remove();
-
-      currentLogEntry = document.createElement('div');
-      currentLogEntry.className = 'log-entry';
-      lb.appendChild(currentLogEntry);
-
-      // Eco completo do comando no Logs
+      // Eco do comando no terminal
+      const promptRow = termBody.querySelector('.t-prompt-row');
       const echoDiv = document.createElement('div');
       echoDiv.className = 't-line cmd';
-      echoDiv.style.cssText = 'padding:0; border:none; font-family:inherit; font-size:inherit;';
-      echoDiv.textContent = 'pedro@portfolio:~$ ' + raw;
-      currentLogEntry.appendChild(echoDiv);
-      lb.scrollTop = lb.scrollHeight;
-
-      // Badge
-      if (activeTab !== 'logs') {
-        logsUnread++;
-        const badge = document.getElementById('logsBadge');
-        badge.textContent = logsUnread > 9 ? '9+' : logsUnread;
-        badge.classList.add('show');
-      }
+      echoDiv.textContent = `pedro@portfolio:~$ ${raw}`;
+      termBody.insertBefore(echoDiv, promptRow);
+      termBody.scrollTop = termBody.scrollHeight;
 
       // History
       cmdHistory.unshift(raw);
@@ -1404,8 +1442,6 @@
       } else {
         printLine(`bash: ${cmd}: command not found  (type 'help')`, 'red');
       }
-
-      currentLogEntry = null;
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       if (historyIdx < cmdHistory.length - 1) {
@@ -1434,8 +1470,13 @@
       cmdClear();
     } else if (e.key === 'c' && e.ctrlKey) {
       e.preventDefault();
+      const promptRow = termBody.querySelector('.t-prompt-row');
+      const d = document.createElement('div');
+      d.className = 't-line red';
+      d.textContent = '^C';
+      termBody.insertBefore(d, promptRow);
       input.value = '';
-      printLine('^C', 'red');
+      termBody.scrollTop = termBody.scrollHeight;
     }
   }
 
@@ -1515,17 +1556,13 @@
     animateCount('projects', 60);
     animateCount('opensource', 12);
 
-    // Boot sequence vai para a aba Logs (terminal tab fica limpo)
+    // Boot sequence no terminal
     const bootMsgs = [
       { text: '// P2FU2 Portfolio Terminal v2.0', cls: 'green' },
-      { text: '// Type "help" to see all commands.', cls: 'dim' },
-      { text: '// Try: story · whoami · neofetch · hack · theme', cls: 'dim' },
+      { text: '// Type "help" for available commands.', cls: 'dim' },
+      { text: '// Try: story · whoami · neofetch · netstat · theme', cls: 'dim' },
     ];
-    startLogEntry(null);
-    bootMsgs.forEach((m, i) => {
-      setTimeout(() => printLine(m.text, m.cls), i * 100);
-    });
-    setTimeout(() => { currentLogEntry = null; }, bootMsgs.length * 100 + 50);
+    bootMsgs.forEach((m, i) => setTimeout(() => printLine(m.text, m.cls), i * 120));
 
     // GitHub data
     fetchGitHubProfile();
