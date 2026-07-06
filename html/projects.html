@@ -22,7 +22,7 @@
             --glow: none;
             --scanline: none;
         }
-        body.matrix {
+        body.dark, body.matrix {
             --primary: #00ff88;
             --accent: #4fffcd;
             --text: #e0ffe0;
@@ -688,9 +688,9 @@
 
     // ── THEME ─────────────────────────────────────────────────────
     function toggleTheme() {
-        const isDark = document.body.classList.toggle('matrix');
-        document.getElementById('themeBtn').textContent = isDark ? '[ light ]' : '[ matrix ]';
-        localStorage.setItem('theme', isDark ? 'matrix' : 'light');
+        const isNowDark = document.body.classList.toggle('dark');
+        document.body.classList.remove('matrix');
+        document.getElementById('themeBtn').textContent = isNowDark ? '[ light ]' : '[ dark ]';
     }
 
     // ── MATRIX CANVAS ─────────────────────────────────────────────
@@ -897,9 +897,13 @@
         document.getElementById('languageSelect').value = savedLang;
         document.documentElement.lang = savedLang;
 
-        // Always start in light mode
-        document.body.classList.remove('matrix');
-        document.getElementById('themeBtn').textContent = '[ matrix ]';
+        // Restaurar matrix se desbloqueado via terminal
+        if (localStorage.getItem('matrixUnlocked') === 'true' && localStorage.getItem('matrixActive') === 'true') {
+            document.body.classList.add('matrix');
+            document.getElementById('themeBtn').textContent = '[ light ]';
+        } else {
+            document.getElementById('themeBtn').textContent = '[ dark ]';
+        }
 
         fetchProfile();
         fetchRepos();

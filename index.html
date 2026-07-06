@@ -20,7 +20,8 @@
       --terminal-bg: #0d1117;
       --terminal-text: #c9d1d9;
     }
-    body.dark {
+    /* dark = escuro simples | matrix = escuro + chuva — ambos mesmas cores */
+    body.dark, body.matrix {
       --primary: #00ff88;
       --accent: #4fffcd;
       --text: #e0ffe0;
@@ -44,8 +45,8 @@
       transition: background 0.4s, color 0.4s;
     }
 
-    /* ── SCANLINES (dark only) ──────────────────────────────────── */
-    body.dark::before {
+    /* ── SCANLINES (matrix mode only) ──────────────────────────── */
+    body.matrix::before {
       content: '';
       position: fixed; inset: 0;
       background: repeating-linear-gradient(
@@ -61,7 +62,8 @@
       z-index: 0; width: 100%; height: 100%;
       pointer-events: none; display: none; opacity: 0.4;
     }
-    body.dark canvas.matrix { display: block; }
+    /* canvas só aparece no matrix mode (não no dark simples) */
+    body.matrix canvas.matrix { display: block; }
 
     /* ── TOPBAR ─────────────────────────────────────────────────── */
     .topbar {
@@ -170,23 +172,23 @@
     }
     h1:hover { background-position: right center; }
 
-    /* Glitch effect in dark mode */
-    body.dark h1 {
+    /* Glitch effect — só no matrix mode (não no dark simples) */
+    body.matrix h1 {
       position: relative; display: inline-block;
     }
     .glitch-wrap { position: relative; display: inline-block; }
-    body.dark .glitch-wrap::before,
-    body.dark .glitch-wrap::after {
+    body.matrix .glitch-wrap::before,
+    body.matrix .glitch-wrap::after {
       content: attr(data-text);
       position: absolute; top: 0; left: 0; width: 100%;
       background: linear-gradient(90deg, var(--primary), var(--accent));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
-    body.dark .glitch-wrap::before {
+    body.matrix .glitch-wrap::before {
       animation: glitch1 3s infinite; clip-path: polygon(0 0,100% 0,100% 33%,0 33%);
       transform: translate(-2px,0); color: #ff0040;
     }
-    body.dark .glitch-wrap::after {
+    body.matrix .glitch-wrap::after {
       animation: glitch2 3s infinite; clip-path: polygon(0 67%,100% 67%,100% 100%,0 100%);
       transform: translate(2px,0); color: #00ffff;
     }
@@ -437,7 +439,7 @@
         <option value="ja">JA</option>
       </select>
       <button class="btn-ctrl" onclick="cycleShape()" title="Mudar forma da foto">[ shape ]</button>
-      <button class="btn-ctrl" onclick="toggleTheme()" id="themeBtn">[ matrix ]</button>
+      <button class="btn-ctrl" onclick="toggleTheme()" id="themeBtn">[ dark ]</button>
     </div>
   </nav>
 
@@ -561,10 +563,19 @@
   // ════════════════════════════════════════════════════════════════
   //  THEME
   // ════════════════════════════════════════════════════════════════
+  // Botão do topbar: apenas light ↔ dark (sem matrix)
   function toggleTheme() {
-    const isDark = document.body.classList.toggle('dark');
-    document.getElementById('themeBtn').textContent = isDark ? '[ light ]' : '[ matrix ]';
-    printLine('// theme: ' + (isDark ? 'MATRIX MODE activated 🟩' : 'LIGHT MODE activated ☀️'), isDark ? 'green' : 'yellow');
+    // Se estava em matrix, clicando volta ao light
+    if (document.body.classList.contains('matrix')) {
+      document.body.classList.remove('matrix', 'dark');
+      document.getElementById('themeBtn').textContent = '[ dark ]';
+      localStorage.setItem('matrixActive', 'false');
+      printLine('// Matrix desativado → Light mode', 'yellow');
+      return;
+    }
+    const isNowDark = document.body.classList.toggle('dark');
+    document.getElementById('themeBtn').textContent = isNowDark ? '[ light ]' : '[ dark ]';
+    printLine('// theme: ' + (isNowDark ? 'DARK MODE' : 'LIGHT MODE'), isNowDark ? 'cyan' : 'yellow');
   }
 
   // ════════════════════════════════════════════════════════════════
@@ -663,7 +674,7 @@
     cls: cmdClear,
     matrix: cmdMatrix,
     hack: cmdHack,
-    theme: () => { toggleTheme(); },
+    theme: cmdThemeUnlock,
     contact: cmdContact,
     echo: (args) => printLine(args.join(' '), 'out'),
     date: () => printLine(new Date().toLocaleString('pt-BR'), 'cyan'),
@@ -837,10 +848,27 @@
   }
 
   function cmdMatrix() {
-    if (!document.body.classList.contains('dark')) {
-      toggleTheme();
+    cmdThemeUnlock();
+  }
+
+  function cmdThemeUnlock() {
+    const isActive = document.body.classList.contains('matrix');
+    if (isActive) {
+      // Desativar matrix → volta ao dark
+      document.body.classList.remove('matrix');
+      document.body.classList.add('dark');
+      document.getElementById('themeBtn').textContent = '[ light ]';
+      localStorage.setItem('matrixActive', 'false');
+      printLine('// Matrix mode DESATIVADO. Voltando ao dark.', 'yellow');
     } else {
-      toggleTheme();
+      // Ativar matrix
+      document.body.classList.remove('dark');
+      document.body.classList.add('matrix');
+      document.getElementById('themeBtn').textContent = '[ light ]';
+      localStorage.setItem('matrixUnlocked', 'true');
+      localStorage.setItem('matrixActive', 'true');
+      printLine('// Matrix mode DESBLOQUEADO. 🟩 Entrando na matrix...', 'green');
+      printLine('// Para sair: digite "theme" novamente ou clique em [ light ]', 'dim');
     }
   }
 
@@ -1011,8 +1039,8 @@
     // Boot sequence in terminal
     const boot = [
       { text: '// P2FU2 Portfolio Terminal v2.0', cls: 'green' },
-      { text: '// Type "help" to see available commands.', cls: 'dim' },
-      { text: '// Try: whoami · neofetch · skills · hack · matrix', cls: 'dim' },
+      { text: '// Type "help" to see all commands.', cls: 'dim' },
+      { text: '// 💡 Dica: digite "theme" para desbloquear o Matrix mode', cls: 'dim' },
     ];
     boot.forEach((l, i) => setTimeout(() => printLine(l.text, l.cls), i * 120));
 

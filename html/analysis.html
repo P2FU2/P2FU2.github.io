@@ -21,7 +21,7 @@
       --tag-bg: rgba(65,105,225,0.08);
       --tag-color: #4169E1;
     }
-    body.matrix {
+    body.dark, body.matrix {
       --primary: #00ff88;
       --accent: #4fffcd;
       --text: #e0ffe0;
@@ -414,11 +414,12 @@
   window.addEventListener('resize', initMatrix);
   initMatrix();
 
-  // ── THEME ────────────────────────────────────────────────────────
+  // ── THEME (light ↔ dark apenas; matrix = só via terminal no home) ──
   function toggleTheme() {
-    const isDark = document.body.classList.toggle('matrix');
-    document.getElementById('themeBtn').textContent = isDark ? '[ light ]' : '[ matrix ]';
-    localStorage.setItem('theme', isDark ? 'matrix' : 'light');
+    const isNowDark = document.body.classList.toggle('dark');
+    // Se estava em matrix, limpa também
+    document.body.classList.remove('matrix');
+    document.getElementById('themeBtn').textContent = isNowDark ? '[ light ]' : '[ dark ]';
   }
 
   // ── LANGUAGE ─────────────────────────────────────────────────────
@@ -452,28 +453,83 @@
     document.getElementById('statusText').textContent = text;
   }
 
-  // ── FETCH POSTS ──────────────────────────────────────────────────
+  // ── PARSE RSS XML ────────────────────────────────────────────────
+  function parseRssXml(xmlString) {
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(xmlString, 'text/xml');
+    const items = xml.querySelectorAll('item');
+    return Array.from(items).map(item => {
+      const getText = tag => item.querySelector(tag)?.textContent?.trim() || '';
+      const encoded = item.getElementsByTagNameNS('http://purl.org/rss/1.0/modules/content/', 'encoded')[0];
+      return {
+        title:       getText('title'),
+        link:        getText('link') || item.querySelector('guid')?.textContent || '',
+        pubDate:     getText('pubDate'),
+        description: encoded ? encoded.textContent : getText('description'),
+        categories:  Array.from(item.querySelectorAll('category')).map(c => c.textContent),
+        author:      getText('creator') || getText('author'),
+      };
+    });
+  }
+
+  // ── FETCH POSTS (multi-proxy fallback) ───────────────────────────
   async function fetchPosts() {
     const MEDIUM_USER = 'pedromilani14';
-    const RSS_API = `https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@${MEDIUM_USER}&count=20`;
+    const FEED_URL    = `https://medium.com/feed/@${MEDIUM_USER}`;
 
     setStatus('loading', 'Buscando artigos no Medium...');
 
+    // 1️⃣ rss2json
     try {
-      const res = await fetch(RSS_API);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
+      const res = await fetch(
+        `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(FEED_URL)}&count=20`
+      );
+      if (res.ok) {
+        const data = await res.json();
+        if (data.status === 'ok' && data.items?.length) {
+          setStatus('ok', `${data.items.length} artigos carregados`);
+          document.getElementById('postCount').textContent = `// ${data.items.length} publicações encontradas`;
+          renderPosts(data.items);
+          return;
+        }
+      }
+    } catch(_) {}
 
-      if (data.status !== 'ok') throw new Error(data.message || 'Feed inválido');
+    // 2️⃣ AllOrigins CORS proxy + parse XML
+    try {
+      const res = await fetch(
+        `https://api.allorigins.win/get?url=${encodeURIComponent(FEED_URL)}`
+      );
+      if (res.ok) {
+        const data = await res.json();
+        const posts = parseRssXml(data.contents || '');
+        if (posts.length) {
+          setStatus('ok', `${posts.length} artigos carregados`);
+          document.getElementById('postCount').textContent = `// ${posts.length} publicações encontradas`;
+          renderPosts(posts);
+          return;
+        }
+      }
+    } catch(_) {}
 
-      const posts = data.items;
-      setStatus('ok', `${posts.length} artigos carregados`);
-      document.getElementById('postCount').textContent = `// ${posts.length} publicações encontradas`;
-      renderPosts(posts);
-    } catch(e) {
-      setStatus('err', 'Falha ao carregar — ' + e.message);
-      renderError(e.message);
-    }
+    // 3️⃣ corsproxy.io
+    try {
+      const res = await fetch(`https://corsproxy.io/?${encodeURIComponent(FEED_URL)}`);
+      if (res.ok) {
+        const xml = await res.text();
+        const posts = parseRssXml(xml);
+        if (posts.length) {
+          setStatus('ok', `${posts.length} artigos carregados`);
+          document.getElementById('postCount').textContent = `// ${posts.length} publicações encontradas`;
+          renderPosts(posts);
+          return;
+        }
+      }
+    } catch(_) {}
+
+    // Todos falharam
+    setStatus('err', 'Nenhum proxy respondeu ao feed do Medium');
+    renderError('Conta @pedromilani14 sem posts públicos ou todos os proxies estão bloqueados.');
   }
 
   // ── RENDER POSTS ─────────────────────────────────────────────────
@@ -550,9 +606,13 @@
     const savedLang = localStorage.getItem('preferredLanguage') || 'pt';
     document.getElementById('languageSelect').value = savedLang;
 
-    // Always start in light mode
-    document.body.classList.remove('matrix');
-    document.getElementById('themeBtn').textContent = '[ matrix ]';
+    // Restaurar matrix se foi desbloqueado via terminal
+    if (localStorage.getItem('matrixUnlocked') === 'true' && localStorage.getItem('matrixActive') === 'true') {
+      document.body.classList.add('matrix');
+      document.getElementById('themeBtn').textContent = '[ light ]';
+    } else {
+      document.getElementById('themeBtn').textContent = '[ dark ]';
+    }
 
     fetchPosts();
   });
